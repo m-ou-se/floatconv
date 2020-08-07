@@ -58,7 +58,9 @@ macro_rules! impl_signed {
 
 impl_signed!(i32_to_f64 i32 32 u32_to_f64);
 impl_signed!(i64_to_f64_round i64 64 u64_to_f64_round);
+impl_signed!(i64_to_f64_truncate i64 64 u64_to_f64_truncate);
 impl_signed!(i128_to_f64_round i128 128 u128_to_f64_round);
+impl_signed!(i128_to_f64_truncate i128 128 u128_to_f64_truncate);
 
 #[test]
 fn test_u32() {
