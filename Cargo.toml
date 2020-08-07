@@ -1,8 +1,13 @@
 [package]
 name = "floatconv"
+description = "Floating point conversion functions"
 version = "0.1.0"
 authors = ["Mara Bos <m-ou.se@m-ou.se>"]
+license = "BSD-2-Clause"
+repository = "https://github.com/m-ou-se/floatconv"
+keywords = ["float", "conversion", "floating"]
 edition = "2018"
+exclude = ["/asm-output"]
 
 [dev-dependencies]
 criterion = "0.3"
