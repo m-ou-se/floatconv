@@ -1,0 +1,34 @@
+floatconv::emulated::u32_to_f64:
+ push    edi
+ push    esi
+ sub     esp, 12
+ mov     eax, dword, ptr, [esp, +, 24]
+ test    eax, eax
+ je      .LBB0_1
+ bsr     edx, eax
+ xor     edi, edi
+ xor     esi, esi
+ xor     edx, 31
+ mov     ecx, edx
+ add     cl, 21
+ shld    edi, eax, cl
+ shl     eax, cl
+ test    cl, 32
+ cmovne  edi, eax
+ cmovne  eax, esi
+ shl     edx, 20
+ sub     edi, edx
+ movd    xmm0, eax
+ add     edi, 1104150528
+ movd    xmm1, edi
+ punpckldq xmm0, xmm1
+ jmp     .LBB0_3
+.LBB0_1:
+ pxor    xmm0, xmm0
+.LBB0_3:
+ movq    qword, ptr, [esp], xmm0
+ fld     qword, ptr, [esp]
+ add     esp, 12
+ pop     esi
+ pop     edi
+ ret

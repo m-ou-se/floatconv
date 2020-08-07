@@ -1,0 +1,80 @@
+floatconv::emulated::u128_to_f64_truncate:
+ push.w  {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ sub     sp, #4
+ clz     r7, r2
+ cmp     r3, #0
+ add.w   r4, r7, #32
+ clz     r7, r0
+ it      ne
+ clzne   r4, r3
+ adds    r7, #32
+ cmp     r1, #0
+ it      ne
+ clzne   r7, r1
+ orrs.w  r6, r2, r3
+ it      eq
+ addeq.w r4, r7, #64
+ and     r12, r4, #127
+ rsb.w   r8, r12, #32
+ rsb.w   r5, r12, #96
+ lsl.w   r7, r3, r12
+ rsb.w   r11, r12, #64
+ lsr.w   r6, r2, r8
+ sub.w   r9, r12, #64
+ orrs    r6, r7
+ subs.w  r7, r12, #32
+ lsr.w   lr, r0, r5
+ str     r7, [sp]
+ it      pl
+ lslpl.w r6, r2, r7
+ lsl.w   r5, r1, r9
+ lsr.w   r7, r1, r11
+ cmp.w   r8, #0
+ orr.w   lr, lr, r5
+ it      pl
+ movpl   r7, #0
+ subs.w  r10, r12, #96
+ it      pl
+ lslpl.w lr, r0, r10
+ cmp.w   r12, #64
+ it      lo
+ orrlo.w lr, r6, r7
+ cmp.w   r12, #0
+ it      eq
+ moveq   lr, r3
+ lsr.w   r5, lr, #11
+ sub.w   r4, r5, r4, lsl, #20
+ orrs    r3, r1
+ orr.w   r5, r0, r2
+ orrs    r3, r5
+ rsb.w   r5, r11, #32
+ add.w   r4, r4, #1073741824
+ lsr.w   r3, r0, r11
+ add.w   r4, r4, #131072000
+ lsl.w   r5, r1, r5
+ orr.w   r3, r3, r5
+ it      eq
+ lsreq.w r4, lr, #11
+ cmp.w   r8, #0
+ it      pl
+ lsrpl.w r3, r1, r8
+ ldr     r5, [sp]
+ lsl.w   r1, r2, r12
+ lsl.w   r0, r0, r9
+ cmp     r5, #0
+ it      pl
+ movpl   r1, #0
+ cmp.w   r10, #0
+ it      pl
+ movpl   r0, #0
+ cmp.w   r12, #64
+ it      lo
+ orrlo.w r0, r1, r3
+ cmp.w   r12, #0
+ it      eq
+ moveq   r0, r2
+ lsrs    r0, r0, #11
+ orr.w   r0, r0, lr, lsl, #21
+ vmov    d0, r0, r4
+ add     sp, #4
+ pop.w   {r4, r5, r6, r7, r8, r9, r10, r11, pc}

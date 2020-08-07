@@ -1,0 +1,170 @@
+floatconv::emulated::i128_to_f64_truncate:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 36
+ mov     ecx, dword, ptr, [esp, +, 56]
+ mov     edx, dword, ptr, [esp, +, 60]
+ mov     edi, ecx
+ neg     edi
+ mov     ebp, 0
+ sbb     ebp, edx
+ mov     ebx, 0
+ sbb     ebx, dword, ptr, [esp, +, 64]
+ mov     eax, dword, ptr, [esp, +, 68]
+ mov     esi, 0
+ sbb     esi, eax
+ test    eax, eax
+ js      .LBB9_2
+ mov     ebp, edx
+ mov     edi, ecx
+ mov     ebx, dword, ptr, [esp, +, 64]
+ mov     esi, dword, ptr, [esp, +, 68]
+.LBB9_2:
+ test    esi, esi
+ jne     .LBB9_3
+ bsr     eax, ebx
+ xor     eax, 31
+ add     eax, 32
+ bsr     edx, edi
+ mov     ecx, 63
+ jne     .LBB9_6
+ jmp     .LBB9_7
+.LBB9_3:
+ bsr     eax, esi
+ xor     eax, 31
+ bsr     edx, edi
+ mov     ecx, 63
+ je      .LBB9_7
+.LBB9_6:
+ mov     ecx, edx
+.LBB9_7:
+ test    ebp, ebp
+ jne     .LBB9_8
+ xor     ecx, 31
+ add     ecx, 32
+ mov     edx, ebx
+ mov     dword, ptr, [esp, +, 8], esi
+ or      edx, esi
+ je      .LBB9_11
+ jmp     .LBB9_12
+.LBB9_8:
+ bsr     ecx, ebp
+ xor     ecx, 31
+ mov     edx, ebx
+ mov     dword, ptr, [esp, +, 8], esi
+ or      edx, esi
+ jne     .LBB9_12
+.LBB9_11:
+ add     ecx, 64
+ mov     eax, ecx
+.LBB9_12:
+ mov     dh, al
+ and     dh, 127
+ mov     dl, dh
+ sub     dl, 64
+ neg     dl
+ mov     dword, ptr, [esp, +, 20], edi
+ mov     esi, edi
+ mov     ecx, edx
+ shrd    esi, ebp, cl
+ mov     dword, ptr, [esp, +, 16], ebp
+ shr     ebp, cl
+ test    dl, 32
+ mov     ecx, ebp
+ jne     .LBB9_14
+ mov     ecx, esi
+.LBB9_14:
+ mov     dword, ptr, [esp], ecx
+ mov     dword, ptr, [esp, +, 12], ebx
+ mov     ecx, eax
+ shl     ebx, cl
+ test    al, 32
+ mov     edi, 0
+ jne     .LBB9_16
+ mov     edi, ebx
+.LBB9_16:
+ mov     ch, dh
+ add     ch, -64
+ mov     esi, dword, ptr, [esp, +, 20]
+ mov     cl, ch
+ shl     esi, cl
+ test    ch, 32
+ mov     dword, ptr, [esp, +, 4], 0
+ je      .LBB9_17
+ cmp     dh, 64
+ jb      .LBB9_19
+.LBB9_20:
+ test    dl, 32
+ mov     edi, 0
+ jne     .LBB9_22
+.LBB9_21:
+ mov     edi, ebp
+.LBB9_22:
+ mov     dword, ptr, [esp], edi
+ mov     edi, dword, ptr, [esp, +, 8]
+ mov     cl, al
+ mov     ebp, dword, ptr, [esp, +, 12]
+ shld    edi, ebp, cl
+ test    al, 32
+ jne     .LBB9_24
+ mov     ebx, edi
+.LBB9_24:
+ mov     edi, dword, ptr, [esp, +, 16]
+ mov     cl, ch
+ mov     ebp, dword, ptr, [esp, +, 20]
+ shld    edi, ebp, cl
+ test    ch, 32
+ jne     .LBB9_26
+ mov     esi, edi
+.LBB9_26:
+ cmp     dh, 64
+ jae     .LBB9_28
+ or      ebx, dword, ptr, [esp]
+ mov     esi, ebx
+.LBB9_28:
+ mov     edi, dword, ptr, [esp, +, 68]
+ test    dh, dh
+ mov     edx, dword, ptr, [esp, +, 8]
+ mov     ebx, dword, ptr, [esp, +, 12]
+ mov     ecx, ebx
+ je      .LBB9_30
+ mov     edx, esi
+ mov     ecx, dword, ptr, [esp, +, 4]
+.LBB9_30:
+ and     edi, -2147483648
+ shrd    ecx, edx, 11
+ shr     edx, 11
+ or      ebp, ebx
+ mov     esi, dword, ptr, [esp, +, 16]
+ or      esi, dword, ptr, [esp, +, 8]
+ or      esi, ebp
+ mov     esi, 0
+ je      .LBB9_32
+ shl     eax, 20
+ mov     esi, 1204813824
+ sub     esi, eax
+.LBB9_32:
+ add     esi, edx
+ or      esi, edi
+ mov     dword, ptr, [esp, +, 24], ecx
+ mov     dword, ptr, [esp, +, 28], esi
+ fld     qword, ptr, [esp, +, 24]
+ add     esp, 36
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret
+.LBB9_17:
+ mov     dword, ptr, [esp, +, 4], esi
+ cmp     dh, 64
+ jae     .LBB9_20
+.LBB9_19:
+ or      edi, dword, ptr, [esp]
+ mov     dword, ptr, [esp, +, 4], edi
+ test    dl, 32
+ mov     edi, 0
+ je      .LBB9_21
+ jmp     .LBB9_22

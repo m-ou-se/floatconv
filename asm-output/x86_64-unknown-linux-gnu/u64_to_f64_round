@@ -1,8 +1,0 @@
-floatconv::u64_to_f64_round:
- movq    xmm1, rdi
- punpckldq xmm1, xmmword, ptr, [rip, +, .LCPI4_0]
- subpd   xmm1, xmmword, ptr, [rip, +, .LCPI4_1]
- movapd  xmm0, xmm1
- unpckhpd xmm0, xmm1
- addsd   xmm0, xmm1
- ret

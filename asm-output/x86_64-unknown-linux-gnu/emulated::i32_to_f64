@@ -1,0 +1,26 @@
+floatconv::emulated::i32_to_f64:
+ mov     eax, edi
+ shr     eax, 31
+ shl     rax, 63
+ mov     ecx, edi
+ neg     ecx
+ cmovl   ecx, edi
+ test    ecx, ecx
+ je      .LBB9_1
+ bsr     edx, ecx
+ xor     edx, 31
+ mov     esi, ecx
+ lea     ecx, [rdx, +, 21]
+ shl     rsi, cl
+ shl     rdx, 52
+ sub     rsi, rdx
+ movabs  rcx, 4742290407621132288
+ add     rcx, rsi
+ or      rcx, rax
+ movq    xmm0, rcx
+ ret
+.LBB9_1:
+ xor     ecx, ecx
+ or      rcx, rax
+ movq    xmm0, rcx
+ ret

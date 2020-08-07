@@ -1,0 +1,3 @@
+floatconv::native::u64_to_f64_round:
+ ucvtf   d0, x0
+ ret

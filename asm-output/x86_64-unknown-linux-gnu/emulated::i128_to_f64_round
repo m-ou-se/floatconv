@@ -1,0 +1,50 @@
+floatconv::emulated::i128_to_f64_round:
+ movabs  r9, -9223372036854775808
+ and     r9, rsi
+ xor     r8d, r8d
+ mov     rax, rdi
+ neg     rax
+ mov     r10d, 0
+ sbb     r10, rsi
+ test    rsi, rsi
+ cmovns  r10, rsi
+ cmovns  rax, rdi
+ bsr     rcx, rax
+ mov     esi, 127
+ cmovne  rsi, rcx
+ xor     rsi, 63
+ add     rsi, 64
+ bsr     rcx, r10
+ xor     rcx, 63
+ test    r10, r10
+ cmove   rcx, rsi
+ mov     rdi, r10
+ shld    rdi, rax, cl
+ mov     rdx, rax
+ shl     rdx, cl
+ test    cl, 64
+ cmovne  rdi, rdx
+ cmovne  rdx, r8
+ mov     r11, rdi
+ shr     r11, 11
+ shl     rdi, 53
+ mov     esi, edx
+ shr     rdx, 11
+ or      rdx, rdi
+ or      rsi, rdx
+ shr     rdi, 63
+ mov     edx, r11d
+ not     edx
+ and     edi, edx
+ sub     rsi, rdi
+ shr     rsi, 63
+ shl     rcx, 52
+ movabs  rdx, 5174635971848699904
+ sub     rdx, rcx
+ or      rax, r10
+ cmove   rdx, r8
+ add     rdx, r11
+ add     rdx, rsi
+ or      rdx, r9
+ movq    xmm0, rdx
+ ret
