@@ -1,0 +1,14 @@
+[package]
+name = "floatconv-benchmark"
+version = "0.1.0"
+authors = ["Mara Bos <m-ou.se@m-ou.se>"]
+edition = "2018"
+
+[dependencies]
+floatconv = { path = ".." }
+criterion = "0.3"
+
+[[bench]]
+name = "benchmark"
+path = "benchmark.rs"
+harness = false
