@@ -1,0 +1,8 @@
+floatconv::native::u32_to_f64:
+ sub     esp, 12
+ mov     eax, dword, ptr, [esp, +, 16]
+ mov     dword, ptr, [esp], eax
+ mov     dword, ptr, [esp, +, 4], 0
+ fild    qword, ptr, [esp]
+ add     esp, 12
+ ret

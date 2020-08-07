@@ -1,0 +1,4 @@
+floatconv::native::u32_to_f64:
+ vmov    s0, r0
+ vcvt.f64.u32 d0, s0
+ bx      lr

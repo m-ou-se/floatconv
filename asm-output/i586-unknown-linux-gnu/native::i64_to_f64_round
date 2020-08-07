@@ -1,0 +1,3 @@
+floatconv::native::i64_to_f64_round:
+ fild    qword, ptr, [esp, +, 4]
+ ret

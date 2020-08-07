@@ -11,7 +11,7 @@ floatconv::emulated::i32_to_f64:
  neg     edi
  cmovl   edi, ecx
  test    edi, edi
- je      .LBB5_1
+ je      .LBB9_1
  bsr     ebx, edi
  xor     esi, esi
  xor     ebx, 31
@@ -25,10 +25,10 @@ floatconv::emulated::i32_to_f64:
  shl     ebx, 20
  sub     esi, ebx
  add     esi, 1104150528
- jmp     .LBB5_3
-.LBB5_1:
+ jmp     .LBB9_3
+.LBB9_1:
  xor     esi, esi
-.LBB5_3:
+.LBB9_3:
  or      esi, eax
  movd    xmm1, edx
  movd    xmm0, esi

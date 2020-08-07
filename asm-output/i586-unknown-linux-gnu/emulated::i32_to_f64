@@ -10,7 +10,7 @@ floatconv::emulated::i32_to_f64:
  sar     ecx, 31
  add     edx, ecx
  xor     edx, ecx
- je      .LBB5_1
+ je      .LBB9_1
  bsr     ebx, edx
  xor     ebx, 31
  mov     ecx, ebx
@@ -19,17 +19,17 @@ floatconv::emulated::i32_to_f64:
  shld    esi, edx, cl
  shl     edx, cl
  test    cl, 32
- je      .LBB5_4
+ je      .LBB9_4
  mov     esi, edx
  xor     edx, edx
-.LBB5_4:
+.LBB9_4:
  shl     ebx, 20
  sub     esi, ebx
  add     esi, 1104150528
- jmp     .LBB5_5
-.LBB5_1:
+ jmp     .LBB9_5
+.LBB9_1:
  xor     edx, edx
-.LBB5_5:
+.LBB9_5:
  or      esi, eax
  mov     dword, ptr, [esp], edx
  mov     dword, ptr, [esp, +, 4], esi

@@ -6,7 +6,7 @@ floatconv::emulated::i64_to_f64_truncate:
  movpl   r2, r0
  movpl   r3, r1
  orrs    r0, r2, r3
- beq     .LBB7_2
+ beq     .LBB9_2
  clz     r1, r2
  cmp     r3, #0
  add     r0, r1, #32
@@ -27,7 +27,7 @@ floatconv::emulated::i64_to_f64_truncate:
  orr     r0, r2, r12
  vmov    d0, r1, r0
  bx      lr
-.LBB7_2:
+.LBB9_2:
  mov     r1, #0
  mov     r2, #0
  orr     r0, r2, r12

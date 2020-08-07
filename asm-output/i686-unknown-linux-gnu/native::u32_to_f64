@@ -1,0 +1,14 @@
+floatconv::native::u32_to_f64:
+ sub     esp, 12
+ call    .L5$pb
+.L5$pb:
+ pop     eax
+ movss   xmm1, dword, ptr, [esp, +, 16]
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(.Ltmp0-.L5$pb)
+ movsd   xmm0, qword, ptr, [eax, +, .LCPI5_0@GOTOFF]
+ orpd    xmm1, xmm0
+ subsd   xmm1, xmm0
+ movsd   qword, ptr, [esp], xmm1
+ fld     qword, ptr, [esp]
+ add     esp, 12
+ ret

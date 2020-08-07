@@ -1,0 +1,7 @@
+floatconv::native::i32_to_f64:
+ push    eax
+ mov     eax, dword, ptr, [esp, +, 8]
+ mov     dword, ptr, [esp], eax
+ fild    dword, ptr, [esp]
+ pop     eax
+ ret

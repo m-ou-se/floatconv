@@ -1,0 +1,16 @@
+floatconv::native::u64_to_f64_round:
+ sub     esp, 12
+ movsd   xmm0, qword, ptr, [esp, +, 16]
+ call    .L6$pb
+.L6$pb:
+ pop     eax
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(.Ltmp1-.L6$pb)
+ unpcklps xmm0, xmmword, ptr, [eax, +, .LCPI6_0@GOTOFF]
+ subpd   xmm0, xmmword, ptr, [eax, +, .LCPI6_1@GOTOFF]
+ movapd  xmm1, xmm0
+ unpckhpd xmm1, xmm0
+ addsd   xmm1, xmm0
+ movsd   qword, ptr, [esp], xmm1
+ fld     qword, ptr, [esp]
+ add     esp, 12
+ ret

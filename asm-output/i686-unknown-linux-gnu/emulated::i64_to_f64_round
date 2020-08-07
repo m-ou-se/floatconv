@@ -17,7 +17,7 @@ floatconv::emulated::i64_to_f64_round:
  xor     edx, ecx
  mov     ebx, edi
  or      ebx, edx
- je      .LBB6_1
+ je      .LBB10_1
  bsr     ecx, edi
  bsr     ebx, edx
  xor     ecx, 31
@@ -49,10 +49,10 @@ floatconv::emulated::i64_to_f64_round:
  sub     edx, ecx
  add     esi, ebx
  adc     edx, 1137704960
- jmp     .LBB6_3
-.LBB6_1:
+ jmp     .LBB10_3
+.LBB10_1:
  xor     edx, edx
-.LBB6_3:
+.LBB10_3:
  or      edx, eax
  movd    xmm1, esi
  movd    xmm0, edx
