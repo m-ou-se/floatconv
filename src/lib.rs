@@ -13,6 +13,7 @@
 //!
 //! - Functions named `_round` round the integer to the closest possible floating point number, and breaks ties to even.
 //! - Functions named `_truncate` truncate the result, which means they round towards zero.
+//! - Functions named `_any` are an alias of whichever variant is fastest on the target.
 //! - Functions without a rounding mode in their name do not round. These conversions are always lossless.
 
 /// Floating point conversion functions emulated without floating point instructions.
@@ -39,21 +40,37 @@ pub mod native {
 }
 
 pub use emulated::{
-    i128_to_f64_round, i128_to_f64_truncate, u128_to_f64_round, u128_to_f64_truncate,
+    i128_to_f64_round,
+    i128_to_f64_truncate,
+    u128_to_f64_round,
+    u128_to_f64_truncate,
     u64_to_f64_truncate,
+    i64_to_f64_truncate,
+    i128_to_f64_truncate as i128_to_f64_any,
+    u128_to_f64_truncate as u128_to_f64_any,
 };
 
 #[cfg(any(target_arch = "aarch64", target_arch = "x86_64", target_arch = "x86", target_feature = "vfp2"))]
 pub use native::{i32_to_f64, u32_to_f64};
 
 #[cfg(any(target_arch = "aarch64", target_arch = "x86_64", target_arch = "x86"))]
-pub use native::{i64_to_f64_round, u64_to_f64_round};
+pub use native::{
+    i64_to_f64_round,
+    u64_to_f64_round,
+    i64_to_f64_round as i64_to_f64_any,
+    u64_to_f64_round as u64_to_f64_any,
+};
 
 #[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64", target_arch = "x86", target_feature = "vfp2")))]
 pub use emulated::{i32_to_f64, u32_to_f64};
 
 #[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64", target_arch = "x86")))]
-pub use emulated::{i64_to_f64_round, u64_to_f64_round};
+pub use emulated::{
+    i64_to_f64_round,
+    u64_to_f64_round,
+    i64_to_f64_truncate as i64_to_f64_any,
+    u64_to_f64_truncate as u64_to_f64_any,
+};
 
 #[cfg(test)]
 mod test;
