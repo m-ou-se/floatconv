@@ -1,4 +1,4 @@
-floatconv::u128_to_f64:
+floatconv::u128_to_f64_round:
  clz     x9, x0
  clz     x8, x1
  cmp     x1, #0

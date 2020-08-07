@@ -1,4 +1,4 @@
-floatconv::u128_to_f64:
+floatconv::u128_to_f64_round:
  bsr     rax, rdi
  mov     edx, 127
  cmovne  rdx, rax

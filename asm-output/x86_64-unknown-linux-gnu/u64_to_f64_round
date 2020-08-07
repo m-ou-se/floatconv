@@ -1,4 +1,4 @@
-floatconv::u64_to_f64:
+floatconv::u64_to_f64_round:
  test    rdi, rdi
  je      .LBB1_1
  bsr     rcx, rdi

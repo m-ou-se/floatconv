@@ -1,4 +1,4 @@
-floatconv::i128_to_f64:
+floatconv::i128_to_f64_round:
  negs    x9, x0
  ngcs    x11, x1
  cmp     x1, #0

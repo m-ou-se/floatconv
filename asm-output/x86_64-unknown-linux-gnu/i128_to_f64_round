@@ -1,4 +1,4 @@
-floatconv::i128_to_f64:
+floatconv::i128_to_f64_round:
  movabs  r9, -9223372036854775808
  and     r9, rsi
  xor     r8d, r8d

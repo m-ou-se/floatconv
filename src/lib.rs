@@ -6,7 +6,7 @@ pub fn u32_to_f64(x: u32) -> f64 {
     f64::from_bits((e << 52) + m) // Bit 53 of m will overflow into e.
 }
 
-pub fn u64_to_f64(x: u64) -> f64 {
+pub fn u64_to_f64_round(x: u64) -> f64 {
     if x == 0 { return 0.0; }
     let n = x.leading_zeros();
     let a = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
@@ -24,7 +24,7 @@ pub fn u64_to_f64_truncate(x: u64) -> f64 {
     f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
 }
 
-pub fn u128_to_f64(x: u128) -> f64 {
+pub fn u128_to_f64_round(x: u128) -> f64 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
     let a = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
@@ -47,14 +47,14 @@ pub fn i32_to_f64(x: i32) -> f64 {
     f64::from_bits(u32_to_f64(x.wrapping_abs() as u32).to_bits() | s)
 }
 
-pub fn i64_to_f64(x: i64) -> f64 {
+pub fn i64_to_f64_round(x: i64) -> f64 {
     let s = ((x >> 63) as u64) << 63;
-    f64::from_bits(u64_to_f64(x.wrapping_abs() as u64).to_bits() | s)
+    f64::from_bits(u64_to_f64_round(x.wrapping_abs() as u64).to_bits() | s)
 }
 
-pub fn i128_to_f64(x: i128) -> f64 {
+pub fn i128_to_f64_round(x: i128) -> f64 {
     let s = ((x >> 127) as u64) << 63;
-    f64::from_bits(u128_to_f64(x.wrapping_abs() as u128).to_bits() | s)
+    f64::from_bits(u128_to_f64_round(x.wrapping_abs() as u128).to_bits() | s)
 }
 
 #[test]
@@ -115,7 +115,7 @@ fn test_u64() {
         } else {
             f
         };
-        assert_eq!(u64_to_f64(i), f);
+        assert_eq!(u64_to_f64_round(i), f);
         assert_eq!(u64_to_f64_truncate(i), t);
     }
 }
@@ -185,7 +185,7 @@ fn test_u128() {
         } else {
             f
         };
-        assert_eq!(u128_to_f64(i), f);
+        assert_eq!(u128_to_f64_round(i), f);
         assert_eq!(u128_to_f64_truncate(i), t);
     }
 }
@@ -267,7 +267,7 @@ fn test_i64() {
         -(1i64 << 51) + 1,
     ][..]
     {
-        assert_eq!(i64_to_f64(i), i as f64);
+        assert_eq!(i64_to_f64_round(i), i as f64);
     }
 }
 
@@ -331,6 +331,6 @@ fn test_i128() {
         -(1i128 << 51) + 1,
     ][..]
     {
-        assert_eq!(i128_to_f64(i), i as f64);
+        assert_eq!(i128_to_f64_round(i), i as f64);
     }
 }

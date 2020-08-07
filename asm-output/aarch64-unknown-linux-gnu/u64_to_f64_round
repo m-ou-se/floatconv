@@ -1,4 +1,4 @@
-floatconv::u64_to_f64:
+floatconv::u64_to_f64_round:
  cbz     x0, .LBB1_2
  clz     x8, x0
  lsl     x9, x0, x8

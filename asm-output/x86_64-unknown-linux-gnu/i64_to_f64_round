@@ -1,4 +1,4 @@
-floatconv::i64_to_f64:
+floatconv::i64_to_f64_round:
  movabs  r8, -9223372036854775808
  and     r8, rdi
  mov     rdx, rdi
