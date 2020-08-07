@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+cd "$(dirname "$0")"
+rm -rf asm-output
+mkdir -p asm-output
+cd asm-output
+while read t; do
+	mkdir -p "$t"
+	cargo asm --target=$t |\
+	while read f; do
+		n="${f#floatconv::}"
+		if [ "$n" != "$f" ]; then
+			cargo asm --no-color --target=$t "$f" > "$t/$n"
+		fi
+	done
+done <<EOF
+	x86_64-unknown-linux-gnu
+	aarch64-unknown-linux-gnu
+	i686-unknown-linux-gnu
+EOF

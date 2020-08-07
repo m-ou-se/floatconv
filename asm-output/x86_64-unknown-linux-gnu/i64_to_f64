@@ -1,0 +1,36 @@
+floatconv::i64_to_f64:
+ movabs  r8, -9223372036854775808
+ and     r8, rdi
+ test    rdi, rdi
+ js      .LBB4_1
+ test    rdi, rdi
+ jne     .LBB4_2
+ xor     ecx, ecx
+ or      rcx, r8
+ movq    xmm0, rcx
+ ret
+.LBB4_1:
+ neg     rdi
+.LBB4_2:
+ bsr     rcx, rdi
+ xor     rcx, 63
+ shl     rdi, cl
+ mov     rax, rdi
+ shr     rax, 11
+ mov     rsi, rdi
+ shl     rsi, 53
+ shr     edi, 10
+ mov     edx, eax
+ not     edx
+ and     edx, edi
+ and     edx, 1
+ sub     rsi, rdx
+ shr     rsi, 63
+ shl     rcx, 52
+ sub     rax, rcx
+ add     rax, rsi
+ movabs  rcx, 4886405595696988160
+ add     rcx, rax
+ or      rcx, r8
+ movq    xmm0, rcx
+ ret

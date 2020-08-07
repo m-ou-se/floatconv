@@ -1,0 +1,26 @@
+floatconv::i64_to_f64:
+ and     x8, x0, #0x8000000000000000
+ tbnz    x0, #63, .LBB4_3
+ cbnz    x0, .LBB4_4
+ mov     x9, xzr
+ orr     x8, x9, x8
+ fmov    d0, x8
+ ret
+.LBB4_3:
+ neg     x0, x0
+.LBB4_4:
+ clz     x9, x0
+ lsl     x10, x0, x9
+ lsr     x11, x10, #11
+ mvn     w13, w11
+ lsl     x12, x10, #53
+ and     w10, w13, w10, lsr, #10
+ and     x10, x10, #0x1
+ sub     x9, x11, x9, lsl, #52
+ sub     x10, x12, x10
+ add     x9, x9, x10, lsr, #63
+ mov     x10, #4886405595696988160
+ add     x9, x9, x10
+ orr     x8, x9, x8
+ fmov    d0, x8
+ ret

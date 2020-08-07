@@ -1,0 +1,17 @@
+floatconv::u32_to_f64:
+ test    edi, edi
+ je      .LBB0_1
+ bsr     eax, edi
+ xor     eax, 31
+ mov     edx, edi
+ lea     ecx, [rax, +, 21]
+ shl     rdx, cl
+ shl     rax, 52
+ sub     rdx, rax
+ movabs  rax, 4742290407621132288
+ add     rax, rdx
+ movq    xmm0, rax
+ ret
+.LBB0_1:
+ xorps   xmm0, xmm0
+ ret
