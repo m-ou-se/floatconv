@@ -1,0 +1,44 @@
+floatconv::soft::i64_to_f64_round:
+ push    {r4, r5, r11, lr}
+ rsbs    r2, r0, #0
+ and     r12, r1, #-2147483648
+ rsc     r3, r1, #0
+ cmp     r1, #0
+ movpl   r2, r0
+ movpl   r3, r1
+ orrs    r0, r2, r3
+ mov     lr, #0
+ beq     .LBB8_2
+ clz     r0, r2
+ cmp     r3, #0
+ add     r0, r0, #32
+ clzne   r0, r3
+ subs    r4, r0, #32
+ lsl     r1, r2, r0
+ movpl   r1, #0
+ lsr     r5, r1, #10
+ bic     r5, r5, r1, lsr, #11
+ and     r5, r5, #1
+ rsbs    r5, r5, #0
+ rsb     r5, r0, #32
+ rsc     lr, lr, r1, lsl, #21
+ cmp     r4, #0
+ lsr     r1, r1, #11
+ lsr     r5, r2, r5
+ orr     r3, r5, r3, lsl, r0
+ lslpl   r3, r2, r4
+ lsr     r2, r3, #11
+ orr     r1, r1, r3, lsl, #21
+ sub     r0, r2, r0, lsl, #20
+ mov     r2, #63963136
+ orr     r2, r2, #1073741824
+ adds    lr, r1, lr, lsr, #31
+ adc     r2, r0, r2
+ orr     r0, r2, r12
+ vmov    d0, lr, r0
+ pop     {r4, r5, r11, pc}
+.LBB8_2:
+ mov     r2, #0
+ orr     r0, r2, r12
+ vmov    d0, lr, r0
+ pop     {r4, r5, r11, pc}

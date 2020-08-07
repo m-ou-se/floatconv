@@ -1,0 +1,61 @@
+floatconv::soft::u64_to_f64_round:
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 8
+ mov     eax, dword, ptr, [esp, +, 28]
+ mov     edx, dword, ptr, [esp, +, 24]
+ fldz
+ mov     ecx, edx
+ or      ecx, eax
+ je      .LBB1_7
+ fstp    st(0)
+ test    eax, eax
+ jne     .LBB1_2
+ bsr     ecx, edx
+ xor     ecx, 31
+ add     ecx, 32
+ shld    eax, edx, cl
+ shl     edx, cl
+ test    cl, 32
+ jne     .LBB1_5
+ jmp     .LBB1_6
+.LBB1_2:
+ bsr     ecx, eax
+ xor     ecx, 31
+ shld    eax, edx, cl
+ shl     edx, cl
+ test    cl, 32
+ je      .LBB1_6
+.LBB1_5:
+ mov     eax, edx
+ xor     edx, edx
+.LBB1_6:
+ mov     esi, eax
+ shl     esi, 21
+ mov     edi, edx
+ shr     edi, 11
+ or      esi, edi
+ shr     eax, 11
+ mov     ebx, edx
+ shl     ebx, 21
+ shr     edx, 10
+ not     edi
+ and     edi, edx
+ and     edi, 1
+ neg     edi
+ sbb     ebx, 0
+ shr     ebx, 31
+ shl     ecx, 20
+ sub     eax, ecx
+ add     ebx, esi
+ mov     dword, ptr, [esp], ebx
+ adc     eax, 1137704960
+ mov     dword, ptr, [esp, +, 4], eax
+ fld     qword, ptr, [esp]
+.LBB1_7:
+ add     esp, 8
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret

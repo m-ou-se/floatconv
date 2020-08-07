@@ -1,0 +1,35 @@
+floatconv::soft::u128_to_f64_round:
+ clz     x9, x0
+ clz     x8, x1
+ cmp     x1, #0
+ add     x9, x9, #64
+ csel    x8, x8, x9, ne
+ mov     x10, #5174635971848699904
+ and     x9, x8, #0x7f
+ tst     x8, #0x7f
+ lsl     x12, x0, x8
+ lsl     x13, x1, x8
+ sub     x8, x10, x8, lsl, #52
+ neg     x10, x9
+ lsr     x10, x0, x10
+ lsl     x14, x0, x9
+ sub     x9, x9, #64
+ csel    x10, xzr, x10, eq
+ cmp     x9, #0
+ orr     x10, x10, x13
+ csel    x9, xzr, x12, ge
+ csel    x10, x14, x10, ge
+ orr     x11, x0, x1
+ and     x12, x9, #0xffffffff
+ extr    x9, x10, x9, #11
+ lsr     x10, x10, #11
+ cmp     x11, #0
+ orr     x9, x9, x12
+ mvn     x11, x10
+ csel    x8, xzr, x8, eq
+ and     x11, x11, x9, lsr, #63
+ sub     x9, x9, x11
+ add     x8, x8, x10
+ add     x8, x8, x9, lsr, #63
+ fmov    d0, x8
+ ret

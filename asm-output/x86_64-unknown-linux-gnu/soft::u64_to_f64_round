@@ -1,0 +1,27 @@
+floatconv::soft::u64_to_f64_round:
+ test    rdi, rdi
+ je      .LBB1_1
+ bsr     rcx, rdi
+ xor     rcx, 63
+ shl     rdi, cl
+ mov     rax, rdi
+ shr     rax, 11
+ mov     rdx, rdi
+ shl     rdx, 53
+ shr     edi, 10
+ mov     esi, eax
+ not     esi
+ and     esi, edi
+ and     esi, 1
+ sub     rdx, rsi
+ shr     rdx, 63
+ shl     rcx, 52
+ sub     rax, rcx
+ add     rax, rdx
+ movabs  rcx, 4886405595696988160
+ add     rcx, rax
+ movq    xmm0, rcx
+ ret
+.LBB1_1:
+ xorps   xmm0, xmm0
+ ret

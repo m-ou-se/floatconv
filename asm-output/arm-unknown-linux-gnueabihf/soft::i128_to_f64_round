@@ -1,0 +1,98 @@
+floatconv::soft::i128_to_f64_round:
+ push    {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ sub     sp, sp, #4
+ rsbs    r12, r0, #0
+ str     r3, [sp]
+ rscs    lr, r1, #0
+ rscs    r4, r2, #0
+ rsc     r6, r3, #0
+ cmp     r3, #0
+ movpl   r4, r2
+ clz     r2, r4
+ movpl   r6, r3
+ add     r5, r2, #32
+ cmp     r6, #0
+ clzne   r5, r6
+ cmp     r3, #0
+ movpl   r12, r0
+ clz     r0, r12
+ movpl   lr, r1
+ add     r0, r0, #32
+ cmp     lr, #0
+ clzne   r0, lr
+ orrs    r1, r4, r6
+ addeq   r5, r0, #64
+ and     r0, r5, #127
+ rsb     r9, r0, #32
+ rsb     r10, r0, #64
+ subs    r8, r0, #32
+ rsb     r7, r0, #96
+ lsr     r1, r4, r9
+ lsr     r2, lr, r10
+ orr     r1, r1, r6, lsl, r0
+ sub     r11, r0, #64
+ lslpl   r1, r4, r8
+ cmp     r9, #0
+ lsr     r7, r12, r7
+ movpl   r2, #0
+ subs    r3, r0, #96
+ orr     r7, r7, lr, lsl, r11
+ lslpl   r7, r12, r3
+ cmp     r0, #64
+ orrlo   r7, r1, r2
+ cmp     r0, #0
+ moveq   r7, r6
+ orr     r2, r12, r4
+ lsr     r1, r7, #11
+ sub     r1, r1, r5, lsl, #20
+ add     r1, r1, #131072000
+ add     r5, r1, #1073741824
+ orr     r1, lr, r6
+ orrs    r1, r2, r1
+ rsb     r2, r10, #32
+ lsr     r1, r12, r10
+ lsreq   r5, r7, #11
+ orr     r1, r1, lr, lsl, r2
+ cmp     r9, #0
+ lsrpl   r1, lr, r9
+ lsl     r2, r4, r0
+ cmp     r8, #0
+ lsl     r6, r12, r11
+ movpl   r2, #0
+ cmp     r3, #0
+ movpl   r6, #0
+ cmp     r0, #64
+ orrlo   r6, r2, r1
+ lsr     r2, r12, r9
+ cmp     r0, #0
+ orr     r2, r2, lr, lsl, r0
+ moveq   r6, r4
+ cmp     r8, #0
+ lslpl   r2, r12, r8
+ mov     r3, #0
+ cmp     r0, #64
+ lsl     r4, r12, r0
+ movhs   r2, r3
+ cmp     r8, #0
+ lsr     r1, r6, #11
+ movpl   r4, #0
+ cmp     r0, #64
+ orr     r1, r1, r7, lsl, #21
+ lsr     r7, r2, #11
+ movhs   r4, r3
+ lsr     r0, r4, #11
+ orr     r7, r7, r6, lsl, #21
+ orr     r0, r0, r2, lsl, #21
+ mvn     r6, r1
+ and     r6, r6, r7, lsr, #31
+ orr     r0, r0, r4
+ subs    r0, r0, r6
+ ldr     r2, [sp]
+ sbc     r0, r7, #0
+ and     r2, r2, #-2147483648
+ adds    r0, r1, r0, lsr, #31
+ adc     r1, r5, #0
+ orr     r1, r1, r2
+ vmov    d0, r0, r1
+ add     sp, sp, #4
+ pop     {r4, r5, r6, r7, r8, r9, r10, r11, pc}

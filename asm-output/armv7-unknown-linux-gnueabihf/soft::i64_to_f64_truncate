@@ -1,0 +1,35 @@
+floatconv::soft::i64_to_f64_truncate:
+ rsbs    r2, r0, #0
+ and     r12, r1, #-2147483648
+ rsc     r3, r1, #0
+ cmp     r1, #0
+ movpl   r2, r0
+ movpl   r3, r1
+ orrs    r0, r2, r3
+ beq     .LBB9_2
+ clz     r1, r2
+ cmp     r3, #0
+ add     r0, r1, #32
+ clzne   r0, r3
+ rsb     r1, r0, #32
+ lsr     r1, r2, r1
+ orr     r3, r1, r3, lsl, r0
+ subs    r1, r0, #32
+ lslpl   r3, r2, r1
+ lsl     r1, r2, r0
+ movwpl  r1, #0
+ lsr     r2, r3, #11
+ sub     r0, r2, r0, lsl, #20
+ lsr     r1, r1, #11
+ add     r0, r0, #63963136
+ orr     r1, r1, r3, lsl, #21
+ add     r2, r0, #1073741824
+ orr     r0, r2, r12
+ vmov    d0, r1, r0
+ bx      lr
+.LBB9_2:
+ mov     r1, #0
+ mov     r2, #0
+ orr     r0, r2, r12
+ vmov    d0, r1, r0
+ bx      lr
