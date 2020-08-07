@@ -4,17 +4,17 @@ floatconv::i32_to_f64:
  and     eax, -2147483648
  shl     rax, 32
  test    edi, edi
- js      .LBB3_1
+ js      .LBB5_1
  test    edi, edi
- jne     .LBB3_2
+ jne     .LBB5_2
  xor     ecx, ecx
  or      rcx, rax
  movq    xmm0, rcx
  ret
-.LBB3_1:
+.LBB5_1:
  neg     edi
  mov     rdx, rdi
-.LBB3_2:
+.LBB5_2:
  bsr     esi, edi
  xor     esi, 31
  lea     ecx, [rsi, +, 21]

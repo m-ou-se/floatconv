@@ -16,12 +16,28 @@ pub fn u64_to_f64(x: u64) -> f64 {
     f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
 }
 
+pub fn u64_to_f64_truncate(x: u64) -> f64 {
+    if x == 0 { return 0.0; }
+    let n = x.leading_zeros();
+    let m = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
+    let e = 1085 - n as u64; // Exponent plus 1023, minus one.
+    f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
+}
+
 pub fn u128_to_f64(x: u128) -> f64 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
     let a = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
     let b = (y >> 11 | y & 0xFFFF_FFFF) as u64; // Insignificant bits, only relevant for rounding.
     let m = a + (b - (b >> 63 & !a) >> 63); // Add one when we need to round up. Break ties to even.
+    let e = if x == 0 { 0 } else { 1149 - n as u64 }; // Exponent plus 1023, minus one, except for zero.
+    f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
+}
+
+pub fn u128_to_f64_truncate(x: u128) -> f64 {
+    let n = x.leading_zeros();
+    let y = x.wrapping_shl(n);
+    let m = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
     let e = if x == 0 { 0 } else { 1149 - n as u64 }; // Exponent plus 1023, minus one, except for zero.
     f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
 }
@@ -96,7 +112,14 @@ fn test_u64() {
         (1u64 << 51) + 1,
     ][..]
     {
-        assert_eq!(u64_to_f64(i), i as f64);
+        let f = i as f64;
+        let t = if f as u64 > i || i == u64::max_value() {
+            f64::from_bits(f.to_bits() - 1)
+        } else {
+            f
+        };
+        assert_eq!(u64_to_f64(i), f);
+        assert_eq!(u64_to_f64_truncate(i), t);
     }
 }
 
@@ -159,7 +182,14 @@ fn test_u128() {
         u128::from(u64::max_value() >> 11) << 51,
     ][..]
     {
-        assert_eq!(u128_to_f64(i), i as f64);
+        let f = i as f64;
+        let t = if f as u128 > i || i == u128::max_value() {
+            f64::from_bits(f.to_bits() - 1)
+        } else {
+            f
+        };
+        assert_eq!(u128_to_f64(i), f);
+        assert_eq!(u128_to_f64_truncate(i), t);
     }
 }
 

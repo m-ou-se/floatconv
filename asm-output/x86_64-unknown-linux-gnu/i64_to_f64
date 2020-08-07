@@ -2,16 +2,16 @@ floatconv::i64_to_f64:
  movabs  r8, -9223372036854775808
  and     r8, rdi
  test    rdi, rdi
- js      .LBB4_1
+ js      .LBB6_1
  test    rdi, rdi
- jne     .LBB4_2
+ jne     .LBB6_2
  xor     ecx, ecx
  or      rcx, r8
  movq    xmm0, rcx
  ret
-.LBB4_1:
+.LBB6_1:
  neg     rdi
-.LBB4_2:
+.LBB6_2:
  bsr     rcx, rdi
  xor     rcx, 63
  shl     rdi, cl

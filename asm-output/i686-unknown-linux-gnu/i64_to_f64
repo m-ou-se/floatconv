@@ -9,19 +9,19 @@ floatconv::i64_to_f64:
  mov     eax, edx
  and     eax, -2147483648
  test    edx, edx
- js      .LBB4_1
+ js      .LBB6_1
  mov     ecx, esi
  or      ecx, edx
- jne     .LBB4_2
+ jne     .LBB6_2
  xor     esi, esi
  xor     edx, edx
- jmp     .LBB4_5
-.LBB4_1:
+ jmp     .LBB6_5
+.LBB6_1:
  xor     ecx, ecx
  neg     esi
  sbb     ecx, edx
  mov     edx, ecx
-.LBB4_2:
+.LBB6_2:
  bsr     ecx, esi
  bsr     edi, edx
  xor     ecx, 31
@@ -54,7 +54,7 @@ floatconv::i64_to_f64:
  sub     edx, ecx
  add     esi, ebx
  adc     edx, 1137704960
-.LBB4_5:
+.LBB6_5:
  or      edx, eax
  movd    xmm1, esi
  movd    xmm0, edx

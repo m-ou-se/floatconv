@@ -1,0 +1,13 @@
+floatconv::u64_to_f64_truncate:
+ cbz     x0, .LBB2_2
+ clz     x8, x0
+ lsl     x9, x0, x8
+ lsr     x9, x9, #11
+ sub     x8, x9, x8, lsl, #52
+ mov     x9, #4886405595696988160
+ add     x8, x8, x9
+ fmov    d0, x8
+ ret
+.LBB2_2:
+ fmov    d0, xzr
+ ret

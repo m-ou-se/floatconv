@@ -7,16 +7,16 @@ floatconv::i32_to_f64:
  mov     eax, esi
  and     eax, -2147483648
  test    esi, esi
- js      .LBB3_1
+ js      .LBB5_1
  xor     edx, edx
  test    esi, esi
- jne     .LBB3_2
+ jne     .LBB5_2
  xor     edi, edi
- jmp     .LBB3_5
-.LBB3_1:
+ jmp     .LBB5_5
+.LBB5_1:
  neg     esi
  xor     edx, edx
-.LBB3_2:
+.LBB5_2:
  bsr     ebx, esi
  xor     edi, edi
  xor     ebx, 31
@@ -30,7 +30,7 @@ floatconv::i32_to_f64:
  shl     ebx, 20
  sub     edx, ebx
  add     edx, 1104150528
-.LBB3_5:
+.LBB5_5:
  or      edx, eax
  movd    xmm1, edi
  movd    xmm0, edx

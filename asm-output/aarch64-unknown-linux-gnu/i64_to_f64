@@ -1,14 +1,14 @@
 floatconv::i64_to_f64:
  and     x8, x0, #0x8000000000000000
- tbnz    x0, #63, .LBB4_3
- cbnz    x0, .LBB4_4
+ tbnz    x0, #63, .LBB6_3
+ cbnz    x0, .LBB6_4
  mov     x9, xzr
  orr     x8, x9, x8
  fmov    d0, x8
  ret
-.LBB4_3:
+.LBB6_3:
  neg     x0, x0
-.LBB4_4:
+.LBB6_4:
  clz     x9, x0
  lsl     x10, x0, x9
  lsr     x11, x10, #11
