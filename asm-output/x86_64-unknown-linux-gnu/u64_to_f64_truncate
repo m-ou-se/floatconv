@@ -1,6 +1,6 @@
 floatconv::u64_to_f64_truncate:
  test    rdi, rdi
- je      .LBB2_1
+ je      .LBB0_1
  bsr     rcx, rdi
  xor     rcx, 63
  shl     rdi, cl
@@ -11,6 +11,6 @@ floatconv::u64_to_f64_truncate:
  add     rax, rdi
  movq    xmm0, rax
  ret
-.LBB2_1:
+.LBB0_1:
  xorps   xmm0, xmm0
  ret

@@ -1,4 +1,4 @@
-#[cfg(not(target_arch = "aarch64"))]
+#[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))]
 pub fn u32_to_f64(x: u32) -> f64 {
     if x == 0 { return 0.0; }
     let n = x.leading_zeros();
@@ -7,7 +7,7 @@ pub fn u32_to_f64(x: u32) -> f64 {
     f64::from_bits((e << 52) + m) // Bit 53 of m will overflow into e.
 }
 
-#[cfg(not(target_arch = "aarch64"))]
+#[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))]
 pub fn u64_to_f64_round(x: u64) -> f64 {
     if x == 0 { return 0.0; }
     let n = x.leading_zeros();
@@ -58,26 +58,26 @@ macro_rules! impl_signed {
     );
 }
 
-#[cfg(not(target_arch = "aarch64"))]
+#[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))]
 impl_signed!(i32_to_f64 i32 32 u32_to_f64);
 
-#[cfg(not(target_arch = "aarch64"))]
+#[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))]
 impl_signed!(i64_to_f64_round i64 64 u64_to_f64_round);
 impl_signed!(i64_to_f64_truncate i64 64 u64_to_f64_truncate);
 
 impl_signed!(i128_to_f64_round i128 128 u128_to_f64_round);
 impl_signed!(i128_to_f64_truncate i128 128 u128_to_f64_truncate);
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(any(target_arch = "aarch64", target_arch = "x86_64"))]
 pub fn u32_to_f64(x: u32) -> f64 { x as f64 }
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(any(target_arch = "aarch64", target_arch = "x86_64"))]
 pub fn u64_to_f64_round(x: u64) -> f64 { x as f64 }
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(any(target_arch = "aarch64", target_arch = "x86_64"))]
 pub fn i32_to_f64(x: i32) -> f64 { x as f64 }
 
-#[cfg(target_arch = "aarch64")]
+#[cfg(any(target_arch = "aarch64", target_arch = "x86_64"))]
 pub fn i64_to_f64_round(x: i64) -> f64 { x as f64 }
 
 #[test]
