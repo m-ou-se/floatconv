@@ -3,14 +3,7 @@ use floatconv::*;
 
 fn bench_u128_to_f64(c: &mut Criterion) {
     let mut group = c.benchmark_group("u128_to_f64");
-    for input in &[
-        0,
-        1,
-        1234u128,
-        1234u128 << 80,
-        1u128 << 127,
-        u128::max_value(),
-    ] {
+    for input in &[0, 1234u128, 1234u128 << 80] {
         group.bench_with_input(BenchmarkId::new("floatconv", input), input, |b, &x| {
             b.iter(|| u128_to_f64_round(black_box(x)))
         });
