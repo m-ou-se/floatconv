@@ -20,7 +20,7 @@ pub fn u128_to_f64(x: u128) -> f64 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
     let a = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
-    let b = (y >> 11 | y & 0xFFFF) as u64; // Insignificant bits, only relevant for rounding.
+    let b = (y >> 11 | y & 0xFFFF_FFFF) as u64; // Insignificant bits, only relevant for rounding.
     let m = a + (b - (b >> 63 & !a) >> 63); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 1149 - n as u64 }; // Exponent plus 1023, minus one, except for zero.
     f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
