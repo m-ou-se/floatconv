@@ -1,0 +1,40 @@
+floatconv::i32_to_f64:
+ push    ebx
+ push    esi
+ sub     esp, 12
+ mov     edx, dword, ptr, [esp, +, 24]
+ mov     eax, edx
+ and     eax, -2147483648
+ xor     esi, esi
+ mov     ecx, edx
+ sar     ecx, 31
+ add     edx, ecx
+ xor     edx, ecx
+ je      .LBB5_1
+ bsr     ebx, edx
+ xor     ebx, 31
+ mov     ecx, ebx
+ add     cl, 21
+ xor     esi, esi
+ shld    esi, edx, cl
+ shl     edx, cl
+ test    cl, 32
+ je      .LBB5_4
+ mov     esi, edx
+ xor     edx, edx
+.LBB5_4:
+ shl     ebx, 20
+ sub     esi, ebx
+ add     esi, 1104150528
+ jmp     .LBB5_5
+.LBB5_1:
+ xor     edx, edx
+.LBB5_5:
+ or      esi, eax
+ mov     dword, ptr, [esp], edx
+ mov     dword, ptr, [esp, +, 4], esi
+ fld     qword, ptr, [esp]
+ add     esp, 12
+ pop     esi
+ pop     ebx
+ ret

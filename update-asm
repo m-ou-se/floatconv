@@ -4,18 +4,16 @@ cd "$(dirname "$0")"
 rm -rf asm-output
 mkdir -p asm-output
 cd asm-output
-fs=$(cargo asm)
+cargo asm >/dev/null
 while read t; do
+	echo $t
 	mkdir -p "$t"
 	while read f; do
 		n="${f#floatconv::}"
 		if [ "$n" != "$f" ]; then
 			echo "$t / $n"
 			cargo asm --no-color --target=$t "$f" > "$t/$n"
+			sed -i '/^_Z.*:$/Q' "$t/$n"
 		fi
-	done <<<"$fs"
-done <<EOF
-	x86_64-unknown-linux-gnu
-	aarch64-unknown-linux-gnu
-	i686-unknown-linux-gnu
-EOF
+	done <<<"$(cargo asm --target=$t)"
+done <../test-targets
