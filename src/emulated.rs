@@ -17,9 +17,7 @@ pub fn u64_to_f64_round(x: u64) -> f64 {
 }
 
 pub fn u64_to_f64_truncate(x: u64) -> f64 {
-    if x == 0 {
-        return 0.0;
-    }
+    if x == 0 { return 0.0; }
     let n = x.leading_zeros();
     let m = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
     let e = 1085 - n as u64; // Exponent plus 1023, minus one.
