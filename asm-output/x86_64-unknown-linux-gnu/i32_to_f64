@@ -1,28 +1,26 @@
 floatconv::i32_to_f64:
- mov     edx, edi
- mov     eax, edx
+ mov     eax, edi
  and     eax, -2147483648
  shl     rax, 32
- test    edi, edi
- js      .LBB5_1
- test    edi, edi
- jne     .LBB5_2
- xor     ecx, ecx
+ mov     ecx, edi
+ neg     ecx
+ cmovl   ecx, edi
+ test    ecx, ecx
+ je      .LBB5_1
+ bsr     edx, ecx
+ xor     edx, 31
+ mov     esi, ecx
+ lea     ecx, [rdx, +, 21]
+ shl     rsi, cl
+ shl     rdx, 52
+ sub     rsi, rdx
+ movabs  rcx, 4742290407621132288
+ add     rcx, rsi
  or      rcx, rax
  movq    xmm0, rcx
  ret
 .LBB5_1:
- neg     edi
- mov     rdx, rdi
-.LBB5_2:
- bsr     esi, edi
- xor     esi, 31
- lea     ecx, [rsi, +, 21]
- shl     rdx, cl
- shl     rsi, 52
- sub     rdx, rsi
- movabs  rcx, 4742290407621132288
- add     rcx, rdx
+ xor     ecx, ecx
  or      rcx, rax
  movq    xmm0, rcx
  ret

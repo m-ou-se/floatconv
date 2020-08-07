@@ -5,36 +5,31 @@ floatconv::i64_to_f64:
  push    esi
  sub     esp, 12
  mov     edx, dword, ptr, [esp, +, 36]
- mov     esi, dword, ptr, [esp, +, 32]
- mov     eax, edx
- and     eax, -2147483648
- test    edx, edx
- js      .LBB6_1
- mov     ecx, esi
- or      ecx, edx
- jne     .LBB6_2
+ mov     edi, dword, ptr, [esp, +, 32]
  xor     esi, esi
- xor     edx, edx
- jmp     .LBB6_5
-.LBB6_1:
- xor     ecx, ecx
- neg     esi
- sbb     ecx, edx
- mov     edx, ecx
-.LBB6_2:
- bsr     ecx, esi
- bsr     edi, edx
+ mov     ecx, edx
+ mov     eax, edx
+ sar     ecx, 31
+ and     eax, -2147483648
+ add     edi, ecx
+ adc     edx, ecx
+ xor     edi, ecx
+ xor     edx, ecx
+ mov     ebx, edi
+ or      ebx, edx
+ je      .LBB6_1
+ bsr     ecx, edi
+ bsr     ebx, edx
  xor     ecx, 31
- xor     edi, 31
+ xor     ebx, 31
  add     ecx, 32
  test    edx, edx
- cmovne  ecx, edi
- xor     edi, edi
- shld    edx, esi, cl
- shl     esi, cl
+ cmovne  ecx, ebx
+ shld    edx, edi, cl
+ shl     edi, cl
  test    cl, 32
- cmovne  edx, esi
- cmove   edi, esi
+ cmovne  edx, edi
+ cmovne  edi, esi
  mov     ebx, edx
  mov     ebp, edi
  mov     esi, edi
@@ -54,7 +49,10 @@ floatconv::i64_to_f64:
  sub     edx, ecx
  add     esi, ebx
  adc     edx, 1137704960
-.LBB6_5:
+ jmp     .LBB6_3
+.LBB6_1:
+ xor     edx, edx
+.LBB6_3:
  or      edx, eax
  movd    xmm1, esi
  movd    xmm0, edx
