@@ -2,7 +2,8 @@
 //!
 //! ## Emulated and native conversions
 //!
-//! The [`native`] module provides only those functions which are natively available on the target.
+//! The [`native`] module provides only those conversions which are natively
+//! available on the target.
 //!
 //! The [`emulated`] module provides an emulated implementation of all
 //! conversion functions, for targets which do not provide them natively.
@@ -15,6 +16,23 @@
 //! - Functions named `_truncate` truncate the result, which means they round towards zero.
 //! - Functions named `_any` are an alias of whichever variant is fastest on the target.
 //! - Functions without a rounding mode in their name do not round. These conversions are always lossless.
+//!
+//! ## Speed
+//!
+//! For conversions that aren't available natively,
+//! the emulated implementations in this crate seem to be both faster and
+//! smaller in almost all cases compared to the ones currently used by
+//! `x as f64` (from the compiler builtins runtime support library).
+//!
+//! ## Work in progress
+//!
+//! This crate is usable, but still incomplete:
+//!
+//! - There's no support for `f32` yet.
+//! - There's no support for converting *to* integers yet.
+//! - Native conversions are only available on ARM (32- and 64-bit) and x86 (32- and 64-bit).
+//! - The emulated implementations can probably be optimized further.
+//! - More benchmarking still needs to happen.
 
 /// Floating point conversion functions emulated without floating point instructions.
 ///
