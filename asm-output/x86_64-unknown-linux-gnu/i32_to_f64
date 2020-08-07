@@ -1,7 +1,7 @@
 floatconv::i32_to_f64:
  mov     eax, edi
- and     eax, -2147483648
- shl     rax, 32
+ shr     eax, 31
+ shl     rax, 63
  mov     ecx, edi
  neg     ecx
  cmovl   ecx, edi

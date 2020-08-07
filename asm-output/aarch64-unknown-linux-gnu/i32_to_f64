@@ -1,8 +1,8 @@
 floatconv::i32_to_f64:
- lsl     x8, x0, #32
+ lsr     w8, w0, #31
  cmp     w0, #0
  cneg    w9, w0, mi
- and     x8, x8, #0x8000000000000000
+ lsl     x8, x8, #63
  cbz     w9, .LBB5_2
  clz     w10, w9
  mov     w9, w9

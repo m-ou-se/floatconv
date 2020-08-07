@@ -43,17 +43,17 @@ pub fn u128_to_f64_truncate(x: u128) -> f64 {
 }
 
 pub fn i32_to_f64(x: i32) -> f64 {
-    let s = (x as u64) << 32 & 1u64 << 63;
+    let s = ((x >> 31) as u64) << 63;
     f64::from_bits(u32_to_f64(x.wrapping_abs() as u32).to_bits() | s)
 }
 
 pub fn i64_to_f64(x: i64) -> f64 {
-    let s = x as u64 & 1u64 << 63;
+    let s = ((x >> 63) as u64) << 63;
     f64::from_bits(u64_to_f64(x.wrapping_abs() as u64).to_bits() | s)
 }
 
 pub fn i128_to_f64(x: i128) -> f64 {
-    let s = (x >> 64) as u64 & 1u64 << 63;
+    let s = ((x >> 127) as u64) << 63;
     f64::from_bits(u128_to_f64(x.wrapping_abs() as u128).to_bits() | s)
 }
 
