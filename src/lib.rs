@@ -1,11 +1,11 @@
 //! Floating point conversion functions.
 //!
-//! ## Emulated and native conversions
+//! ## Software and hardware implementations
 //!
 //! The [`native`] module provides only those conversions which are natively
-//! available on the target.
+//! available on the target hardware.
 //!
-//! The [`emulated`] module provides an emulated implementation of all
+//! The [`soft`] module provides a software implementation of all
 //! conversion functions, for targets which do not provide them natively.
 //!
 //! The root of the crate exposes the best version of all available functions.
@@ -19,10 +19,10 @@
 //!
 //! ## Speed
 //!
-//! For conversions that aren't available natively,
-//! the emulated implementations in this crate seem to be both faster and
-//! smaller in almost all cases compared to the ones currently used by
-//! `x as f64` (from the compiler builtins runtime support library).
+//! For conversions that aren't available natively, the software
+//! implementations in this crate seem to be both faster and smaller in almost
+//! all cases compared to the ones currently used by `x as f64` (from the
+//! compiler builtins runtime support library).
 //!
 //! ## Work in progress
 //!
@@ -31,13 +31,15 @@
 //! - There's no support for `f32` yet.
 //! - There's no support for converting *to* integers yet.
 //! - Native conversions are only available on ARM (32- and 64-bit) and x86 (32- and 64-bit).
-//! - The emulated implementations can probably be optimized further.
+//! - The software implementations can probably be optimized further.
 //! - More benchmarking still needs to happen.
 
-/// Floating point conversion functions emulated without floating point instructions.
+/// Software implementations of floating point conversion functions.
+///
+/// These don't use any floating point instructions.
 ///
 /// Available on all platforms.
-pub mod emulated;
+pub mod soft;
 
 /// Floating point conversion instructions natively available on the target.
 ///
@@ -75,7 +77,7 @@ pub mod native {
     }
 }
 
-pub use emulated::{
+pub use soft::{
     i128_to_f64_round, i128_to_f64_truncate, i128_to_f64_truncate as i128_to_f64_any,
     i64_to_f64_truncate, u128_to_f64_round, u128_to_f64_truncate,
     u128_to_f64_truncate as u128_to_f64_any, u64_to_f64_truncate,
@@ -101,10 +103,10 @@ pub use native::{
     target_arch = "x86",
     target_feature = "vfp2"
 )))]
-pub use emulated::{i32_to_f64, u32_to_f64};
+pub use soft::{i32_to_f64, u32_to_f64};
 
 #[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64", target_arch = "x86")))]
-pub use emulated::{
+pub use soft::{
     i64_to_f64_round, i64_to_f64_truncate as i64_to_f64_any, u64_to_f64_round,
     u64_to_f64_truncate as u64_to_f64_any,
 };
