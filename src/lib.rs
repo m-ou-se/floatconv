@@ -42,20 +42,23 @@ pub fn u128_to_f64_truncate(x: u128) -> f64 {
     f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
 }
 
-pub fn i32_to_f64(x: i32) -> f64 {
-    let s = ((x >> 31) as u64) << 63;
-    f64::from_bits(u32_to_f64(x.wrapping_abs() as u32).to_bits() | s)
+macro_rules! impl_signed {
+    (
+        $name:tt
+        $from:tt
+        $bits:tt
+        $unsigned:tt
+    ) => (
+        pub fn $name(x: $from) -> f64 {
+            let s = ((x >> $bits - 1) as u64) << 63;
+            f64::from_bits($unsigned(x.wrapping_abs() as _).to_bits() | s)
+        }
+    );
 }
 
-pub fn i64_to_f64_round(x: i64) -> f64 {
-    let s = ((x >> 63) as u64) << 63;
-    f64::from_bits(u64_to_f64_round(x.wrapping_abs() as u64).to_bits() | s)
-}
-
-pub fn i128_to_f64_round(x: i128) -> f64 {
-    let s = ((x >> 127) as u64) << 63;
-    f64::from_bits(u128_to_f64_round(x.wrapping_abs() as u128).to_bits() | s)
-}
+impl_signed!(i32_to_f64 i32 32 u32_to_f64);
+impl_signed!(i64_to_f64_round i64 64 u64_to_f64_round);
+impl_signed!(i128_to_f64_round i128 128 u128_to_f64_round);
 
 #[test]
 fn test_u32() {
