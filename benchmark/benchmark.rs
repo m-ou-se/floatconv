@@ -1,30 +1,97 @@
 use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
-use floatconv::*;
 
-fn bench_u128_to_f64(c: &mut Criterion) {
-    let mut group = c.benchmark_group("u128_to_f64");
-    let inputs = &[
-        (u128::max_value(), "u128-max"),
-        (1234, "1234"),
-        (1234 << 80, "1234-80zeros"),
-    ];
-    for &(input, name) in inputs {
-        group.bench_with_input(BenchmarkId::new("semi", name), &input, |b, &x| {
-            b.iter(|| floatconv::semi::u128_to_f64_round(black_box(x)))
-        });
-    }
-    for &(input, name) in inputs {
-        group.bench_with_input(BenchmarkId::new("soft", name), &input, |b, &x| {
-            b.iter(|| floatconv::soft::u128_to_f64_round(black_box(x)))
-        });
-    }
-    for &(input, name) in inputs {
-        group.bench_with_input(BenchmarkId::new("builtin", name), &input, |b, &x| {
-            b.iter(|| black_box(x) as f64)
-        });
-    }
-    group.finish();
+macro_rules! benches {
+    ($c:ident $f:ident $t:ident $inputs:ident) => {
+        #[inline(never)]
+        fn builtin_conv(x: $t) -> f64 {
+            x as f64
+        }
+        let mut group = $c.benchmark_group(stringify!($f));
+        for &(input, name) in $inputs {
+            group.bench_with_input(BenchmarkId::new("soft", name), &input, |b, &x| {
+                b.iter(|| floatconv::soft::$f(black_box(x)))
+            });
+        }
+        for &(input, name) in $inputs {
+            group.bench_with_input(BenchmarkId::new("fast", name), &input, |b, &x| {
+                b.iter(|| floatconv::fast::$f(black_box(x)))
+            });
+        }
+        for &(input, name) in $inputs {
+            group.bench_with_input(BenchmarkId::new("builtin", name), &input, |b, &x| {
+                b.iter(|| builtin_conv(black_box(x)))
+            });
+        }
+        group.finish();
+    };
 }
 
-criterion_group!(benches, bench_u128_to_f64);
+fn bench_u32_to_f64(c: &mut Criterion) {
+    let inputs = &[
+        //(0, "zero"),
+        //(u32::max_value(), "max"),
+        //(1234, "1234"),
+        (1234u32 << 20 | 4321, "some-number"),
+    ];
+    benches!(c u32_to_f64 u32 inputs);
+}
+
+fn bench_i32_to_f64(c: &mut Criterion) {
+    let inputs = &[
+        //(0, "zero"),
+        //(i32::max_value(), "max"),
+        //(1234, "1234"),
+        (-1234i32 << 20 | 4321, "some-number"),
+    ];
+    benches!(c i32_to_f64 i32 inputs);
+}
+
+fn bench_u64_to_f64(c: &mut Criterion) {
+    let inputs = &[
+        //(0, "zero"),
+        //(u64::max_value(), "max"),
+        //(1234, "1234"),
+        (1234u64 << 45 | 4321, "some-number"),
+    ];
+    benches!(c u64_to_f64_round u64 inputs);
+}
+
+fn bench_i64_to_f64(c: &mut Criterion) {
+    let inputs = &[
+        //(0, "zero"),
+        //(i64::max_value(), "max"),
+        //(1234, "1234"),
+        (-1234i64 << 45 | 4321, "some-number"),
+    ];
+    benches!(c i64_to_f64_round i64 inputs);
+}
+
+fn bench_u128_to_f64(c: &mut Criterion) {
+    let inputs = &[
+        //(0, "zero"),
+        //(u128::max_value(), "max"),
+        //(1234, "1234"),
+        (1234u128 << 80 | 4321, "some-number"),
+    ];
+    benches!(c u128_to_f64_round u128 inputs);
+}
+
+fn bench_i128_to_f64(c: &mut Criterion) {
+    let inputs = &[
+        //(0, "zero"),
+        //(i128::max_value(), "max"),
+        //(1234, "1234"),
+        (-1234i128 << 80 | 4321, "some-number"),
+    ];
+    benches!(c i128_to_f64_round i128 inputs);
+}
+
+criterion_group!(benches,
+    bench_u32_to_f64,
+    bench_i32_to_f64,
+    bench_u64_to_f64,
+    bench_i64_to_f64,
+    bench_u128_to_f64,
+    bench_i128_to_f64,
+);
 criterion_main!(benches);

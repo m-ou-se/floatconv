@@ -1,26 +1,24 @@
 floatconv::soft::i32_to_f64:
+ mov     edx, edi
+ shr     edx, 31
+ shl     rdx, 63
  mov     eax, edi
- shr     eax, 31
- shl     rax, 63
- mov     ecx, edi
- neg     ecx
- cmovl   ecx, edi
- test    ecx, ecx
- je      .LBB10_1
- bsr     edx, ecx
- xor     edx, 31
- mov     esi, ecx
- lea     ecx, [rdx, +, 21]
- shl     rsi, cl
- shl     rdx, 52
- sub     rsi, rdx
- movabs  rcx, 4742290407621132288
- add     rcx, rsi
- or      rcx, rax
- movq    xmm0, rcx
+ neg     eax
+ cmovl   eax, edi
+ test    eax, eax
+ je      .LBB5_1
+ bsr     esi, eax
+ xor     esi, 31
+ mov     edi, eax
+ lea     ecx, [rsi, +, 21]
+ shl     rdi, cl
+ shl     rsi, 52
+ sub     rdi, rsi
+ movabs  rax, 4742290407621132288
+ add     rax, rdi
+ or      rax, rdx
  ret
-.LBB10_1:
- xor     ecx, ecx
- or      rcx, rax
- movq    xmm0, rcx
+.LBB5_1:
+ xor     eax, eax
+ or      rax, rdx
  ret

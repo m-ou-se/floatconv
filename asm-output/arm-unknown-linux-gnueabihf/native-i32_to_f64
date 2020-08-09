@@ -1,4 +1,0 @@
-floatconv::native::i32_to_f64:
- vmov    s0, r0
- vcvt.f64.s32 d0, s0
- bx      lr

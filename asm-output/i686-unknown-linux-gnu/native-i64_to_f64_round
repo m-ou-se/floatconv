@@ -1,7 +1,0 @@
-floatconv::native::i64_to_f64_round:
- sub     esp, 12
- fild    qword, ptr, [esp, +, 16]
- fstp    qword, ptr, [esp]
- fld     qword, ptr, [esp]
- add     esp, 12
- ret

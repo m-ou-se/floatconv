@@ -1,3 +1,0 @@
-floatconv::native::i32_to_f64:
- cvtsi2sd xmm0, edi
- ret

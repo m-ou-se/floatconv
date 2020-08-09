@@ -1,0 +1,3 @@
+floatconv::fast::i64_to_f64_round:
+ cvtsi2sd xmm0, rdi
+ ret

@@ -1,4 +1,0 @@
-floatconv::native::u32_to_f64:
- mov     eax, edi
- cvtsi2sd xmm0, rax
- ret

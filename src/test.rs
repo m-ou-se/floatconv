@@ -18,7 +18,8 @@ fn test_u32() {
         321312312,
     ][..]
     {
-        assert_eq!(u32_to_f64(i), i as f64);
+        assert_eq!(soft::u32_to_f64(i), (i as f64).to_bits());
+        assert_eq!(fast::u32_to_f64(i), i as f64);
     }
 }
 
@@ -58,8 +59,10 @@ fn test_u64() {
         } else {
             f
         };
-        assert_eq!(u64_to_f64_round(i), f);
-        assert_eq!(u64_to_f64_truncate(i), t);
+        assert_eq!(soft::u64_to_f64_round(i), f.to_bits());
+        assert_eq!(soft::u64_to_f64_truncate(i), t.to_bits());
+        assert_eq!(fast::u64_to_f64_round(i), f);
+        assert_eq!(fast::u64_to_f64_truncate(i), t);
     }
 }
 
@@ -136,8 +139,10 @@ fn test_u128() {
         } else {
             f
         };
-        assert_eq!(u128_to_f64_round(i), f);
-        assert_eq!(u128_to_f64_truncate(i), t);
+        assert_eq!(soft::u128_to_f64_round(i), f.to_bits());
+        assert_eq!(soft::u128_to_f64_truncate(i), t.to_bits());
+        assert_eq!(fast::u128_to_f64_round(i), f);
+        assert_eq!(fast::u128_to_f64_truncate(i), t);
     }
 }
 
@@ -158,7 +163,8 @@ fn test_i32() {
         321312312,
     ][..]
     {
-        assert_eq!(i32_to_f64(i), i as f64);
+        assert_eq!(soft::i32_to_f64(i), (i as f64).to_bits());
+        assert_eq!(fast::i32_to_f64(i), i as f64);
     }
 }
 
@@ -218,7 +224,8 @@ fn test_i64() {
         -(1i64 << 51) + 1,
     ][..]
     {
-        assert_eq!(i64_to_f64_round(i), i as f64);
+        assert_eq!(soft::i64_to_f64_round(i), (i as f64).to_bits());
+        assert_eq!(fast::i64_to_f64_round(i), i as f64);
     }
 }
 
@@ -282,6 +289,7 @@ fn test_i128() {
         -(1i128 << 51) + 1,
     ][..]
     {
-        assert_eq!(i128_to_f64_round(i), i as f64);
+        assert_eq!(soft::i128_to_f64_round(i), (i as f64).to_bits());
+        assert_eq!(fast::i128_to_f64_round(i), i as f64);
     }
 }

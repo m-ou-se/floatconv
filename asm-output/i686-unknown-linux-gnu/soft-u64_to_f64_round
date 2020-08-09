@@ -2,54 +2,50 @@ floatconv::soft::u64_to_f64_round:
  push    ebx
  push    edi
  push    esi
- sub     esp, 8
- mov     edx, dword, ptr, [esp, +, 24]
- mov     eax, dword, ptr, [esp, +, 28]
- mov     ecx, edx
- or      ecx, eax
+ mov     eax, dword, ptr, [esp, +, 16]
+ mov     edx, dword, ptr, [esp, +, 20]
+ mov     ecx, eax
+ or      ecx, edx
  je      .LBB1_1
- bsr     ecx, edx
- bsr     esi, eax
+ bsr     ecx, eax
+ bsr     esi, edx
  xor     ecx, 31
  xor     esi, 31
  add     ecx, 32
- test    eax, eax
+ test    edx, edx
  cmovne  ecx, esi
  xor     esi, esi
- shld    eax, edx, cl
- shl     edx, cl
+ shld    edx, eax, cl
+ shl     eax, cl
  test    cl, 32
- cmove   esi, edx
- cmovne  eax, edx
- mov     edx, eax
- mov     edi, esi
+ cmovne  edx, eax
+ cmove   esi, eax
+ mov     edi, edx
  mov     ebx, esi
+ mov     eax, esi
  shr     esi, 10
- shr     eax, 11
- shl     edx, 21
- shr     edi, 11
- shl     ebx, 21
- or      edx, edi
- not     edi
- and     edi, esi
- and     edi, 1
- neg     edi
- sbb     ebx, 0
+ shr     edx, 11
+ shl     edi, 21
+ shr     ebx, 11
+ shl     eax, 21
+ or      edi, ebx
+ not     ebx
+ and     ebx, esi
+ and     ebx, 1
+ neg     ebx
+ sbb     eax, 0
  shl     ecx, 20
- shr     ebx, 31
- sub     eax, ecx
- add     ebx, edx
- adc     eax, 1137704960
- movd    xmm0, ebx
- movd    xmm1, eax
- punpckldq xmm0, xmm1
- jmp     .LBB1_3
+ shr     eax, 31
+ sub     edx, ecx
+ add     eax, edi
+ adc     edx, 1137704960
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret
 .LBB1_1:
- pxor    xmm0, xmm0
-.LBB1_3:
- movq    qword, ptr, [esp], xmm0
- fld     qword, ptr, [esp]
- add     esp, 8
+ xor     eax, eax
+ xor     edx, edx
  pop     esi
  pop     edi
  pop     ebx

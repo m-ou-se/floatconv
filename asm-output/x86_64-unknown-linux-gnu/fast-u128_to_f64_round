@@ -1,0 +1,32 @@
+floatconv::fast::u128_to_f64_round:
+ movabs  rax, 4503599627370495
+ mov     rcx, rsi
+ shr     rcx, 40
+ jne     .LBB16_1
+ shld    rsi, rdi, 12
+ and     rax, rdi
+ movq    xmm0, rax
+ movq    xmm1, rsi
+ punpcklqdq xmm1, xmm0
+ por     xmm1, xmmword, ptr, [rip, +, .LCPI16_2]
+ addpd   xmm1, xmmword, ptr, [rip, +, .LCPI16_3]
+ movapd  xmm0, xmm1
+ unpckhpd xmm0, xmm1
+ addsd   xmm0, xmm1
+ ret
+.LBB16_1:
+ mov     rcx, rdi
+ shrd    rcx, rsi, 24
+ and     rcx, rax
+ and     edi, 16777215
+ or      rdi, rcx
+ shr     rsi, 12
+ movq    xmm1, rdi
+ movq    xmm0, rsi
+ punpcklqdq xmm1, xmm0
+ por     xmm1, xmmword, ptr, [rip, +, .LCPI16_0]
+ addpd   xmm1, xmmword, ptr, [rip, +, .LCPI16_1]
+ movapd  xmm0, xmm1
+ unpckhpd xmm0, xmm1
+ addsd   xmm0, xmm1
+ ret

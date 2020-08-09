@@ -10,8 +10,7 @@ floatconv::soft::u32_to_f64:
  sub     rdx, rax
  movabs  rax, 4742290407621132288
  add     rax, rdx
- movq    xmm0, rax
  ret
 .LBB0_1:
- xorps   xmm0, xmm0
+ xor     eax, eax
  ret

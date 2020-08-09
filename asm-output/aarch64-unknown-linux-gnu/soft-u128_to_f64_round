@@ -30,6 +30,5 @@ floatconv::soft::u128_to_f64_round:
  and     x11, x11, x9, lsr, #63
  sub     x9, x9, x11
  add     x8, x8, x10
- add     x8, x8, x9, lsr, #63
- fmov    d0, x8
+ add     x0, x8, x9, lsr, #63
  ret

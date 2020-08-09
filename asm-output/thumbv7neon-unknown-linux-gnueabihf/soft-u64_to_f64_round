@@ -1,6 +1,9 @@
 floatconv::soft::u64_to_f64_round:
  orrs.w  r2, r0, r1
- beq     .LBB1_2
+ ittt    eq
+ moveq   r0, #0
+ moveq   r1, #0
+ bxeq    lr
  clz     r2, r0
  cmp     r1, #0
  add.w   r2, r2, #32
@@ -30,8 +33,4 @@ floatconv::soft::u64_to_f64_round:
  movt    r2, #17360
  adds.w  r0, r12, r0, lsr, #31
  adcs    r1, r2
- vmov    d0, r0, r1
- bx      lr
-.LBB1_2:
- vmov.i32 d0, #0x0
  bx      lr

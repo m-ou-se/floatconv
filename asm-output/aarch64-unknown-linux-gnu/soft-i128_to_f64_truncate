@@ -27,6 +27,5 @@ floatconv::soft::i128_to_f64_truncate:
  csel    x10, xzr, x10, eq
  and     x8, x1, #0x8000000000000000
  add     x9, x10, x9, lsr, #11
- orr     x8, x9, x8
- fmov    d0, x8
+ orr     x0, x9, x8
  ret

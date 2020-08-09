@@ -1,3 +1,0 @@
-floatconv::native::u32_to_f64:
- ucvtf   d0, w0
- ret

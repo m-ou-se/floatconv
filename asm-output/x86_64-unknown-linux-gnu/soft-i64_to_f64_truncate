@@ -1,24 +1,22 @@
 floatconv::soft::i64_to_f64_truncate:
- movabs  rax, -9223372036854775808
- and     rax, rdi
- mov     rdx, rdi
- neg     rdx
- cmovl   rdx, rdi
- test    rdx, rdx
- je      .LBB12_1
- bsr     rcx, rdx
+ movabs  rdx, -9223372036854775808
+ and     rdx, rdi
+ mov     rsi, rdi
+ neg     rsi
+ cmovl   rsi, rdi
+ test    rsi, rsi
+ je      .LBB7_1
+ bsr     rcx, rsi
  xor     rcx, 63
- shl     rdx, cl
- shr     rdx, 11
+ shl     rsi, cl
+ shr     rsi, 11
  shl     rcx, 52
- sub     rdx, rcx
- movabs  rcx, 4886405595696988160
- add     rcx, rdx
- or      rcx, rax
- movq    xmm0, rcx
+ sub     rsi, rcx
+ movabs  rax, 4886405595696988160
+ add     rax, rsi
+ or      rax, rdx
  ret
-.LBB12_1:
- xor     ecx, ecx
- or      rcx, rax
- movq    xmm0, rcx
+.LBB7_1:
+ xor     eax, eax
+ or      rax, rdx
  ret

@@ -1,0 +1,90 @@
+floatconv::fast::i128_to_f64_truncate:
+ push.w  {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+ sub     sp, #4
+ adds.w  r4, r0, r3, asr, #31
+ adcs.w  r5, r1, r3, asr, #31
+ eor.w   r9, r4, r3, asr, #31
+ adcs.w  r0, r2, r3, asr, #31
+ clz     r2, r9
+ eor.w   r10, r0, r3, asr, #31
+ add.w   r4, r2, #32
+ clz     r1, r10
+ eor.w   r2, r5, r3, asr, #31
+ add.w   lr, r1, #32
+ adc.w   r1, r3, r3, asr, #31
+ eor.w   r12, r1, r3, asr, #31
+ cmp.w   r12, #0
+ it      ne
+ clzne   lr, r12
+ cmp     r2, #0
+ it      ne
+ clzne   r4, r2
+ orrs.w  r5, r10, r12
+ it      eq
+ addeq.w lr, r4, #64
+ and     r4, lr, #127
+ rsb.w   r6, r4, #32
+ sub.w   r11, r4, #64
+ lsl.w   r5, r12, r4
+ rsb.w   r1, r4, #64
+ lsr.w   r7, r10, r6
+ subs.w  r0, r4, #32
+ orr.w   r7, r7, r5
+ rsb.w   r5, r4, #96
+ str     r0, [sp]
+ it      pl
+ lslpl.w r7, r10, r0
+ lsr.w   r5, r9, r5
+ lsl.w   r8, r2, r11
+ lsr.w   r0, r2, r1
+ cmp     r6, #0
+ orr.w   r5, r5, r8
+ it      pl
+ movpl   r0, #0
+ subs.w  r8, r4, #96
+ it      pl
+ lslpl.w r5, r9, r8
+ cmp     r4, #64
+ it      lo
+ orrlo.w r5, r7, r0
+ lsr.w   r0, r9, r1
+ rsb.w   r1, r1, #32
+ cmp     r4, #0
+ it      eq
+ moveq   r5, r12
+ lsl.w   r1, r2, r1
+ orrs    r0, r1
+ cmp     r6, #0
+ it      pl
+ lsrpl.w r0, r2, r6
+ ldr     r6, [sp]
+ lsl.w   r1, r10, r4
+ orr.w   r7, r9, r10
+ orr.w   r2, r2, r12
+ cmp     r6, #0
+ lsl.w   r6, r9, r11
+ it      pl
+ movpl   r1, #0
+ cmp.w   r8, #0
+ it      pl
+ movpl   r6, #0
+ cmp     r4, #64
+ it      lo
+ orrlo.w r6, r1, r0
+ lsrs    r1, r5, #11
+ sub.w   r1, r1, lr, lsl, #20
+ cmp     r4, #0
+ add.w   r1, r1, #1073741824
+ it      eq
+ moveq   r6, r10
+ orrs    r2, r7
+ add.w   r1, r1, #131072000
+ lsr.w   r0, r6, #11
+ it      eq
+ lsreq   r1, r5, #11
+ and     r2, r3, #-2147483648
+ orr.w   r0, r0, r5, lsl, #21
+ orrs    r1, r2
+ vmov    d0, r0, r1
+ add     sp, #4
+ pop.w   {r4, r5, r6, r7, r8, r9, r10, r11, pc}

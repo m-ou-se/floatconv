@@ -1,3 +1,0 @@
-floatconv::native::i64_to_f64_round:
- scvtf   d0, x0
- ret

@@ -4,33 +4,32 @@ floatconv::soft::i128_to_f64_truncate:
  xor     r8d, r8d
  mov     rdx, rdi
  neg     rdx
- mov     eax, 0
- sbb     rax, rsi
+ mov     r10d, 0
+ sbb     r10, rsi
  test    rsi, rsi
- cmovns  rax, rsi
+ cmovns  r10, rsi
  cmovns  rdx, rdi
- bsr     rcx, rdx
+ bsr     rax, rdx
  mov     esi, 127
- cmovne  rsi, rcx
+ cmovne  rsi, rax
  xor     rsi, 63
  add     rsi, 64
- bsr     rcx, rax
+ bsr     rcx, r10
  xor     rcx, 63
- test    rax, rax
+ test    r10, r10
  cmove   rcx, rsi
- mov     rsi, rax
- shld    rsi, rdx, cl
- mov     rdi, rdx
- shl     rdi, cl
+ mov     rax, r10
+ shld    rax, rdx, cl
+ mov     rsi, rdx
+ shl     rsi, cl
  test    cl, 64
- cmove   rdi, rsi
- shr     rdi, 11
+ cmove   rsi, rax
+ shr     rsi, 11
  shl     rcx, 52
- movabs  rsi, 5174635971848699904
- sub     rsi, rcx
- or      rdx, rax
- cmove   rsi, r8
- add     rsi, rdi
- or      rsi, r9
- movq    xmm0, rsi
+ movabs  rax, 5174635971848699904
+ sub     rax, rcx
+ or      rdx, r10
+ cmove   rax, r8
+ add     rax, rsi
+ or      rax, r9
  ret

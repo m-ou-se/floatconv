@@ -1,0 +1,44 @@
+floatconv::fast::u64_to_f64_truncate:
+ push    esi
+ sub     esp, 8
+ mov     edx, dword, ptr, [esp, +, 20]
+ mov     eax, dword, ptr, [esp, +, 16]
+ fldz
+ mov     ecx, eax
+ or      ecx, edx
+ je      .LBB14_7
+ fstp    st(0)
+ test    edx, edx
+ jne     .LBB14_2
+ bsr     ecx, eax
+ xor     ecx, 31
+ add     ecx, 32
+ shld    edx, eax, cl
+ shl     eax, cl
+ test    cl, 32
+ jne     .LBB14_5
+ jmp     .LBB14_6
+.LBB14_2:
+ bsr     ecx, edx
+ xor     ecx, 31
+ shld    edx, eax, cl
+ shl     eax, cl
+ test    cl, 32
+ je      .LBB14_6
+.LBB14_5:
+ mov     edx, eax
+ xor     eax, eax
+.LBB14_6:
+ mov     esi, edx
+ shr     esi, 11
+ shrd    eax, edx, 11
+ shl     ecx, 20
+ sub     esi, ecx
+ mov     dword, ptr, [esp], eax
+ add     esi, 1137704960
+ mov     dword, ptr, [esp, +, 4], esi
+ fld     qword, ptr, [esp]
+.LBB14_7:
+ add     esp, 8
+ pop     esi
+ ret

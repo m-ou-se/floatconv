@@ -1,7 +1,9 @@
 floatconv::soft::u64_to_f64_round:
- push    {r4, lr}
  orrs    r2, r0, r1
- beq     .LBB1_2
+ moveq   r0, #0
+ moveq   r1, #0
+ bxeq    lr
+ push    {r4, lr}
  clz     r2, r0
  cmp     r1, #0
  add     lr, r2, #32
@@ -28,9 +30,4 @@ floatconv::soft::u64_to_f64_round:
  orr     r3, r3, #1073741824
  adds    r0, r0, r2, lsr, #31
  adc     r1, r1, r3
- vmov    d0, r0, r1
  pop     {r4, pc}
-.LBB1_2:
- vldr    d0, .LCPI1_0
- pop     {r4, pc}
-.LCPI1_0:

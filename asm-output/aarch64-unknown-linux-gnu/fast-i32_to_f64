@@ -1,0 +1,3 @@
+floatconv::fast::i32_to_f64:
+ scvtf   d0, w0
+ ret

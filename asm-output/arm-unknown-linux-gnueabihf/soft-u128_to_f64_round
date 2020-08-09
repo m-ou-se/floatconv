@@ -78,5 +78,4 @@ floatconv::soft::u128_to_f64_round:
  sbc     r0, r4, #0
  adds    r0, r2, r0, lsr, #31
  adc     r1, r5, #0
- vmov    d0, r0, r1
  pop     {r4, r5, r6, r7, r8, r9, r10, r11, pc}

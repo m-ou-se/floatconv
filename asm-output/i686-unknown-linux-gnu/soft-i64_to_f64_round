@@ -3,21 +3,20 @@ floatconv::soft::i64_to_f64_round:
  push    ebx
  push    edi
  push    esi
- sub     esp, 12
- mov     edx, dword, ptr, [esp, +, 36]
- mov     edi, dword, ptr, [esp, +, 32]
- xor     esi, esi
+ mov     edx, dword, ptr, [esp, +, 24]
+ mov     edi, dword, ptr, [esp, +, 20]
+ xor     eax, eax
  mov     ecx, edx
- mov     eax, edx
+ mov     esi, edx
  sar     ecx, 31
- and     eax, -2147483648
+ and     esi, -2147483648
  add     edi, ecx
  adc     edx, ecx
  xor     edi, ecx
  xor     edx, ecx
  mov     ebx, edi
  or      ebx, edx
- je      .LBB10_1
+ je      .LBB6_1
  bsr     ecx, edi
  bsr     ebx, edx
  xor     ecx, 31
@@ -29,37 +28,31 @@ floatconv::soft::i64_to_f64_round:
  shl     edi, cl
  test    cl, 32
  cmovne  edx, edi
- cmovne  edi, esi
+ cmovne  edi, eax
  mov     ebx, edx
  mov     ebp, edi
- mov     esi, edi
+ mov     eax, edi
  shr     edi, 10
  shr     edx, 11
  shl     ebx, 21
  shr     ebp, 11
- shl     esi, 21
+ shl     eax, 21
  or      ebx, ebp
  not     ebp
  and     ebp, edi
  and     ebp, 1
  neg     ebp
- sbb     esi, 0
+ sbb     eax, 0
  shl     ecx, 20
- shr     esi, 31
+ shr     eax, 31
  sub     edx, ecx
- add     esi, ebx
+ add     eax, ebx
  adc     edx, 1137704960
- jmp     .LBB10_3
-.LBB10_1:
+ jmp     .LBB6_3
+.LBB6_1:
  xor     edx, edx
-.LBB10_3:
- or      edx, eax
- movd    xmm1, esi
- movd    xmm0, edx
- punpckldq xmm1, xmm0
- movq    qword, ptr, [esp], xmm1
- fld     qword, ptr, [esp]
- add     esp, 12
+.LBB6_3:
+ or      edx, esi
  pop     esi
  pop     edi
  pop     ebx

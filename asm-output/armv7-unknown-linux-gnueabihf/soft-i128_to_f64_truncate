@@ -70,6 +70,5 @@ floatconv::soft::i128_to_f64_truncate:
  ldr     r1, [sp]
  and     r1, r1, #-2147483648
  orr     r1, r2, r1
- vmov    d0, r0, r1
  add     sp, sp, #4
  pop     {r4, r5, r6, r7, r8, r9, r10, r11, pc}

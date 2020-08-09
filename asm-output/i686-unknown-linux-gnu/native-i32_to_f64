@@ -1,7 +1,0 @@
-floatconv::native::i32_to_f64:
- sub     esp, 12
- cvtsi2sd xmm0, dword, ptr, [esp, +, 16]
- movsd   qword, ptr, [esp], xmm0
- fld     qword, ptr, [esp]
- add     esp, 12
- ret

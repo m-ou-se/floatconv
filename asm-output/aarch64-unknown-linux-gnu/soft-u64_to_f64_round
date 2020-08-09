@@ -11,9 +11,6 @@ floatconv::soft::u64_to_f64_round:
  sub     x9, x11, x9
  add     x8, x8, x9, lsr, #63
  mov     x9, #4886405595696988160
- add     x8, x8, x9
- fmov    d0, x8
- ret
+ add     x0, x8, x9
 .LBB1_2:
- fmov    d0, xzr
  ret

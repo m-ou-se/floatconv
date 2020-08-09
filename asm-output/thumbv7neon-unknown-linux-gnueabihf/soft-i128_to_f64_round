@@ -116,6 +116,5 @@ floatconv::soft::i128_to_f64_round:
  adds.w  r0, r0, r1, lsr, #31
  adc     r1, r5, #0
  orrs    r1, r2
- vmov    d0, r0, r1
  add     sp, #8
  pop.w   {r4, r5, r6, r7, r8, r9, r10, r11, pc}

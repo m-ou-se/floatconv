@@ -6,9 +6,8 @@ floatconv::soft::u32_to_f64:
  lsl     x9, x9, x10
  sub     x8, x9, x8, lsl, #52
  mov     x9, #4742290407621132288
- add     x8, x8, x9
- fmov    d0, x8
+ add     x0, x8, x9
  ret
 .LBB0_2:
- fmov    d0, xzr
+ mov     x0, xzr
  ret

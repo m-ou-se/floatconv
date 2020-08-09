@@ -1,38 +1,32 @@
 floatconv::soft::u64_to_f64_truncate:
  push    esi
- sub     esp, 8
- mov     edx, dword, ptr, [esp, +, 16]
- mov     eax, dword, ptr, [esp, +, 20]
- mov     ecx, edx
- or      ecx, eax
+ mov     esi, dword, ptr, [esp, +, 8]
+ mov     edx, dword, ptr, [esp, +, 12]
+ mov     eax, esi
+ or      eax, edx
  je      .LBB2_1
- bsr     ecx, edx
- bsr     esi, eax
+ bsr     ecx, esi
+ bsr     eax, edx
  xor     ecx, 31
- xor     esi, 31
+ xor     eax, 31
  add     ecx, 32
- test    eax, eax
- cmovne  ecx, esi
- xor     esi, esi
- shld    eax, edx, cl
- shl     edx, cl
+ test    edx, edx
+ cmovne  ecx, eax
+ xor     eax, eax
+ shld    edx, esi, cl
+ shl     esi, cl
  test    cl, 32
- cmovne  eax, edx
- cmove   esi, edx
+ cmovne  edx, esi
+ cmove   eax, esi
  shl     ecx, 20
- shrd    esi, eax, 11
- shr     eax, 11
- sub     eax, ecx
- movd    xmm0, esi
- add     eax, 1137704960
- movd    xmm1, eax
- punpckldq xmm0, xmm1
- jmp     .LBB2_3
+ shrd    eax, edx, 11
+ shr     edx, 11
+ sub     edx, ecx
+ add     edx, 1137704960
+ pop     esi
+ ret
 .LBB2_1:
- pxor    xmm0, xmm0
-.LBB2_3:
- movq    qword, ptr, [esp], xmm0
- fld     qword, ptr, [esp]
- add     esp, 8
+ xor     eax, eax
+ xor     edx, edx
  pop     esi
  ret

@@ -1,0 +1,13 @@
+floatconv::fast::u64_to_f64_round:
+ mov     eax, edi
+ movabs  rcx, 4841369599423283200
+ or      rcx, rax
+ movq    xmm1, rcx
+ addsd   xmm1, qword, ptr, [rip, +, .LCPI12_0]
+ shr     rdi, 32
+ movabs  rax, 4985484787499139072
+ or      rax, rdi
+ movq    xmm0, rax
+ addsd   xmm0, qword, ptr, [rip, +, .LCPI12_1]
+ addsd   xmm0, xmm1
+ ret

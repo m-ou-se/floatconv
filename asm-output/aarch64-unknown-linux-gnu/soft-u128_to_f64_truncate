@@ -20,6 +20,5 @@ floatconv::soft::u128_to_f64_truncate:
  csel    x9, x13, x9, ge
  cmp     x11, #0
  csel    x8, xzr, x8, eq
- add     x8, x8, x9, lsr, #11
- fmov    d0, x8
+ add     x0, x8, x9, lsr, #11
  ret

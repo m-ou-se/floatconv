@@ -1,34 +1,29 @@
 floatconv::soft::u32_to_f64:
- push    edi
+ push    ebx
  push    esi
- sub     esp, 12
- mov     eax, dword, ptr, [esp, +, 24]
+ mov     eax, dword, ptr, [esp, +, 12]
  test    eax, eax
  je      .LBB0_1
- bsr     edx, eax
- xor     edi, edi
+ bsr     ebx, eax
+ xor     edx, edx
  xor     esi, esi
- xor     edx, 31
- mov     ecx, edx
+ xor     ebx, 31
+ mov     ecx, ebx
  add     cl, 21
- shld    edi, eax, cl
+ shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- cmovne  edi, eax
+ cmovne  edx, eax
  cmovne  eax, esi
- shl     edx, 20
- sub     edi, edx
- movd    xmm0, eax
- add     edi, 1104150528
- movd    xmm1, edi
- punpckldq xmm0, xmm1
- jmp     .LBB0_3
-.LBB0_1:
- pxor    xmm0, xmm0
-.LBB0_3:
- movq    qword, ptr, [esp], xmm0
- fld     qword, ptr, [esp]
- add     esp, 12
+ shl     ebx, 20
+ sub     edx, ebx
+ add     edx, 1104150528
  pop     esi
- pop     edi
+ pop     ebx
+ ret
+.LBB0_1:
+ xor     eax, eax
+ xor     edx, edx
+ pop     esi
+ pop     ebx
  ret

@@ -16,11 +16,10 @@ floatconv::soft::u128_to_f64_truncate:
  cmove   rdx, rax
  shr     rdx, 11
  shl     rcx, 52
- movabs  rax, 5174635971848699904
- sub     rax, rcx
- xor     ecx, ecx
+ movabs  r8, 5174635971848699904
+ sub     r8, rcx
+ xor     eax, eax
  or      rdi, rsi
- cmovne  rcx, rax
- add     rcx, rdx
- movq    xmm0, rcx
+ cmovne  rax, r8
+ add     rax, rdx
  ret

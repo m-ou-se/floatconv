@@ -8,26 +8,26 @@ floatconv::soft::u128_to_f64_round:
  xor     rcx, 63
  test    rsi, rsi
  cmove   rcx, rdx
- mov     rdx, rsi
- shld    rdx, rdi, cl
- mov     rax, rdi
- shl     rax, cl
+ mov     rax, rsi
+ shld    rax, rdi, cl
+ mov     rdx, rdi
+ shl     rdx, cl
  xor     r8d, r8d
  test    cl, 64
- cmovne  rdx, rax
- cmovne  rax, r8
- mov     r9, rdx
+ cmovne  rax, rdx
+ cmovne  rdx, r8
+ mov     r9, rax
  shr     r9, 11
- shl     rdx, 53
- mov     r10d, eax
- shr     rax, 11
- or      rax, rdx
- or      r10, rax
- shr     rdx, 63
- mov     eax, r9d
- not     eax
- and     edx, eax
- sub     r10, rdx
+ shl     rax, 53
+ mov     r10d, edx
+ shr     rdx, 11
+ or      rdx, rax
+ or      r10, rdx
+ shr     rax, 63
+ mov     edx, r9d
+ not     edx
+ and     eax, edx
+ sub     r10, rax
  shr     r10, 63
  shl     rcx, 52
  movabs  rax, 5174635971848699904
@@ -36,5 +36,4 @@ floatconv::soft::u128_to_f64_round:
  cmove   rax, r8
  add     rax, r9
  add     rax, r10
- movq    xmm0, rax
  ret

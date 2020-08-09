@@ -2,21 +2,20 @@ floatconv::soft::i64_to_f64_truncate:
  push    ebx
  push    edi
  push    esi
- sub     esp, 8
- mov     edx, dword, ptr, [esp, +, 28]
- mov     edi, dword, ptr, [esp, +, 24]
- xor     esi, esi
+ mov     edx, dword, ptr, [esp, +, 20]
+ mov     edi, dword, ptr, [esp, +, 16]
+ xor     eax, eax
  mov     ecx, edx
- mov     eax, edx
+ mov     esi, edx
  sar     ecx, 31
- and     eax, -2147483648
+ and     esi, -2147483648
  add     edi, ecx
  adc     edx, ecx
  xor     edi, ecx
  xor     edx, ecx
  mov     ebx, edi
  or      ebx, edx
- je      .LBB11_1
+ je      .LBB7_1
  bsr     ecx, edi
  bsr     ebx, edx
  xor     ecx, 31
@@ -28,24 +27,18 @@ floatconv::soft::i64_to_f64_truncate:
  shl     edi, cl
  test    cl, 32
  cmovne  edx, edi
- cmovne  edi, esi
+ cmovne  edi, eax
  shl     ecx, 20
  shrd    edi, edx, 11
  shr     edx, 11
  sub     edx, ecx
- mov     esi, edi
+ mov     eax, edi
  add     edx, 1137704960
- jmp     .LBB11_3
-.LBB11_1:
+ jmp     .LBB7_3
+.LBB7_1:
  xor     edx, edx
-.LBB11_3:
- or      edx, eax
- movd    xmm1, esi
- movd    xmm0, edx
- punpckldq xmm1, xmm0
- movq    qword, ptr, [esp], xmm1
- fld     qword, ptr, [esp]
- add     esp, 8
+.LBB7_3:
+ or      edx, esi
  pop     esi
  pop     edi
  pop     ebx
