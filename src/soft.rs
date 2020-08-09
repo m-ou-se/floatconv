@@ -42,20 +42,6 @@ pub fn u128_to_f64_truncate(x: u128) -> f64 {
     f64::from_bits((e << 52) + m) // + not |, so the mantissa can overflow into the exponent.
 }
 
-macro_rules! impl_signed {
-    (
-        $name:tt
-        $from:tt
-        $bits:tt
-        $unsigned:tt
-    ) => {
-        pub fn $name(x: $from) -> f64 {
-            let s = ((x >> $bits - 1) as u64) << 63;
-            f64::from_bits($unsigned(x.wrapping_abs() as _).to_bits() | s)
-        }
-    };
-}
-
 impl_signed!(i32_to_f64 i32 32 u32_to_f64);
 impl_signed!(i64_to_f64_round i64 64 u64_to_f64_round);
 impl_signed!(i64_to_f64_truncate i64 64 u64_to_f64_truncate);

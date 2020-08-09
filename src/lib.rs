@@ -7,6 +7,11 @@
 //!
 //! The [`soft`] module provides a software implementation of all
 //! conversion functions, for targets which do not provide them natively.
+//! These are implemented without any floating point operations.
+//!
+//! The [`semi`] module provides a software implementation of some conversion
+//! functions which are not natively available on the target, but are
+//! implemented using other native floating point operations.
 //!
 //! The root of the crate exposes the best version of all available functions.
 //!
@@ -34,12 +39,32 @@
 //! - The software implementations can probably be optimized further.
 //! - More benchmarking still needs to happen.
 
-/// Software implementations of floating point conversion functions.
-///
-/// These don't use any floating point instructions.
+macro_rules! impl_signed {
+    (
+        $name:tt
+        $from:tt
+        $bits:tt
+        $unsigned:tt
+    ) => {
+        pub fn $name(x: $from) -> f64 {
+            let s = ((x >> $bits - 1) as u64) << 63;
+            f64::from_bits($unsigned(x.wrapping_abs() as _).to_bits() | s)
+        }
+    };
+}
+
+/// Software implementations of all conversion functions that don't use any
+/// floating point operations.
 ///
 /// Available on all platforms.
 pub mod soft;
+
+/// Software implementations of some conversion functions that make use of
+/// other native floating point operations.
+///
+/// **Please note:** The contents of this module varies by target.
+/// Functions available on one target might not exist on another.
+pub mod semi;
 
 /// Floating point conversion instructions natively available on the target.
 ///
@@ -78,9 +103,19 @@ pub mod native {
 }
 
 pub use soft::{
-    i128_to_f64_round, i128_to_f64_truncate, i128_to_f64_truncate as i128_to_f64_any,
-    i64_to_f64_truncate, u128_to_f64_round, u128_to_f64_truncate,
-    u128_to_f64_truncate as u128_to_f64_any, u64_to_f64_truncate,
+    i128_to_f64_truncate, i64_to_f64_truncate, u128_to_f64_truncate, u64_to_f64_truncate,
+};
+
+#[cfg(any(target_arch = "aarch64", target_arch = "x86_64",))]
+pub use semi::{
+    i128_to_f64_round, i128_to_f64_round as i128_to_f64_any, u128_to_f64_round,
+    u128_to_f64_round as u128_to_f64_any,
+};
+
+#[cfg(not(any(target_arch = "aarch64", target_arch = "x86_64",)))]
+pub use soft::{
+    i128_to_f64_round, i128_to_f64_truncate as i128_to_f64_any, u128_to_f64_round,
+    u128_to_f64_truncate as u128_to_f64_any,
 };
 
 #[cfg(any(

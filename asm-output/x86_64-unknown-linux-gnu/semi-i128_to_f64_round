@@ -1,0 +1,41 @@
+floatconv::semi::i128_to_f64_round:
+ movabs  rax, -9223372036854775808
+ and     rax, rsi
+ xor     ecx, ecx
+ mov     rdx, rdi
+ neg     rdx
+ sbb     rcx, rsi
+ test    rsi, rsi
+ cmovns  rdx, rdi
+ movabs  rdi, 4503599627370495
+ cmovns  rcx, rsi
+ mov     rsi, rcx
+ shr     rsi, 40
+ jne     .LBB15_1
+ shld    rcx, rdx, 12
+ and     rdi, rdx
+ movq    xmm1, rdi
+ movq    xmm0, rcx
+ punpcklqdq xmm0, xmm1
+ por     xmm0, xmmword, ptr, [rip, +, .LCPI15_2]
+ addpd   xmm0, xmmword, ptr, [rip, +, .LCPI15_3]
+ jmp     .LBB15_3
+.LBB15_1:
+ mov     rsi, rcx
+ shld    rsi, rdx, 40
+ and     rsi, rdi
+ and     edx, 16777215
+ or      rdx, rsi
+ shr     rcx, 12
+ movq    xmm0, rdx
+ movq    xmm1, rcx
+ punpcklqdq xmm0, xmm1
+ por     xmm0, xmmword, ptr, [rip, +, .LCPI15_0]
+ addpd   xmm0, xmmword, ptr, [rip, +, .LCPI15_1]
+.LBB15_3:
+ movapd  xmm1, xmm0
+ unpckhpd xmm1, xmm0
+ addsd   xmm1, xmm0
+ movq    xmm0, rax
+ por     xmm0, xmm1
+ ret

@@ -6,7 +6,7 @@ floatconv::soft::i32_to_f64:
  neg     ecx
  cmovl   ecx, edi
  test    ecx, ecx
- je      .LBB9_1
+ je      .LBB10_1
  bsr     edx, ecx
  xor     edx, 31
  mov     esi, ecx
@@ -19,7 +19,7 @@ floatconv::soft::i32_to_f64:
  or      rcx, rax
  movq    xmm0, rcx
  ret
-.LBB9_1:
+.LBB10_1:
  xor     ecx, ecx
  or      rcx, rax
  movq    xmm0, rcx

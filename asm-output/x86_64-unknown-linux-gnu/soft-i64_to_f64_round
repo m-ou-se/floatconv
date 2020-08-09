@@ -5,7 +5,7 @@ floatconv::soft::i64_to_f64_round:
  neg     rdx
  cmovl   rdx, rdi
  test    rdx, rdx
- je      .LBB10_1
+ je      .LBB11_1
  bsr     rcx, rdx
  xor     rcx, 63
  shl     rdx, cl
@@ -28,7 +28,7 @@ floatconv::soft::i64_to_f64_round:
  or      rcx, r8
  movq    xmm0, rcx
  ret
-.LBB10_1:
+.LBB11_1:
  xor     ecx, ecx
  or      rcx, r8
  movq    xmm0, rcx
