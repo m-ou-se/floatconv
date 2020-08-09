@@ -3,9 +3,9 @@ macro_rules! group {
 }
 
 macro_rules! impl_native {
-    ($name:tt $from:tt) => {
-        pub fn $name(x: $from) -> f64 {
-            x as f64
+    ($name:tt $from:tt $to:tt) => {
+        pub fn $name(x: $from) -> $to {
+            x as $to
         }
     };
 }
