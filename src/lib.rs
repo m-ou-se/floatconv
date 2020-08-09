@@ -1,3 +1,5 @@
+#![no_std]
+
 //! Floating point conversion functions.
 //!
 //! ## Software and hardware implementations
