@@ -1,0 +1,42 @@
+floatconv::fast::u128_to_f32_truncate:
+ push    {r4, r5, r6, r7, r8, lr}
+ clz     r12, r2
+ clz     lr, r0
+ add     r12, r12, #32
+ cmp     r3, #0
+ clzne   r12, r3
+ add     lr, lr, #32
+ cmp     r1, #0
+ clzne   lr, r1
+ orrs    r4, r2, r3
+ addeq   r12, lr, #64
+ and     r4, r12, #127
+ rsb     lr, r4, #32
+ subs    r6, r4, #32
+ lsr     r5, r2, lr
+ orr     r8, r5, r3, lsl, r4
+ lslpl   r8, r2, r6
+ rsb     r6, r4, #64
+ rsb     r5, r4, #96
+ cmp     lr, #0
+ lsr     r6, r1, r6
+ lsr     lr, r0, r5
+ sub     r5, r4, #64
+ movpl   r6, #0
+ subs    r7, r4, #96
+ orr     r5, lr, r1, lsl, r5
+ orr     r1, r1, r3
+ lslpl   r5, r0, r7
+ cmp     r4, #64
+ orrlo   r5, r8, r6
+ cmp     r4, #0
+ moveq   r5, r3
+ orr     r0, r0, r2
+ lsr     r7, r5, #8
+ orrs    r0, r0, r1
+ sub     r7, r7, r12, lsl, #23
+ add     r7, r7, #511705088
+ add     r7, r7, #1073741824
+ lsreq   r7, r5, #8
+ vmov    s0, r7
+ pop     {r4, r5, r6, r7, r8, pc}

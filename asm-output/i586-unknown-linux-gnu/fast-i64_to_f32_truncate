@@ -1,0 +1,54 @@
+floatconv::fast::i64_to_f32_truncate:
+ push    ebx
+ push    edi
+ push    esi
+ push    eax
+ mov     eax, dword, ptr, [esp, +, 24]
+ mov     ecx, eax
+ sar     ecx, 31
+ mov     edx, dword, ptr, [esp, +, 20]
+ add     edx, ecx
+ mov     esi, ecx
+ adc     esi, eax
+ xor     esi, ecx
+ xor     edx, ecx
+ bsr     edi, edx
+ mov     ecx, 63
+ je      <label>
+ mov     ecx, edi
+<label>:
+ test    esi, esi
+ jne     <label>
+ xor     ecx, 31
+ add     ecx, 32
+ jmp     <label>
+<label>:
+ bsr     ecx, esi
+ xor     ecx, 31
+<label>:
+ mov     ebx, esi
+ shld    ebx, edx, cl
+ mov     edi, edx
+ shl     edi, cl
+ test    cl, 32
+ jne     <label>
+ mov     edi, ebx
+<label>:
+ and     eax, -2147483648
+ shr     edi, 8
+ xor     ebx, ebx
+ or      edx, esi
+ je      <label>
+ shl     ecx, 23
+ mov     ebx, 1585446912
+ sub     ebx, ecx
+<label>:
+ add     ebx, edi
+ or      ebx, eax
+ mov     dword, ptr, [esp], ebx
+ fld     dword, ptr, [esp]
+ add     esp, 4
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret

@@ -1,0 +1,25 @@
+floatconv::soft::u128_to_f32_truncate:
+ clz     x9, x0
+ clz     x8, x1
+ cmp     x1, #0
+ add     x9, x9, #64
+ csel    x8, x8, x9, ne
+ mov     w10, #1585446912
+ and     x9, x8, #0x7f
+ tst     x8, #0x7f
+ lsl     x12, x1, x8
+ sub     w8, w10, w8, lsl, #23
+ neg     x10, x9
+ lsr     x10, x0, x10
+ lsl     x13, x0, x9
+ sub     x9, x9, #64
+ csel    x10, xzr, x10, eq
+ orr     x11, x0, x1
+ cmp     x9, #0
+ orr     x9, x10, x12
+ csel    x9, x13, x9, ge
+ cmp     x11, #0
+ lsr     x9, x9, #40
+ csel    w8, wzr, w8, eq
+ add     w0, w8, w9
+ ret

@@ -1,0 +1,96 @@
+floatconv::soft::i128_to_f32_truncate:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 12
+ mov     edx, dword, ptr, [esp, +, 32]
+ mov     ecx, dword, ptr, [esp, +, 36]
+ mov     edi, 0
+ mov     esi, 0
+ mov     eax, dword, ptr, [esp, +, 44]
+ mov     ebp, 0
+ mov     ebx, edx
+ neg     ebx
+ sbb     edi, ecx
+ sbb     esi, dword, ptr, [esp, +, 40]
+ sbb     ebp, eax
+ test    eax, eax
+ cmovns  esi, dword, ptr, [esp, +, 40]
+ cmovns  edi, ecx
+ cmovns  ebx, edx
+ cmovns  ebp, eax
+ bsr     ecx, ebp
+ mov     dword, ptr, [esp], edi
+ mov     dword, ptr, [esp, +, 8], ebx
+ xor     ecx, 31
+ bsr     eax, esi
+ mov     dword, ptr, [esp, +, 4], esi
+ xor     eax, 31
+ add     eax, 32
+ test    ebp, ebp
+ cmovne  eax, ecx
+ bsr     edx, ebx
+ mov     ecx, 63
+ cmovne  ecx, edx
+ bsr     edx, edi
+ xor     ecx, 31
+ xor     edx, 31
+ add     ecx, 32
+ test    edi, edi
+ mov     edi, esi
+ cmove   edx, ecx
+ mov     ecx, esi
+ mov     esi, dword, ptr, [esp]
+ add     edx, 64
+ or      ecx, ebp
+ cmovne  edx, eax
+ mov     eax, ebx
+ mov     ch, dl
+ and     ch, 127
+ mov     cl, ch
+ add     cl, -64
+ shld    esi, ebx, cl
+ shl     eax, cl
+ test    cl, 32
+ mov     cl, dl
+ mov     ebx, edi
+ cmove   eax, esi
+ mov     esi, ebp
+ shl     ebx, cl
+ shld    esi, edi, cl
+ test    dl, 32
+ mov     cl, ch
+ mov     edi, 0
+ cmove   ebx, esi
+ mov     esi, dword, ptr, [esp]
+ sub     cl, 64
+ neg     cl
+ shr     esi, cl
+ test    cl, 32
+ cmovne  esi, edi
+ mov     edi, dword, ptr, [esp, +, 44]
+ or      esi, ebx
+ mov     ebx, dword, ptr, [esp, +, 4]
+ cmp     ch, 64
+ cmovae  esi, eax
+ mov     eax, 1585446912
+ and     edi, -2147483648
+ test    ch, ch
+ cmove   esi, ebp
+ or      ebx, dword, ptr, [esp, +, 8]
+ or      ebp, dword, ptr, [esp]
+ shl     edx, 23
+ sub     eax, edx
+ shr     esi, 8
+ mov     edx, 0
+ or      ebp, ebx
+ cmove   eax, edx
+ add     eax, esi
+ or      eax, edi
+ add     esp, 12
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret

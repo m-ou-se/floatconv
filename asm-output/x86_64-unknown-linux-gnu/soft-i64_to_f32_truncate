@@ -1,0 +1,27 @@
+floatconv::soft::i64_to_f32_truncate:
+ mov     r8, rdi
+ shr     r8, 32
+ and     r8d, -2147483648
+ mov     rsi, rdi
+ neg     rsi
+ cmovl   rsi, rdi
+ test    rsi, rsi
+ je      <label>
+ bsr     rcx, rsi
+ xor     rcx, 63
+ jmp     <label>
+<label>:
+ mov     ecx, 64
+<label>:
+ mov     rdi, rsi
+ shl     rdi, cl
+ shr     rdi, 40
+ shl     ecx, 23
+ mov     edx, 1585446912
+ sub     edx, ecx
+ xor     eax, eax
+ test    rsi, rsi
+ cmovne  eax, edx
+ add     eax, edi
+ or      eax, r8d
+ ret

@@ -16,6 +16,12 @@ impl_soft!(u64_to_f32_round u64 f32);
 impl_soft!(i64_to_f32_round i64 f32);
 impl_soft!(u128_to_f32_round u128 f32);
 impl_soft!(i128_to_f32_round i128 f32);
+impl_soft!(u32_to_f32_truncate u32 f32);
+impl_soft!(i32_to_f32_truncate i32 f32);
+impl_soft!(u64_to_f32_truncate u64 f32);
+impl_soft!(i64_to_f32_truncate i64 f32);
+impl_soft!(u128_to_f32_truncate u128 f32);
+impl_soft!(i128_to_f32_truncate i128 f32);
 
 // 32-bit to f64 conversions
 

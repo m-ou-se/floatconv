@@ -1,0 +1,20 @@
+floatconv::fast::i32_to_f32_truncate:
+ mov     r1, r0
+ cmp     r0, #0
+ it      mi
+ rsbmi   r1, r0, #0
+ and     r0, r0, #-2147483648
+ cbz     r1, <label>
+ clz     r2, r1
+ lsls    r1, r2
+ lsrs    r1, r1, #8
+ sub.w   r1, r1, r2, lsl, #23
+ add.w   r1, r1, #1317011456
+ orrs    r0, r1
+ vmov    s0, r0
+ bx      lr
+<label>:
+ movs    r1, #0
+ orrs    r0, r1
+ vmov    s0, r0
+ bx      lr

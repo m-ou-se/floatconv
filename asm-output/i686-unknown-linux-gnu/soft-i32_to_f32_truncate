@@ -1,0 +1,22 @@
+floatconv::soft::i32_to_f32_truncate:
+ mov     ecx, dword, ptr, [esp, +, 4]
+ mov     edx, ecx
+ mov     eax, ecx
+ and     edx, -2147483648
+ neg     eax
+ cmovl   eax, ecx
+ test    eax, eax
+ je      <label>
+ bsr     ecx, eax
+ xor     ecx, 31
+ shl     eax, cl
+ shl     ecx, 23
+ shr     eax, 8
+ sub     eax, ecx
+ add     eax, 1317011456
+ or      eax, edx
+ ret
+<label>:
+ xor     eax, eax
+ or      eax, edx
+ ret

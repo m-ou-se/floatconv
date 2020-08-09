@@ -1,0 +1,52 @@
+floatconv::fast::u128_to_f32_truncate:
+ push.w  {r4, r5, r6, r7, r8, lr}
+ clz     r12, r2
+ clz     lr, r0
+ add.w   r12, r12, #32
+ cmp     r3, #0
+ it      ne
+ clzne   r12, r3
+ add.w   lr, lr, #32
+ cmp     r1, #0
+ it      ne
+ clzne   lr, r1
+ orrs.w  r4, r2, r3
+ it      eq
+ addeq.w r12, lr, #64
+ and     r4, r12, #127
+ rsb.w   r7, r4, #32
+ subs.w  r5, r4, #32
+ lsl.w   lr, r3, r4
+ lsr.w   r6, r2, r7
+ orr.w   r8, r6, lr
+ it      pl
+ lslpl.w r8, r2, r5
+ cmp     r7, #0
+ sub.w   r7, r4, #64
+ rsb.w   r5, r4, #64
+ lsl.w   lr, r1, r7
+ rsb.w   r7, r4, #96
+ lsr.w   r5, r1, r5
+ orr.w   r1, r1, r3
+ lsr.w   r7, r0, r7
+ it      pl
+ movpl   r5, #0
+ orr.w   r7, r7, lr
+ subs.w  r6, r4, #96
+ it      pl
+ lslpl.w r7, r0, r6
+ cmp     r4, #64
+ it      lo
+ orrlo.w r7, r8, r5
+ cmp     r4, #0
+ it      eq
+ moveq   r7, r3
+ lsrs    r6, r7, #8
+ sub.w   r6, r6, r12, lsl, #23
+ orrs    r0, r2
+ add.w   r6, r6, #1585446912
+ orrs    r0, r1
+ it      eq
+ lsreq   r6, r7, #8
+ vmov    s0, r6
+ pop.w   {r4, r5, r6, r7, r8, pc}

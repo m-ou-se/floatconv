@@ -1,0 +1,25 @@
+floatconv::soft::u128_to_f32_truncate:
+ bsr     rax, rdi
+ mov     edx, 127
+ cmovne  rdx, rax
+ xor     rdx, 63
+ add     rdx, 64
+ bsr     rcx, rsi
+ xor     rcx, 63
+ test    rsi, rsi
+ cmove   rcx, rdx
+ mov     rax, rsi
+ shld    rax, rdi, cl
+ mov     rdx, rdi
+ shl     rdx, cl
+ test    cl, 64
+ cmove   rdx, rax
+ shr     rdx, 40
+ shl     ecx, 23
+ mov     r8d, 1585446912
+ sub     r8d, ecx
+ xor     eax, eax
+ or      rdi, rsi
+ cmovne  eax, r8d
+ add     eax, edx
+ ret

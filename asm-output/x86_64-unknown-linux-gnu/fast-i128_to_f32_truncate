@@ -1,0 +1,37 @@
+floatconv::fast::i128_to_f32_truncate:
+ mov     r9, rsi
+ shr     r9, 32
+ and     r9d, -2147483648
+ xor     r8d, r8d
+ mov     rdx, rdi
+ neg     rdx
+ mov     eax, 0
+ sbb     rax, rsi
+ test    rsi, rsi
+ cmovns  rax, rsi
+ cmovns  rdx, rdi
+ bsr     rcx, rdx
+ mov     esi, 127
+ cmovne  rsi, rcx
+ xor     rsi, 63
+ add     rsi, 64
+ bsr     rcx, rax
+ xor     rcx, 63
+ test    rax, rax
+ cmove   rcx, rsi
+ mov     rsi, rax
+ shld    rsi, rdx, cl
+ mov     rdi, rdx
+ shl     rdi, cl
+ test    cl, 64
+ cmove   rdi, rsi
+ shr     rdi, 40
+ shl     ecx, 23
+ mov     esi, 1585446912
+ sub     esi, ecx
+ or      rdx, rax
+ cmove   esi, r8d
+ add     esi, edi
+ or      esi, r9d
+ movd    xmm0, esi
+ ret

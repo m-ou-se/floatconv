@@ -1,0 +1,21 @@
+floatconv::fast::u64_to_f32_truncate:
+ test    rdi, rdi
+ je      <label>
+ bsr     rcx, rdi
+ xor     rcx, 63
+ jmp     <label>
+<label>:
+ mov     ecx, 64
+<label>:
+ mov     rax, rdi
+ shl     rax, cl
+ shr     rax, 40
+ shl     ecx, 23
+ mov     edx, 1585446912
+ sub     edx, ecx
+ xor     ecx, ecx
+ test    rdi, rdi
+ cmovne  ecx, edx
+ add     ecx, eax
+ movd    xmm0, ecx
+ ret

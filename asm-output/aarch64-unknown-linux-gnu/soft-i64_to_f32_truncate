@@ -1,0 +1,15 @@
+floatconv::soft::i64_to_f32_truncate:
+ cmp     x0, #0
+ cneg    x10, x0, mi
+ mov     w9, #1585446912
+ clz     x11, x10
+ cmp     x10, #0
+ lsl     x10, x10, x11
+ sub     w9, w9, w11, lsl, #23
+ lsr     x8, x0, #32
+ lsr     x10, x10, #40
+ csel    w9, wzr, w9, eq
+ and     w8, w8, #0x80000000
+ add     w9, w9, w10
+ orr     w0, w9, w8
+ ret

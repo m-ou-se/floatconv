@@ -1,0 +1,13 @@
+floatconv::fast::u32_to_f32_truncate:
+ cmp     r0, #0
+ itt     eq
+ vldreq  s0, <label>
+ bxeq    lr
+ clz     r1, r0
+ lsls    r0, r1
+ lsrs    r0, r0, #8
+ sub.w   r0, r0, r1, lsl, #23
+ add.w   r0, r0, #1317011456
+ vmov    s0, r0
+ bx      lr
+<label>:

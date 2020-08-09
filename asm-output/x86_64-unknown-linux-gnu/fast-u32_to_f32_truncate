@@ -1,0 +1,15 @@
+floatconv::fast::u32_to_f32_truncate:
+ test    edi, edi
+ je      <label>
+ bsr     ecx, edi
+ xor     ecx, 31
+ shl     edi, cl
+ shr     edi, 8
+ shl     ecx, 23
+ sub     edi, ecx
+ add     edi, 1317011456
+ movd    xmm0, edi
+ ret
+<label>:
+ xorps   xmm0, xmm0
+ ret

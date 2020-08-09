@@ -1,0 +1,13 @@
+floatconv::fast::u32_to_f32_truncate:
+ cbz     w0, <label>
+ clz     w8, w0
+ lsl     w9, w0, w8
+ lsr     w9, w9, #8
+ sub     w8, w9, w8, lsl, #23
+ mov     w9, #1317011456
+ add     w8, w8, w9
+ fmov    s0, w8
+ ret
+<label>:
+ fmov    s0, wzr
+ ret

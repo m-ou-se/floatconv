@@ -1,0 +1,23 @@
+floatconv::fast::i32_to_f32_truncate:
+ mov     eax, edi
+ and     eax, -2147483648
+ mov     edx, edi
+ neg     edx
+ cmovl   edx, edi
+ test    edx, edx
+ je      <label>
+ bsr     ecx, edx
+ xor     ecx, 31
+ shl     edx, cl
+ shr     edx, 8
+ shl     ecx, 23
+ sub     edx, ecx
+ add     edx, 1317011456
+ or      edx, eax
+ movd    xmm0, edx
+ ret
+<label>:
+ xor     edx, edx
+ or      edx, eax
+ movd    xmm0, edx
+ ret

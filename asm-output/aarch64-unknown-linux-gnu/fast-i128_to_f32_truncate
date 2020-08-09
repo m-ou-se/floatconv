@@ -1,0 +1,34 @@
+floatconv::fast::i128_to_f32_truncate:
+ negs    x9, x0
+ ngcs    x11, x1
+ cmp     x1, #0
+ csel    x9, x9, x0, lt
+ csel    x11, x11, x1, lt
+ clz     x12, x9
+ clz     x13, x11
+ cmp     x11, #0
+ add     x12, x12, #64
+ csel    x12, x13, x12, ne
+ mov     w10, #1585446912
+ and     x13, x12, #0x7f
+ orr     x14, x9, x11
+ tst     x12, #0x7f
+ lsl     x11, x11, x12
+ sub     w10, w10, w12, lsl, #23
+ neg     x12, x13
+ lsr     x12, x9, x12
+ lsl     x9, x9, x13
+ sub     x13, x13, #64
+ csel    x12, xzr, x12, eq
+ cmp     x13, #0
+ orr     x11, x12, x11
+ csel    x9, x9, x11, ge
+ cmp     x14, #0
+ lsr     x8, x1, #32
+ lsr     x9, x9, #40
+ csel    w10, wzr, w10, eq
+ and     w8, w8, #0x80000000
+ add     w9, w10, w9
+ orr     w8, w9, w8
+ fmov    s0, w8
+ ret

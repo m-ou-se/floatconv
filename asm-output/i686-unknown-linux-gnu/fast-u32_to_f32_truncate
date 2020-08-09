@@ -1,0 +1,23 @@
+floatconv::fast::u32_to_f32_truncate:
+ push    eax
+ mov     eax, dword, ptr, [esp, +, 8]
+ test    eax, eax
+ je      <label>
+ bsr     ecx, eax
+ xor     ecx, 31
+ shl     eax, cl
+ shl     ecx, 23
+ shr     eax, 8
+ sub     eax, ecx
+ add     eax, 1317011456
+ movd    xmm0, eax
+ movd    dword, ptr, [esp], xmm0
+ fld     dword, ptr, [esp]
+ pop     eax
+ ret
+<label>:
+ xorps   xmm0, xmm0
+ movss   dword, ptr, [esp], xmm0
+ fld     dword, ptr, [esp]
+ pop     eax
+ ret

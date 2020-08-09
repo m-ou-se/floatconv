@@ -1,0 +1,99 @@
+floatconv::fast::i128_to_f32_truncate:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 16
+ mov     ecx, dword, ptr, [esp, +, 36]
+ mov     eax, dword, ptr, [esp, +, 40]
+ mov     edi, 0
+ mov     esi, 0
+ mov     ebx, 0
+ mov     edx, ecx
+ neg     edx
+ sbb     edi, eax
+ mov     ebp, edx
+ mov     edx, dword, ptr, [esp, +, 48]
+ sbb     esi, dword, ptr, [esp, +, 44]
+ sbb     ebx, edx
+ test    edx, edx
+ cmovns  esi, dword, ptr, [esp, +, 44]
+ cmovns  edi, eax
+ cmovns  ebp, ecx
+ cmovns  ebx, edx
+ bsr     eax, ebx
+ mov     dword, ptr, [esp], ebp
+ mov     dword, ptr, [esp, +, 4], edi
+ xor     eax, 31
+ bsr     ecx, esi
+ mov     dword, ptr, [esp, +, 8], esi
+ xor     ecx, 31
+ add     ecx, 32
+ test    ebx, ebx
+ cmovne  ecx, eax
+ bsr     edx, ebp
+ mov     eax, 63
+ mov     ebp, edi
+ cmovne  eax, edx
+ bsr     edx, edi
+ xor     eax, 31
+ xor     edx, 31
+ add     eax, 32
+ test    edi, edi
+ mov     edi, esi
+ cmove   edx, eax
+ mov     eax, esi
+ add     edx, 64
+ or      eax, ebx
+ mov     eax, dword, ptr, [esp]
+ cmovne  edx, ecx
+ mov     ch, dl
+ and     ch, 127
+ mov     cl, ch
+ add     cl, -64
+ shld    ebp, eax, cl
+ shl     eax, cl
+ test    cl, 32
+ mov     cl, dl
+ cmove   eax, ebp
+ mov     ebp, ebx
+ shl     edi, cl
+ shld    ebp, esi, cl
+ test    dl, 32
+ mov     cl, ch
+ mov     esi, 0
+ cmove   edi, ebp
+ mov     ebp, dword, ptr, [esp, +, 4]
+ sub     cl, 64
+ neg     cl
+ shr     ebp, cl
+ test    cl, 32
+ cmovne  ebp, esi
+ mov     esi, dword, ptr, [esp, +, 48]
+ or      ebp, edi
+ mov     edi, dword, ptr, [esp, +, 8]
+ cmp     ch, 64
+ cmovae  ebp, eax
+ mov     eax, 1585446912
+ and     esi, -2147483648
+ test    ch, ch
+ cmove   ebp, ebx
+ or      edi, dword, ptr, [esp]
+ or      ebx, dword, ptr, [esp, +, 4]
+ shl     edx, 23
+ sub     eax, edx
+ shr     ebp, 8
+ mov     edx, 0
+ or      ebx, edi
+ cmove   eax, edx
+ add     eax, ebp
+ or      eax, esi
+ movd    xmm0, eax
+ movd    dword, ptr, [esp, +, 12], xmm0
+ fld     dword, ptr, [esp, +, 12]
+ add     esp, 16
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret
