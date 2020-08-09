@@ -32,9 +32,7 @@
 //!
 //! - There's no support for converting *to* integers yet.
 //! - Native conversions are only available on ARM (32- and 64-bit) and x86 (32- and 64-bit).
-//! - The `f32` conversions do not yet use any native floating point instructions.
 //! - The truncating functions do not (yet) use any native floating point instructions.
-//! - More benchmarking still needs to happen.
 
 #[cfg(test)]
 mod test;
