@@ -1,35 +1,16 @@
 floatconv::fast::u32_to_f32_round:
- push    edi
- push    esi
  push    eax
- mov     eax, dword, ptr, [esp, +, 16]
- test    eax, eax
- je      <label>
- bsr     ecx, eax
- xor     ecx, 31
- shl     eax, cl
- shl     ecx, 23
- mov     edx, eax
- mov     esi, eax
- shr     eax, 7
- shr     edx, 8
- shl     esi, 24
- mov     edi, edx
- sub     edx, ecx
- not     edi
- and     edi, eax
- and     edi, 1
- sub     esi, edi
- shr     esi, 31
- lea     eax, [esi, +, edx, +, 1317011456]
- movd    xmm0, eax
- jmp     <label>
-<label>:
- pxor    xmm0, xmm0
-<label>:
- movd    dword, ptr, [esp], xmm0
+ call    <label>$pb
+<label>$pb:
+ pop     eax
+ movss   xmm1, dword, ptr, [esp, +, 8]
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ movsd   xmm0, qword, ptr, [eax, +, <label>@GOTOFF]
+ orpd    xmm1, xmm0
+ subsd   xmm1, xmm0
+ xorps   xmm0, xmm0
+ cvtsd2ss xmm0, xmm1
+ movss   dword, ptr, [esp], xmm0
  fld     dword, ptr, [esp]
- add     esp, 4
- pop     esi
- pop     edi
+ pop     eax
  ret

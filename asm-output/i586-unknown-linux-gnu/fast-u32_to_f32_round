@@ -1,33 +1,14 @@
 floatconv::fast::u32_to_f32_round:
- push    edi
- push    esi
  push    eax
- mov     eax, dword, ptr, [esp, +, 16]
- fldz
+ mov     eax, dword, ptr, [esp, +, 8]
  test    eax, eax
- je      <label>
- fstp    st(0)
- bsr     ecx, eax
- xor     ecx, 31
- shl     eax, cl
- mov     edx, eax
- shr     edx, 8
- mov     esi, eax
- shl     esi, 24
- shr     eax, 7
- mov     edi, edx
- not     edi
- and     edi, eax
- and     edi, 1
- sub     esi, edi
- shr     esi, 31
- shl     ecx, 23
- sub     edx, ecx
- lea     eax, [esi, +, edx, +, 1317011456]
- mov     dword, ptr, [esp], eax
- fld     dword, ptr, [esp]
+ jns     <label>
+ mov     ecx, eax
+ shr     ecx
+ and     eax, 1
+ or      eax, ecx
 <label>:
- add     esp, 4
- pop     esi
- pop     edi
+ mov     dword, ptr, [esp], eax
+ fild    dword, ptr, [esp]
+ pop     eax
  ret

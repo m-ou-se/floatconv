@@ -1,33 +1,10 @@
 floatconv::fast::u64_to_f32_round:
- test    rdi, rdi
- je      <label>
- bsr     rcx, rdi
- xor     rcx, 63
- jmp     <label>
-<label>:
- mov     ecx, 64
-<label>:
  mov     rax, rdi
- shl     rax, cl
- mov     rdx, rax
- movzx   esi, ax
- shr     rax, 40
- shr     rdx, 8
- or      edx, esi
- mov     r8d, edx
- shr     r8d, 31
- mov     esi, eax
- not     esi
- and     esi, r8d
- sub     edx, esi
- shr     edx, 31
- shl     ecx, 23
- mov     esi, 1585446912
- sub     esi, ecx
- xor     ecx, ecx
+ shr     rax
+ mov     ecx, edi
+ and     ecx, 1
+ or      rcx, rax
  test    rdi, rdi
- cmovne  ecx, esi
- add     ecx, eax
- add     ecx, edx
- movd    xmm0, ecx
+ cmovns  rcx, rdi
+ cvtsi2ss xmm0, rcx
  ret

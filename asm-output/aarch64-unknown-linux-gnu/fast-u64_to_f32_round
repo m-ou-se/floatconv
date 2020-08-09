@@ -1,18 +1,3 @@
 floatconv::fast::u64_to_f32_round:
- clz     x8, x0
- mov     w9, #1585446912
- lsl     x10, x0, x8
- sub     w8, w9, w8, lsl, #23
- lsr     x9, x10, #40
- lsr     x11, x10, #8
- and     w10, w10, #0xffff
- cmp     x0, #0
- orr     w10, w11, w10
- mvn     w11, w9
- csel    w8, wzr, w8, eq
- and     w11, w11, w10, lsr, #31
- sub     w10, w10, w11
- add     w8, w8, w9
- add     w8, w8, w10, lsr, #31
- fmov    s0, w8
+ ucvtf   s0, x0
  ret
