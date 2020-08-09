@@ -5,7 +5,7 @@ floatconv::soft::i64_to_f64_truncate:
  neg     rsi
  cmovl   rsi, rdi
  test    rsi, rsi
- je      .LBB7_1
+ je      .LBB13_1
  bsr     rcx, rsi
  xor     rcx, 63
  shl     rsi, cl
@@ -16,7 +16,7 @@ floatconv::soft::i64_to_f64_truncate:
  add     rax, rsi
  or      rax, rdx
  ret
-.LBB7_1:
+.LBB13_1:
  xor     eax, eax
  or      rax, rdx
  ret

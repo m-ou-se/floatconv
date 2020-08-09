@@ -1,0 +1,35 @@
+floatconv::fast::u32_to_f32_round:
+ push    edi
+ push    esi
+ push    eax
+ mov     eax, dword, ptr, [esp, +, 16]
+ test    eax, eax
+ je      .LBB16_1
+ bsr     ecx, eax
+ xor     ecx, 31
+ shl     eax, cl
+ shl     ecx, 23
+ mov     edx, eax
+ mov     esi, eax
+ shr     eax, 7
+ shr     edx, 8
+ shl     esi, 24
+ mov     edi, edx
+ sub     edx, ecx
+ not     edi
+ and     edi, eax
+ and     edi, 1
+ sub     esi, edi
+ shr     esi, 31
+ lea     eax, [esi, +, edx, +, 1317011456]
+ movd    xmm0, eax
+ jmp     .LBB16_3
+.LBB16_1:
+ pxor    xmm0, xmm0
+.LBB16_3:
+ movd    dword, ptr, [esp], xmm0
+ fld     dword, ptr, [esp]
+ add     esp, 4
+ pop     esi
+ pop     edi
+ ret

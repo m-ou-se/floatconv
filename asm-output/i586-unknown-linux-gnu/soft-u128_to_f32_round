@@ -1,0 +1,185 @@
+floatconv::soft::u128_to_f32_round:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 16
+ mov     edi, dword, ptr, [esp, +, 44]
+ mov     ebx, dword, ptr, [esp, +, 48]
+ test    ebx, ebx
+ jne     .LBB2_1
+ bsr     edx, edi
+ xor     edx, 31
+ add     edx, 32
+ mov     ebp, dword, ptr, [esp, +, 40]
+ bsr     esi, dword, ptr, [esp, +, 36]
+ mov     ecx, 63
+ jne     .LBB2_4
+ jmp     .LBB2_5
+.LBB2_1:
+ bsr     edx, ebx
+ xor     edx, 31
+ mov     ebp, dword, ptr, [esp, +, 40]
+ bsr     esi, dword, ptr, [esp, +, 36]
+ mov     ecx, 63
+ je      .LBB2_5
+.LBB2_4:
+ mov     ecx, esi
+.LBB2_5:
+ test    ebp, ebp
+ jne     .LBB2_6
+ xor     ecx, 31
+ add     ecx, 32
+ mov     esi, edi
+ or      esi, ebx
+ je      .LBB2_9
+ jmp     .LBB2_10
+.LBB2_6:
+ bsr     ecx, ebp
+ xor     ecx, 31
+ mov     esi, edi
+ or      esi, ebx
+ jne     .LBB2_10
+.LBB2_9:
+ add     ecx, 64
+ mov     edx, ecx
+.LBB2_10:
+ mov     ebx, edi
+ mov     ecx, edx
+ shl     ebx, cl
+ mov     edi, dword, ptr, [esp, +, 36]
+ mov     esi, edi
+ shl     esi, cl
+ mov     eax, ebp
+ shld    eax, edi, cl
+ test    dl, 32
+ mov     dword, ptr, [esp, +, 8], ebx
+ jne     .LBB2_11
+ mov     dword, ptr, [esp], ebx
+ jmp     .LBB2_13
+.LBB2_11:
+ mov     eax, esi
+ mov     dword, ptr, [esp], 0
+ xor     esi, esi
+.LBB2_13:
+ mov     dword, ptr, [esp, +, 12], eax
+ mov     bh, dl
+ and     bh, 127
+ mov     ch, bh
+ sub     ch, 64
+ jb      .LBB2_15
+ xor     esi, esi
+.LBB2_15:
+ neg     ch
+ mov     edi, ebp
+ mov     cl, ch
+ shr     edi, cl
+ mov     eax, ebp
+ mov     ebp, dword, ptr, [esp, +, 36]
+ shrd    ebp, eax, cl
+ test    ch, 32
+ mov     eax, edi
+ jne     .LBB2_17
+ mov     eax, ebp
+.LBB2_17:
+ mov     dword, ptr, [esp, +, 4], eax
+ mov     bl, bh
+ add     bl, -64
+ mov     ebp, dword, ptr, [esp, +, 36]
+ mov     cl, bl
+ shl     ebp, cl
+ test    bl, 32
+ mov     eax, 0
+ jne     .LBB2_19
+ mov     eax, ebp
+.LBB2_19:
+ cmp     bh, 64
+ jb      .LBB2_20
+ mov     dword, ptr, [esp, +, 12], 0
+ mov     dword, ptr, [esp], eax
+ test    ch, 32
+ mov     eax, 0
+ je      .LBB2_23
+ jmp     .LBB2_24
+.LBB2_20:
+ mov     eax, dword, ptr, [esp]
+ or      eax, dword, ptr, [esp, +, 4]
+ mov     dword, ptr, [esp], eax
+ test    ch, 32
+ mov     eax, 0
+ jne     .LBB2_24
+.LBB2_23:
+ mov     eax, edi
+.LBB2_24:
+ mov     dword, ptr, [esp, +, 4], eax
+ mov     edi, dword, ptr, [esp, +, 48]
+ mov     ecx, edx
+ mov     eax, dword, ptr, [esp, +, 44]
+ shld    edi, eax, cl
+ test    dl, 32
+ jne     .LBB2_26
+ mov     dword, ptr, [esp, +, 8], edi
+.LBB2_26:
+ mov     edi, dword, ptr, [esp, +, 40]
+ mov     ecx, ebx
+ mov     eax, dword, ptr, [esp, +, 36]
+ shld    edi, eax, cl
+ test    bl, 32
+ je      .LBB2_27
+ cmp     bh, 64
+ jb      .LBB2_29
+.LBB2_30:
+ mov     ecx, dword, ptr, [esp, +, 44]
+ test    bh, bh
+ mov     ebx, dword, ptr, [esp, +, 48]
+ je      .LBB2_32
+.LBB2_31:
+ mov     ebx, ebp
+ mov     ecx, dword, ptr, [esp]
+.LBB2_32:
+ mov     ebp, ebx
+ shld    ebp, ecx, 24
+ or      esi, ecx
+ mov     edi, ebx
+ shr     edi, 8
+ xor     ecx, ecx
+ or      esi, dword, ptr, [esp, +, 12]
+ setne   cl
+ or      ecx, ebp
+ shr     ebx, 7
+ mov     esi, edi
+ not     esi
+ and     esi, ebx
+ and     esi, 1
+ sub     ecx, esi
+ mov     esi, dword, ptr, [esp, +, 40]
+ or      esi, dword, ptr, [esp, +, 48]
+ or      eax, dword, ptr, [esp, +, 44]
+ shr     ecx, 31
+ or      eax, esi
+ mov     eax, 0
+ je      .LBB2_34
+ shl     edx, 23
+ mov     eax, 1585446912
+ sub     eax, edx
+.LBB2_34:
+ add     eax, edi
+ add     eax, ecx
+ add     esp, 16
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret
+.LBB2_27:
+ mov     ebp, edi
+ cmp     bh, 64
+ jae     .LBB2_30
+.LBB2_29:
+ mov     ebp, dword, ptr, [esp, +, 8]
+ or      ebp, dword, ptr, [esp, +, 4]
+ mov     ecx, dword, ptr, [esp, +, 44]
+ test    bh, bh
+ mov     ebx, dword, ptr, [esp, +, 48]
+ jne     .LBB2_31
+ jmp     .LBB2_32

@@ -1,0 +1,57 @@
+floatconv::soft::i128_to_f32_round:
+ push    r14
+ push    rbx
+ mov     r9, rsi
+ shr     r9, 32
+ and     r9d, -2147483648
+ xor     r8d, r8d
+ mov     r11, rdi
+ neg     r11
+ mov     r10d, 0
+ sbb     r10, rsi
+ test    rsi, rsi
+ cmovns  r10, rsi
+ cmovns  r11, rdi
+ bsr     rax, r11
+ mov     esi, 127
+ cmovne  rsi, rax
+ xor     rsi, 63
+ add     rsi, 64
+ bsr     rcx, r10
+ xor     rcx, 63
+ test    r10, r10
+ cmove   rcx, rsi
+ mov     rax, r10
+ shld    rax, r11, cl
+ mov     rdx, r11
+ shl     rdx, cl
+ test    cl, 64
+ cmovne  rax, rdx
+ cmovne  rdx, r8
+ mov     r14, rax
+ shr     r14, 40
+ mov     rbx, rax
+ shr     rbx, 8
+ mov     esi, eax
+ xor     edi, edi
+ or      rsi, rdx
+ setne   dil
+ or      edi, ebx
+ shr     rax, 39
+ mov     edx, r14d
+ not     edx
+ and     edx, eax
+ and     edx, 1
+ sub     edi, edx
+ shr     edi, 31
+ shl     ecx, 23
+ mov     eax, 1585446912
+ sub     eax, ecx
+ or      r11, r10
+ cmove   eax, r8d
+ add     eax, r14d
+ add     eax, edi
+ or      eax, r9d
+ pop     rbx
+ pop     r14
+ ret

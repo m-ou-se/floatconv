@@ -1,0 +1,45 @@
+floatconv::soft::u128_to_f32_round:
+ push    rbx
+ bsr     rax, rdi
+ mov     edx, 127
+ cmovne  rdx, rax
+ xor     rdx, 63
+ add     rdx, 64
+ bsr     rcx, rsi
+ xor     rcx, 63
+ test    rsi, rsi
+ cmove   rcx, rdx
+ mov     rax, rsi
+ shld    rax, rdi, cl
+ mov     rdx, rdi
+ shl     rdx, cl
+ xor     r8d, r8d
+ test    cl, 64
+ cmovne  rax, rdx
+ mov     r10d, 0
+ cmove   r10, rdx
+ mov     r9, rax
+ shr     r9, 40
+ mov     r11, rax
+ shr     r11, 8
+ mov     ebx, eax
+ xor     edx, edx
+ or      rbx, r10
+ setne   dl
+ or      edx, r11d
+ shr     rax, 39
+ mov     ebx, r9d
+ not     ebx
+ and     ebx, eax
+ and     ebx, 1
+ sub     edx, ebx
+ shr     edx, 31
+ shl     ecx, 23
+ mov     eax, 1585446912
+ sub     eax, ecx
+ or      rdi, rsi
+ cmove   eax, r8d
+ add     eax, r9d
+ add     eax, edx
+ pop     rbx
+ ret

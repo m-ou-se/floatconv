@@ -6,7 +6,7 @@ floatconv::soft::u64_to_f64_round:
  mov     edx, dword, ptr, [esp, +, 20]
  mov     ecx, eax
  or      ecx, edx
- je      .LBB1_1
+ je      .LBB4_1
  bsr     ecx, eax
  bsr     esi, edx
  xor     ecx, 31
@@ -43,7 +43,7 @@ floatconv::soft::u64_to_f64_round:
  pop     edi
  pop     ebx
  ret
-.LBB1_1:
+.LBB4_1:
  xor     eax, eax
  xor     edx, edx
  pop     esi

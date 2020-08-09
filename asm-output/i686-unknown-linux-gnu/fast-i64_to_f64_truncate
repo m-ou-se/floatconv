@@ -16,7 +16,7 @@ floatconv::fast::i64_to_f64_truncate:
  xor     edx, ecx
  mov     ebx, edi
  or      ebx, edx
- je      .LBB15_1
+ je      .LBB27_1
  bsr     ecx, edi
  bsr     ebx, edx
  xor     ecx, 31
@@ -35,10 +35,10 @@ floatconv::fast::i64_to_f64_truncate:
  sub     edx, ecx
  mov     esi, edi
  add     edx, 1137704960
- jmp     .LBB15_3
-.LBB15_1:
+ jmp     .LBB27_3
+.LBB27_1:
  xor     edx, edx
-.LBB15_3:
+.LBB27_3:
  or      edx, eax
  movd    xmm1, esi
  movd    xmm0, edx

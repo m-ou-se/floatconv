@@ -1,0 +1,40 @@
+floatconv::fast::i64_to_f32_round:
+ mov     r8, rdi
+ shr     r8, 32
+ and     r8d, -2147483648
+ mov     r9, rdi
+ neg     r9
+ cmovl   r9, rdi
+ test    r9, r9
+ je      .LBB19_1
+ bsr     rcx, r9
+ xor     rcx, 63
+ jmp     .LBB19_3
+.LBB19_1:
+ mov     ecx, 64
+.LBB19_3:
+ mov     rsi, r9
+ shl     rsi, cl
+ mov     rdi, rsi
+ movzx   eax, si
+ shr     rsi, 40
+ shr     rdi, 8
+ or      edi, eax
+ mov     eax, edi
+ shr     eax, 31
+ mov     edx, esi
+ not     edx
+ and     edx, eax
+ sub     edi, edx
+ shr     edi, 31
+ shl     ecx, 23
+ mov     eax, 1585446912
+ sub     eax, ecx
+ xor     ecx, ecx
+ test    r9, r9
+ cmovne  ecx, eax
+ add     ecx, esi
+ add     ecx, edi
+ or      ecx, r8d
+ movd    xmm0, ecx
+ ret

@@ -1,6 +1,6 @@
 floatconv::fast::u64_to_f64_truncate:
  orrs    r2, r0, r1
- vldreq  d0, .LCPI14_0
+ vldreq  d0, .LCPI26_0
  bxeq    lr
  clz     r2, r0
  cmp     r1, #0
@@ -21,4 +21,4 @@ floatconv::fast::u64_to_f64_truncate:
  add     r1, r1, #1073741824
  vmov    d0, r0, r1
  bx      lr
-.LCPI14_0:
+.LCPI26_0:

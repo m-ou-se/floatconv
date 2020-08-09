@@ -1,6 +1,6 @@
 floatconv::fast::u128_to_f64_round:
  lsr     x8, x1, #40
- cbnz    x8, .LBB16_2
+ cbnz    x8, .LBB28_2
  mov     x8, #4841369599423283200
  mov     x9, #-4382002437431492608
  extr    x10, x1, x0, #52
@@ -16,7 +16,7 @@ floatconv::fast::u128_to_f64_round:
  fadd    d0, d0, d2
  fadd    d0, d1, d0
  ret
-.LBB16_2:
+.LBB28_2:
  extr    x8, x1, x0, #24
  mov     x9, #-4273916046374600704
  and     x10, x0, #0xffffff

@@ -1,0 +1,202 @@
+floatconv::soft::i128_to_f32_round:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 40
+ mov     eax, dword, ptr, [esp, +, 68]
+ mov     ecx, dword, ptr, [esp, +, 60]
+ mov     edx, dword, ptr, [esp, +, 64]
+ mov     esi, ecx
+ neg     esi
+ mov     dword, ptr, [esp], esi
+ mov     esi, 0
+ sbb     esi, edx
+ mov     dword, ptr, [esp, +, 4], esi
+ mov     esi, 0
+ sbb     esi, eax
+ mov     edi, dword, ptr, [esp, +, 72]
+ mov     ebp, 0
+ sbb     ebp, edi
+ test    edi, edi
+ js      .LBB10_2
+ mov     dword, ptr, [esp, +, 4], edx
+ mov     dword, ptr, [esp], ecx
+ mov     esi, eax
+ mov     ebp, edi
+.LBB10_2:
+ test    ebp, ebp
+ jne     .LBB10_3
+ bsr     edx, esi
+ xor     edx, 31
+ add     edx, 32
+ jmp     .LBB10_5
+.LBB10_3:
+ bsr     edx, ebp
+ xor     edx, 31
+.LBB10_5:
+ mov     eax, dword, ptr, [esp]
+ mov     dword, ptr, [esp], eax
+ bsr     ecx, eax
+ mov     eax, 63
+ je      .LBB10_7
+ mov     eax, ecx
+.LBB10_7:
+ mov     ecx, dword, ptr, [esp, +, 4]
+ test    ecx, ecx
+ jne     .LBB10_8
+ xor     eax, 31
+ add     eax, 32
+ mov     dword, ptr, [esp, +, 36], edi
+ mov     ecx, esi
+ or      ecx, ebp
+ je      .LBB10_11
+ jmp     .LBB10_12
+.LBB10_8:
+ bsr     eax, ecx
+ xor     eax, 31
+ mov     dword, ptr, [esp, +, 36], edi
+ mov     ecx, esi
+ or      ecx, ebp
+ jne     .LBB10_12
+.LBB10_11:
+ add     eax, 64
+ mov     edx, eax
+.LBB10_12:
+ mov     ebx, esi
+ mov     ecx, edx
+ shl     ebx, cl
+ mov     edi, dword, ptr, [esp, +, 4]
+ mov     eax, dword, ptr, [esp]
+ shld    edi, eax, cl
+ mov     dword, ptr, [esp, +, 24], edi
+ mov     edi, eax
+ shl     edi, cl
+ test    dl, 32
+ mov     dword, ptr, [esp, +, 28], esi
+ mov     dword, ptr, [esp, +, 32], ebx
+ jne     .LBB10_13
+ mov     dword, ptr, [esp, +, 12], ebx
+ jmp     .LBB10_15
+.LBB10_13:
+ mov     dword, ptr, [esp, +, 24], edi
+ mov     dword, ptr, [esp, +, 12], 0
+ xor     edi, edi
+.LBB10_15:
+ mov     dword, ptr, [esp, +, 16], ebp
+ mov     bh, dl
+ and     bh, 127
+ mov     ch, bh
+ sub     ch, 64
+ mov     esi, dword, ptr, [esp, +, 4]
+ jb      .LBB10_17
+ xor     edi, edi
+.LBB10_17:
+ neg     ch
+ mov     cl, ch
+ shrd    eax, esi, cl
+ mov     ebp, esi
+ shr     ebp, cl
+ test    ch, 32
+ mov     dword, ptr, [esp, +, 8], ebp
+ jne     .LBB10_19
+ mov     dword, ptr, [esp, +, 8], eax
+.LBB10_19:
+ mov     bl, bh
+ add     bl, -64
+ mov     eax, dword, ptr, [esp]
+ mov     cl, bl
+ shl     eax, cl
+ test    bl, 32
+ mov     dword, ptr, [esp, +, 20], 0
+ jne     .LBB10_21
+ mov     dword, ptr, [esp, +, 20], eax
+.LBB10_21:
+ cmp     bh, 64
+ jb      .LBB10_22
+ mov     dword, ptr, [esp, +, 24], 0
+ test    ch, 32
+ mov     ecx, 0
+ je      .LBB10_25
+ jmp     .LBB10_26
+.LBB10_22:
+ mov     dword, ptr, [esp, +, 4], esi
+ mov     esi, dword, ptr, [esp, +, 12]
+ or      esi, dword, ptr, [esp, +, 8]
+ mov     dword, ptr, [esp, +, 20], esi
+ mov     esi, dword, ptr, [esp, +, 4]
+ test    ch, 32
+ mov     ecx, 0
+ jne     .LBB10_26
+.LBB10_25:
+ mov     ecx, ebp
+.LBB10_26:
+ mov     dword, ptr, [esp, +, 12], ecx
+ mov     ebp, dword, ptr, [esp, +, 16]
+ mov     ecx, edx
+ mov     dword, ptr, [esp, +, 8], edx
+ mov     edx, dword, ptr, [esp, +, 28]
+ shld    ebp, edx, cl
+ test    byte, ptr, [esp, +, 8], 32
+ jne     .LBB10_28
+ mov     dword, ptr, [esp, +, 32], ebp
+.LBB10_28:
+ mov     ebp, esi
+ mov     ecx, ebx
+ mov     edx, dword, ptr, [esp]
+ shld    ebp, edx, cl
+ test    bl, 32
+ jne     .LBB10_30
+ mov     eax, ebp
+.LBB10_30:
+ cmp     bh, 64
+ mov     ecx, dword, ptr, [esp, +, 32]
+ jae     .LBB10_32
+ or      ecx, dword, ptr, [esp, +, 12]
+ mov     eax, ecx
+.LBB10_32:
+ mov     ecx, dword, ptr, [esp, +, 16]
+ test    bh, bh
+ mov     ebx, ecx
+ mov     ecx, dword, ptr, [esp, +, 28]
+ je      .LBB10_34
+ mov     ebx, eax
+ mov     ecx, dword, ptr, [esp, +, 20]
+.LBB10_34:
+ mov     ebp, ebx
+ shld    ebp, ecx, 24
+ or      edi, ecx
+ and     dword, ptr, [esp, +, 36], -2147483648
+ mov     ecx, ebx
+ shr     ecx, 8
+ xor     edx, edx
+ or      edi, dword, ptr, [esp, +, 24]
+ setne   dl
+ or      edx, ebp
+ shr     ebx, 7
+ mov     edi, ecx
+ not     edi
+ and     edi, ebx
+ and     edi, 1
+ sub     edx, edi
+ mov     eax, dword, ptr, [esp]
+ or      eax, dword, ptr, [esp, +, 28]
+ or      esi, dword, ptr, [esp, +, 16]
+ shr     edx, 31
+ or      esi, eax
+ mov     eax, 0
+ je      .LBB10_36
+ mov     esi, dword, ptr, [esp, +, 8]
+ shl     esi, 23
+ mov     eax, 1585446912
+ sub     eax, esi
+.LBB10_36:
+ add     eax, ecx
+ add     eax, edx
+ or      eax, dword, ptr, [esp, +, 36]
+ add     esp, 40
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret

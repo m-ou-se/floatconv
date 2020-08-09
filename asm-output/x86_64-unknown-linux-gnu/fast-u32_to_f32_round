@@ -1,0 +1,26 @@
+floatconv::fast::u32_to_f32_round:
+ test    edi, edi
+ je      .LBB16_1
+ bsr     ecx, edi
+ xor     ecx, 31
+ shl     edi, cl
+ mov     eax, edi
+ shr     eax, 8
+ mov     edx, edi
+ shl     edx, 24
+ shr     edi, 7
+ mov     esi, eax
+ not     esi
+ and     esi, edi
+ and     esi, 1
+ sub     edx, esi
+ shr     edx, 31
+ shl     ecx, 23
+ sub     eax, ecx
+ add     eax, edx
+ add     eax, 1317011456
+ movd    xmm0, eax
+ ret
+.LBB16_1:
+ xorps   xmm0, xmm0
+ ret

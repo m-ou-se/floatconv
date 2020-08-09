@@ -1,5 +1,5 @@
 floatconv::soft::u32_to_f64:
- cbz     w0, .LBB0_2
+ cbz     w0, .LBB3_2
  clz     w8, w0
  mov     w9, w0
  add     w10, w8, #21
@@ -8,6 +8,6 @@ floatconv::soft::u32_to_f64:
  mov     x9, #4742290407621132288
  add     x0, x8, x9
  ret
-.LBB0_2:
+.LBB3_2:
  mov     x0, xzr
  ret

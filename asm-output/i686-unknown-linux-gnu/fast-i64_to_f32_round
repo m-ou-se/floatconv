@@ -1,0 +1,64 @@
+floatconv::fast::i64_to_f32_round:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 8
+ mov     edx, dword, ptr, [esp, +, 32]
+ mov     esi, dword, ptr, [esp, +, 28]
+ mov     ecx, edx
+ mov     eax, edx
+ sar     ecx, 31
+ and     eax, -2147483648
+ add     esi, ecx
+ mov     dword, ptr, [esp], eax
+ adc     edx, ecx
+ xor     esi, ecx
+ xor     edx, ecx
+ mov     ecx, 63
+ bsr     edi, edx
+ xor     edi, 31
+ bsr     ebx, esi
+ cmovne  ecx, ebx
+ mov     ebx, esi
+ xor     ecx, 31
+ add     ecx, 32
+ test    edx, edx
+ cmovne  ecx, edi
+ mov     edi, edx
+ xor     eax, eax
+ shld    edi, esi, cl
+ shl     ebx, cl
+ test    cl, 32
+ cmovne  edi, ebx
+ cmovne  ebx, eax
+ shl     ecx, 23
+ mov     ebp, edi
+ shld    edi, ebx, 24
+ movzx   ebx, bx
+ or      ebx, edi
+ shr     ebp, 8
+ mov     edi, ebx
+ mov     eax, ebp
+ shr     edi, 31
+ not     eax
+ and     eax, edi
+ mov     edi, 1585446912
+ sub     ebx, eax
+ sub     edi, ecx
+ shr     ebx, 31
+ or      esi, edx
+ mov     edx, 0
+ cmove   edi, edx
+ add     edi, ebp
+ add     edi, ebx
+ or      edi, dword, ptr, [esp]
+ movd    xmm0, edi
+ movd    dword, ptr, [esp, +, 4], xmm0
+ fld     dword, ptr, [esp, +, 4]
+ add     esp, 8
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret

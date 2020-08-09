@@ -1,0 +1,59 @@
+floatconv::fast::u64_to_f32_round:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ push    eax
+ mov     eax, dword, ptr, [esp, +, 24]
+ mov     ebp, dword, ptr, [esp, +, 28]
+ bsr     esi, eax
+ mov     ecx, 63
+ je      .LBB18_2
+ mov     ecx, esi
+.LBB18_2:
+ test    ebp, ebp
+ jne     .LBB18_3
+ xor     ecx, 31
+ add     ecx, 32
+ jmp     .LBB18_5
+.LBB18_3:
+ bsr     ecx, ebp
+ xor     ecx, 31
+.LBB18_5:
+ mov     ebx, eax
+ shl     ebx, cl
+ shld    ebp, eax, cl
+ xor     esi, esi
+ test    cl, 32
+ je      .LBB18_7
+ mov     ebp, ebx
+ xor     ebx, ebx
+.LBB18_7:
+ mov     edx, ebp
+ shr     edx, 8
+ shld    ebp, ebx, 24
+ movzx   ebx, bx
+ or      ebx, ebp
+ mov     ebp, ebx
+ shr     ebp, 31
+ mov     edi, edx
+ not     edi
+ and     edi, ebp
+ sub     ebx, edi
+ shr     ebx, 31
+ or      eax, dword, ptr, [esp, +, 28]
+ je      .LBB18_9
+ shl     ecx, 23
+ mov     esi, 1585446912
+ sub     esi, ecx
+.LBB18_9:
+ add     esi, edx
+ add     esi, ebx
+ mov     dword, ptr, [esp], esi
+ fld     dword, ptr, [esp]
+ add     esp, 4
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret

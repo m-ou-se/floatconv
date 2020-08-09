@@ -11,10 +11,10 @@ macro_rules! impl_native {
 }
 
 macro_rules! impl_soft {
-    ($name:tt $from:tt) => {
+    ($name:tt $from:tt $to:tt) => {
         /// Soft implementation.
-        pub fn $name(x: $from) -> f64 {
-            f64::from_bits(crate::soft::$name(x))
+        pub fn $name(x: $from) -> $to {
+            $to::from_bits(crate::soft::$name(x))
         }
     };
 }

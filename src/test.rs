@@ -16,10 +16,29 @@ fn test_u32() {
         u32::min_value() / 2,
         123123123,
         321312312,
+        // f32:
+        0b100000000000000000000000000000, // Exact match, no rounding
+        0b100000000000000000000000100010, // Round to closest (up)
+        0b100000000000000000000000010010, // Round to closest (down)
+        0b100000000000000000000001100, // Tie, round to even (up)
+        0b100000000000000000000000100, // Tie, round to even (down)
+        1u32 << 25,
+        1u32 << 24,
+        1u32 << 23,
+        1u32 << 22,
+        (1u32 << 25) - 1,
+        (1u32 << 24) - 1,
+        (1u32 << 23) - 1,
+        (1u32 << 22) - 1,
+        (1u32 << 25) + 1,
+        (1u32 << 24) + 1,
+        (1u32 << 23) + 1,
+        (1u32 << 22) + 1,
     ][..]
     {
         assert_eq!(soft::u32_to_f64(i), (i as f64).to_bits());
         assert_eq!(fast::u32_to_f64(i), i as f64);
+        assert_eq!(soft::u32_to_f32_round(i), (i as f32).to_bits());
     }
 }
 
@@ -33,12 +52,31 @@ fn test_u64() {
         1234,
         u64::max_value(), // Overflows the mantissa, should increment the exponent (which will be odd).
         u64::max_value() / 2, // Overflows the mantissa, should increment the exponent (which will be even).
+        1u64 << 63,
+        // f32:
+        0b10000000000000000000000000000000000000000000000, // Exact match, no rounding
+        0b10000000000000000000000010001000000000000000000, // Round to closest (up)
+        0b10000000000000000000000001001000000000000000000, // Round to closest (down)
+        0b10000000000000000000000110000000000000000000, // Tie, round to even (up)
+        0b10000000000000000000000010000000000000000000, // Tie, round to even (down)
+        1u64 << 25,
+        1u64 << 24,
+        1u64 << 23,
+        1u64 << 22,
+        (1u64 << 25) - 1,
+        (1u64 << 24) - 1,
+        (1u64 << 23) - 1,
+        (1u64 << 22) - 1,
+        (1u64 << 25) + 1,
+        (1u64 << 24) + 1,
+        (1u64 << 23) + 1,
+        (1u64 << 22) + 1,
+        // f64:
         0b10000000000000000000000000000000000000000000000000000000000, // Exact match, no rounding
         0b10000000000000000000000000000000000000000000000000000100010, // Round to closest (up)
         0b10000000000000000000000000000000000000000000000000000010010, // Round to closest (down)
         0b10000000000000000000000000000000000000000000000000001100, // Tie, round to even (up)
         0b10000000000000000000000000000000000000000000000000000100, // Tie, round to even (down)
-        1u64 << 63,
         1u64 << 54,
         1u64 << 53,
         1u64 << 52,
@@ -53,6 +91,7 @@ fn test_u64() {
         (1u64 << 51) + 1,
     ][..]
     {
+        assert_eq!(soft::u64_to_f32_round(i), (i as f32).to_bits());
         let f = i as f64;
         let t = if f as u64 > i || i == u64::max_value() {
             f64::from_bits(f.to_bits() - 1)

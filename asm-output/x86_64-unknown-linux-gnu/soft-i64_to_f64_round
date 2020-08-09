@@ -5,7 +5,7 @@ floatconv::soft::i64_to_f64_round:
  neg     rax
  cmovl   rax, rdi
  test    rax, rax
- je      .LBB6_1
+ je      .LBB12_1
  bsr     rcx, rax
  xor     rcx, 63
  shl     rax, cl
@@ -27,7 +27,7 @@ floatconv::soft::i64_to_f64_round:
  add     rax, rdx
  or      rax, r8
  ret
-.LBB6_1:
+.LBB12_1:
  xor     eax, eax
  or      rax, r8
  ret

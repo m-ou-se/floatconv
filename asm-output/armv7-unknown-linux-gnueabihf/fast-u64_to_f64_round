@@ -1,7 +1,7 @@
 floatconv::fast::u64_to_f64_round:
  push    {r4, lr}
  orrs    r2, r0, r1
- beq     .LBB12_2
+ beq     .LBB24_2
  clz     r2, r0
  cmp     r1, #0
  add     lr, r2, #32
@@ -30,7 +30,7 @@ floatconv::fast::u64_to_f64_round:
  adc     r1, r1, r3
  vmov    d0, r0, r1
  pop     {r4, pc}
-.LBB12_2:
- vldr    d0, .LCPI12_0
+.LBB24_2:
+ vldr    d0, .LCPI24_0
  pop     {r4, pc}
-.LCPI12_0:
+.LCPI24_0:

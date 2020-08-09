@@ -6,7 +6,7 @@ floatconv::fast::i128_to_f64_round:
  and     x8, x1, #0x8000000000000000
  lsr     x11, x9, #40
  csel    x10, x10, x0, lt
- cbnz    x11, .LBB17_2
+ cbnz    x11, .LBB29_2
  mov     x11, #4841369599423283200
  mov     x12, #-4382002437431492608
  extr    x9, x9, x10, #52
@@ -20,8 +20,8 @@ floatconv::fast::i128_to_f64_round:
  fadd    d1, d1, d0
  fmov    d0, x9
  fadd    d0, d0, d2
- b       .LBB17_3
-.LBB17_2:
+ b       .LBB29_3
+.LBB29_2:
  extr    x11, x9, x10, #24
  mov     x12, #-4273916046374600704
  and     x10, x10, #0xffffff
@@ -38,7 +38,7 @@ floatconv::fast::i128_to_f64_round:
  fadd    d0, d2, d0
  fmov    d2, x11
  fadd    d1, d2, d1
-.LBB17_3:
+.LBB29_3:
  fadd    d0, d1, d0
  fmov    x9, d0
  orr     x8, x8, x9

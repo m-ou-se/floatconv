@@ -1,5 +1,5 @@
 floatconv::fast::u64_to_f64_truncate:
- cbz     x0, .LBB14_2
+ cbz     x0, .LBB26_2
  clz     x8, x0
  lsl     x9, x0, x8
  lsr     x9, x9, #11
@@ -8,6 +8,6 @@ floatconv::fast::u64_to_f64_truncate:
  add     x8, x8, x9
  fmov    d0, x8
  ret
-.LBB14_2:
+.LBB26_2:
  fmov    d0, xzr
  ret

@@ -4,7 +4,7 @@ floatconv::soft::i32_to_f64:
  rsbmi   r2, r0, #0
  and     r12, r0, #-2147483648
  cmp     r2, #0
- beq     .LBB5_2
+ beq     .LBB11_2
  push    {r11, lr}
  clz     r3, r2
  rsb     r1, r3, #11
@@ -20,7 +20,7 @@ floatconv::soft::i32_to_f64:
  pop     {r11, lr}
  orr     r1, r2, r12
  bx      lr
-.LBB5_2:
+.LBB11_2:
  mov     r2, #0
  orr     r1, r2, r12
  mov     r0, #0

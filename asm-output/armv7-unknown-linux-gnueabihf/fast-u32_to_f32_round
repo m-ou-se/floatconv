@@ -1,0 +1,18 @@
+floatconv::fast::u32_to_f32_round:
+ cmp     r0, #0
+ vldreq  s0, .LCPI16_0
+ bxeq    lr
+ clz     r1, r0
+ lsl     r0, r0, r1
+ lsr     r2, r0, #7
+ bic     r2, r2, r0, lsr, #8
+ and     r2, r2, #1
+ rsb     r2, r2, r0, lsl, #24
+ lsr     r0, r0, #8
+ sub     r0, r0, r1, lsl, #23
+ add     r0, r0, r2, lsr, #31
+ add     r0, r0, #243269632
+ add     r0, r0, #1073741824
+ vmov    s0, r0
+ bx      lr
+.LCPI16_0:

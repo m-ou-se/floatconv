@@ -11,16 +11,16 @@ floatconv::fast::i128_to_f64_round:
  cmovns  rcx, rsi
  mov     rsi, rcx
  shr     rsi, 40
- jne     .LBB17_1
+ jne     .LBB29_1
  shld    rcx, rdx, 12
  and     rdi, rdx
  movq    xmm1, rdi
  movq    xmm0, rcx
  punpcklqdq xmm0, xmm1
- por     xmm0, xmmword, ptr, [rip, +, .LCPI17_2]
- addpd   xmm0, xmmword, ptr, [rip, +, .LCPI17_3]
- jmp     .LBB17_3
-.LBB17_1:
+ por     xmm0, xmmword, ptr, [rip, +, .LCPI29_2]
+ addpd   xmm0, xmmword, ptr, [rip, +, .LCPI29_3]
+ jmp     .LBB29_3
+.LBB29_1:
  mov     rsi, rcx
  shld    rsi, rdx, 40
  and     rsi, rdi
@@ -30,9 +30,9 @@ floatconv::fast::i128_to_f64_round:
  movq    xmm0, rdx
  movq    xmm1, rcx
  punpcklqdq xmm0, xmm1
- por     xmm0, xmmword, ptr, [rip, +, .LCPI17_0]
- addpd   xmm0, xmmword, ptr, [rip, +, .LCPI17_1]
-.LBB17_3:
+ por     xmm0, xmmword, ptr, [rip, +, .LCPI29_0]
+ addpd   xmm0, xmmword, ptr, [rip, +, .LCPI29_1]
+.LBB29_3:
  movapd  xmm1, xmm0
  unpckhpd xmm1, xmm0
  addsd   xmm1, xmm0

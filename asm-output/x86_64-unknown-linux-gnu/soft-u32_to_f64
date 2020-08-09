@@ -1,6 +1,6 @@
 floatconv::soft::u32_to_f64:
  test    edi, edi
- je      .LBB0_1
+ je      .LBB3_1
  bsr     eax, edi
  xor     eax, 31
  mov     edx, edi
@@ -11,6 +11,6 @@ floatconv::soft::u32_to_f64:
  movabs  rax, 4742290407621132288
  add     rax, rdx
  ret
-.LBB0_1:
+.LBB3_1:
  xor     eax, eax
  ret

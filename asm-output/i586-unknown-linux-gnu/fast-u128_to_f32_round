@@ -1,0 +1,186 @@
+floatconv::fast::u128_to_f32_round:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 20
+ mov     edi, dword, ptr, [esp, +, 40]
+ mov     esi, dword, ptr, [esp, +, 48]
+ mov     ebx, dword, ptr, [esp, +, 52]
+ test    ebx, ebx
+ jne     .LBB20_1
+ bsr     eax, esi
+ xor     eax, 31
+ add     eax, 32
+ mov     ebp, dword, ptr, [esp, +, 44]
+ bsr     edx, edi
+ mov     ecx, 63
+ jne     .LBB20_4
+ jmp     .LBB20_5
+.LBB20_1:
+ bsr     eax, ebx
+ xor     eax, 31
+ mov     ebp, dword, ptr, [esp, +, 44]
+ bsr     edx, edi
+ mov     ecx, 63
+ je      .LBB20_5
+.LBB20_4:
+ mov     ecx, edx
+.LBB20_5:
+ test    ebp, ebp
+ jne     .LBB20_6
+ xor     ecx, 31
+ add     ecx, 32
+ mov     edx, esi
+ or      edx, ebx
+ je      .LBB20_9
+ jmp     .LBB20_10
+.LBB20_6:
+ bsr     ecx, ebp
+ xor     ecx, 31
+ mov     edx, esi
+ or      edx, ebx
+ jne     .LBB20_10
+.LBB20_9:
+ add     ecx, 64
+ mov     eax, ecx
+.LBB20_10:
+ mov     ebx, esi
+ mov     ecx, eax
+ shl     ebx, cl
+ mov     esi, edi
+ shl     esi, cl
+ mov     edx, ebp
+ shld    edx, edi, cl
+ test    al, 32
+ jne     .LBB20_11
+ mov     dword, ptr, [esp, +, 8], edx
+ mov     dword, ptr, [esp], ebx
+ jmp     .LBB20_13
+.LBB20_11:
+ mov     dword, ptr, [esp, +, 8], esi
+ mov     dword, ptr, [esp], 0
+ xor     esi, esi
+.LBB20_13:
+ mov     dword, ptr, [esp, +, 12], ebx
+ mov     dh, al
+ and     dh, 127
+ mov     dl, dh
+ sub     dl, 64
+ jb      .LBB20_15
+ xor     esi, esi
+.LBB20_15:
+ neg     dl
+ mov     edi, ebp
+ mov     ecx, edx
+ shr     edi, cl
+ mov     ebx, dword, ptr, [esp, +, 40]
+ shrd    ebx, ebp, cl
+ test    dl, 32
+ mov     ecx, edi
+ jne     .LBB20_17
+ mov     ecx, ebx
+.LBB20_17:
+ mov     dword, ptr, [esp, +, 4], ecx
+ mov     ch, dh
+ add     ch, -64
+ mov     ebx, dword, ptr, [esp, +, 40]
+ mov     cl, ch
+ shl     ebx, cl
+ test    ch, 32
+ mov     ebp, 0
+ jne     .LBB20_19
+ mov     ebp, ebx
+.LBB20_19:
+ cmp     dh, 64
+ jb      .LBB20_20
+ mov     dword, ptr, [esp, +, 8], 0
+ mov     dword, ptr, [esp], ebp
+ test    dl, 32
+ mov     ebp, 0
+ je      .LBB20_23
+ jmp     .LBB20_24
+.LBB20_20:
+ mov     ebp, dword, ptr, [esp]
+ or      ebp, dword, ptr, [esp, +, 4]
+ mov     dword, ptr, [esp], ebp
+ test    dl, 32
+ mov     ebp, 0
+ jne     .LBB20_24
+.LBB20_23:
+ mov     ebp, edi
+.LBB20_24:
+ mov     dword, ptr, [esp, +, 4], ebp
+ mov     ebp, dword, ptr, [esp, +, 52]
+ mov     cl, al
+ mov     edi, dword, ptr, [esp, +, 48]
+ shld    ebp, edi, cl
+ test    al, 32
+ jne     .LBB20_26
+ mov     dword, ptr, [esp, +, 12], ebp
+.LBB20_26:
+ mov     ebp, dword, ptr, [esp, +, 44]
+ mov     cl, ch
+ mov     edi, dword, ptr, [esp, +, 40]
+ shld    ebp, edi, cl
+ test    ch, 32
+ je      .LBB20_27
+ cmp     dh, 64
+ jb      .LBB20_29
+.LBB20_30:
+ mov     ebp, dword, ptr, [esp, +, 52]
+ test    dh, dh
+ mov     ecx, dword, ptr, [esp, +, 48]
+ je      .LBB20_32
+.LBB20_31:
+ mov     ebp, ebx
+ mov     ecx, dword, ptr, [esp]
+.LBB20_32:
+ mov     ebx, ebp
+ shld    ebx, ecx, 24
+ or      esi, ecx
+ mov     edx, ebp
+ shr     edx, 8
+ xor     ecx, ecx
+ or      esi, dword, ptr, [esp, +, 8]
+ setne   cl
+ or      ecx, ebx
+ shr     ebp, 7
+ mov     esi, edx
+ not     esi
+ and     esi, ebp
+ and     esi, 1
+ sub     ecx, esi
+ mov     esi, dword, ptr, [esp, +, 44]
+ or      esi, dword, ptr, [esp, +, 52]
+ or      edi, dword, ptr, [esp, +, 48]
+ shr     ecx, 31
+ or      edi, esi
+ mov     esi, 0
+ je      .LBB20_34
+ shl     eax, 23
+ mov     esi, 1585446912
+ sub     esi, eax
+.LBB20_34:
+ add     esi, edx
+ add     esi, ecx
+ mov     dword, ptr, [esp, +, 16], esi
+ fld     dword, ptr, [esp, +, 16]
+ add     esp, 20
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret
+.LBB20_27:
+ mov     ebx, ebp
+ cmp     dh, 64
+ jae     .LBB20_30
+.LBB20_29:
+ mov     ebx, dword, ptr, [esp, +, 12]
+ or      ebx, dword, ptr, [esp, +, 4]
+ mov     ebp, dword, ptr, [esp, +, 52]
+ test    dh, dh
+ mov     ecx, dword, ptr, [esp, +, 48]
+ jne     .LBB20_31
+ jmp     .LBB20_32

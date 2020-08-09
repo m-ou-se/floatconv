@@ -1,0 +1,43 @@
+floatconv::fast::i32_to_f32_round:
+ push    ebx
+ push    edi
+ push    esi
+ push    eax
+ mov     ecx, dword, ptr, [esp, +, 20]
+ mov     eax, ecx
+ mov     edx, ecx
+ and     eax, -2147483648
+ neg     edx
+ cmovl   edx, ecx
+ test    edx, edx
+ je      .LBB17_1
+ bsr     ecx, edx
+ xor     ecx, 31
+ shl     edx, cl
+ shl     ecx, 23
+ mov     esi, edx
+ mov     edi, edx
+ shr     edx, 7
+ shr     esi, 8
+ shl     edi, 24
+ mov     ebx, esi
+ sub     esi, ecx
+ not     ebx
+ and     ebx, edx
+ and     ebx, 1
+ sub     edi, ebx
+ shr     edi, 31
+ lea     ecx, [edi, +, esi, +, 1317011456]
+ jmp     .LBB17_3
+.LBB17_1:
+ xor     ecx, ecx
+.LBB17_3:
+ or      ecx, eax
+ movd    xmm0, ecx
+ movd    dword, ptr, [esp], xmm0
+ fld     dword, ptr, [esp]
+ add     esp, 4
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret
