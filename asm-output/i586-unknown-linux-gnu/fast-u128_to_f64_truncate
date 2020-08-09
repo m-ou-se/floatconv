@@ -7,40 +7,40 @@ floatconv::fast::u128_to_f64_truncate:
  mov     ebx, dword, ptr, [esp, +, 56]
  mov     esi, dword, ptr, [esp, +, 60]
  test    esi, esi
- jne     .LBB18_1
+ jne     <label>
  bsr     eax, ebx
  xor     eax, 31
  add     eax, 32
- jmp     .LBB18_3
-.LBB18_1:
+ jmp     <label>
+<label>:
  bsr     eax, esi
  xor     eax, 31
-.LBB18_3:
+<label>:
  mov     dword, ptr, [esp, +, 4], eax
  mov     edi, dword, ptr, [esp, +, 52]
  bsr     edx, dword, ptr, [esp, +, 48]
  mov     ecx, 63
- je      .LBB18_5
+ je      <label>
  mov     ecx, edx
-.LBB18_5:
+<label>:
  test    edi, edi
- jne     .LBB18_6
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
  mov     edx, ebx
  or      edx, esi
- je      .LBB18_9
- jmp     .LBB18_10
-.LBB18_6:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     ecx, edi
  xor     ecx, 31
  mov     edx, ebx
  or      edx, esi
- jne     .LBB18_10
-.LBB18_9:
+ jne     <label>
+<label>:
  add     ecx, 64
  mov     dword, ptr, [esp, +, 4], ecx
-.LBB18_10:
+<label>:
  mov     eax, dword, ptr, [esp, +, 4]
  and     al, 127
  mov     edx, eax
@@ -53,18 +53,18 @@ floatconv::fast::u128_to_f64_truncate:
  shrd    esi, edi, cl
  test    dl, 32
  mov     ecx, ebp
- jne     .LBB18_12
+ jne     <label>
  mov     ecx, esi
-.LBB18_12:
+<label>:
  mov     dword, ptr, [esp, +, 8], ecx
  mov     esi, ebx
  mov     ecx, dword, ptr, [esp, +, 4]
  shl     esi, cl
  test    cl, 32
  mov     ebx, 0
- jne     .LBB18_14
+ jne     <label>
  mov     ebx, esi
-.LBB18_14:
+<label>:
  mov     dh, al
  add     dh, -64
  mov     edi, dword, ptr, [esp, +, 48]
@@ -72,48 +72,48 @@ floatconv::fast::u128_to_f64_truncate:
  shl     edi, cl
  test    dh, 32
  mov     ecx, 0
- je      .LBB18_15
+ je      <label>
  cmp     al, 64
- jb      .LBB18_17
-.LBB18_18:
+ jb      <label>
+<label>:
  mov     dword, ptr, [esp, +, 8], ecx
  test    dl, 32
  mov     ecx, 0
- jne     .LBB18_20
-.LBB18_19:
+ jne     <label>
+<label>:
  mov     ecx, ebp
-.LBB18_20:
+<label>:
  mov     dword, ptr, [esp, +, 12], ecx
  mov     ebx, dword, ptr, [esp, +, 60]
  mov     ecx, dword, ptr, [esp, +, 4]
  mov     ebp, dword, ptr, [esp, +, 56]
  shld    ebx, ebp, cl
  test    cl, 32
- jne     .LBB18_22
+ jne     <label>
  mov     esi, ebx
-.LBB18_22:
+<label>:
  mov     ebx, dword, ptr, [esp, +, 52]
  mov     cl, dh
  mov     ebp, dword, ptr, [esp, +, 48]
  shld    ebx, ebp, cl
  test    dh, 32
- jne     .LBB18_24
+ jne     <label>
  mov     edi, ebx
-.LBB18_24:
+<label>:
  cmp     al, 64
  mov     ebp, dword, ptr, [esp, +, 60]
- jae     .LBB18_26
+ jae     <label>
  or      esi, dword, ptr, [esp, +, 12]
  mov     edi, esi
-.LBB18_26:
+<label>:
  mov     ebx, dword, ptr, [esp, +, 56]
  test    al, al
  mov     esi, ebp
  mov     ecx, ebx
- je      .LBB18_28
+ je      <label>
  mov     esi, edi
  mov     ecx, dword, ptr, [esp, +, 8]
-.LBB18_28:
+<label>:
  mov     edx, esi
  shr     edx, 11
  shrd    ecx, esi, 11
@@ -123,12 +123,12 @@ floatconv::fast::u128_to_f64_truncate:
  or      esi, ebx
  or      esi, eax
  mov     esi, 0
- je      .LBB18_30
+ je      <label>
  mov     eax, dword, ptr, [esp, +, 4]
  shl     eax, 20
  mov     esi, 1204813824
  sub     esi, eax
-.LBB18_30:
+<label>:
  add     esi, edx
  mov     dword, ptr, [esp, +, 16], ecx
  mov     dword, ptr, [esp, +, 20], esi
@@ -139,15 +139,15 @@ floatconv::fast::u128_to_f64_truncate:
  pop     ebx
  pop     ebp
  ret
-.LBB18_15:
+<label>:
  mov     ecx, edi
  cmp     al, 64
- jae     .LBB18_18
-.LBB18_17:
+ jae     <label>
+<label>:
  or      ebx, dword, ptr, [esp, +, 8]
  mov     ecx, ebx
  mov     dword, ptr, [esp, +, 8], ecx
  test    dl, 32
  mov     ecx, 0
- je      .LBB18_19
- jmp     .LBB18_20
+ je      <label>
+ jmp     <label>

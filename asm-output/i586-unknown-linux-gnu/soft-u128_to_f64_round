@@ -8,43 +8,43 @@ floatconv::soft::u128_to_f64_round:
  mov     edx, dword, ptr, [esp, +, 44]
  mov     edi, dword, ptr, [esp, +, 48]
  test    edi, edi
- jne     .LBB3_1
+ jne     <label>
  bsr     ebx, edx
  xor     ebx, 31
  add     ebx, 32
  mov     ebp, dword, ptr, [esp, +, 40]
  bsr     ecx, esi
  mov     eax, 63
- jne     .LBB3_4
- jmp     .LBB3_5
-.LBB3_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  bsr     ebx, edi
  xor     ebx, 31
  mov     ebp, dword, ptr, [esp, +, 40]
  bsr     ecx, esi
  mov     eax, 63
- je      .LBB3_5
-.LBB3_4:
+ je      <label>
+<label>:
  mov     eax, ecx
-.LBB3_5:
+<label>:
  test    ebp, ebp
- jne     .LBB3_6
+ jne     <label>
  xor     eax, 31
  add     eax, 32
  mov     ecx, edx
  or      ecx, edi
- je      .LBB3_9
- jmp     .LBB3_10
-.LBB3_6:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     eax, ebp
  xor     eax, 31
  mov     ecx, edx
  or      ecx, edi
- jne     .LBB3_10
-.LBB3_9:
+ jne     <label>
+<label>:
  add     eax, 64
  mov     ebx, eax
-.LBB3_10:
+<label>:
  mov     eax, edx
  mov     ecx, ebx
  shl     eax, cl
@@ -54,21 +54,21 @@ floatconv::soft::u128_to_f64_round:
  shld    edi, esi, cl
  test    bl, 32
  mov     dword, ptr, [esp, +, 4], eax
- jne     .LBB3_11
+ jne     <label>
  mov     dword, ptr, [esp], eax
- jmp     .LBB3_13
-.LBB3_11:
+ jmp     <label>
+<label>:
  mov     edi, edx
  mov     dword, ptr, [esp], 0
  xor     edx, edx
-.LBB3_13:
+<label>:
  mov     ch, bl
  and     ch, 127
  mov     al, ch
  sub     al, 64
- jb      .LBB3_15
+ jb      <label>
  xor     edx, edx
-.LBB3_15:
+<label>:
  mov     dword, ptr, [esp, +, 12], edx
  neg     al
  mov     edx, ebp
@@ -77,9 +77,9 @@ floatconv::soft::u128_to_f64_round:
  shrd    esi, edx, cl
  test    al, 32
  mov     edx, ebp
- jne     .LBB3_17
+ jne     <label>
  mov     edx, esi
-.LBB3_17:
+<label>:
  mov     dword, ptr, [esp, +, 8], edx
  mov     ah, ch
  add     ah, -64
@@ -88,57 +88,57 @@ floatconv::soft::u128_to_f64_round:
  shl     edx, cl
  test    ah, 32
  mov     esi, 0
- jne     .LBB3_19
+ jne     <label>
  mov     esi, edx
-.LBB3_19:
+<label>:
  cmp     ch, 64
- jb      .LBB3_20
+ jb      <label>
  xor     edi, edi
  mov     dword, ptr, [esp, +, 8], esi
  test    al, 32
  mov     dword, ptr, [esp], 0
- je      .LBB3_23
- jmp     .LBB3_24
-.LBB3_20:
+ je      <label>
+ jmp     <label>
+<label>:
  mov     esi, dword, ptr, [esp]
  or      esi, dword, ptr, [esp, +, 8]
  mov     dword, ptr, [esp, +, 8], esi
  test    al, 32
  mov     dword, ptr, [esp], 0
- jne     .LBB3_24
-.LBB3_23:
+ jne     <label>
+<label>:
  mov     dword, ptr, [esp], ebp
-.LBB3_24:
+<label>:
  mov     ebp, dword, ptr, [esp, +, 48]
  mov     cl, bl
  mov     esi, dword, ptr, [esp, +, 44]
  shld    ebp, esi, cl
  test    bl, 32
- jne     .LBB3_26
+ jne     <label>
  mov     dword, ptr, [esp, +, 4], ebp
-.LBB3_26:
+<label>:
  mov     ebp, dword, ptr, [esp, +, 40]
  mov     cl, ah
  mov     esi, dword, ptr, [esp, +, 36]
  shld    ebp, esi, cl
  test    ah, 32
- jne     .LBB3_28
+ jne     <label>
  mov     edx, ebp
-.LBB3_28:
+<label>:
  cmp     ch, 64
  mov     eax, dword, ptr, [esp, +, 4]
- jae     .LBB3_30
+ jae     <label>
  or      eax, dword, ptr, [esp]
  mov     edx, eax
-.LBB3_30:
+<label>:
  mov     esi, dword, ptr, [esp, +, 48]
  mov     dword, ptr, [esp, +, 4], ebx
  test    ch, ch
  mov     ecx, dword, ptr, [esp, +, 44]
- je      .LBB3_32
+ je      <label>
  mov     esi, edx
  mov     ecx, dword, ptr, [esp, +, 8]
-.LBB3_32:
+<label>:
  mov     ebx, esi
  shld    esi, ecx, 21
  shld    ecx, edi, 21
@@ -160,12 +160,12 @@ floatconv::soft::u128_to_f64_round:
  shr     ecx, 31
  or      eax, edi
  mov     edx, 0
- je      .LBB3_34
+ je      <label>
  mov     eax, dword, ptr, [esp, +, 4]
  shl     eax, 20
  mov     edx, 1204813824
  sub     edx, eax
-.LBB3_34:
+<label>:
  add     esi, ecx
  adc     edx, ebx
  mov     eax, esi

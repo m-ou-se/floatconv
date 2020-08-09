@@ -8,7 +8,7 @@ floatconv::fast::i64_to_f64_round:
  movpl   r3, r1
  orrs    r0, r2, r3
  mov     lr, #0
- beq     .LBB25_2
+ beq     <label>
  clz     r0, r2
  cmp     r3, #0
  add     r0, r0, #32
@@ -37,7 +37,7 @@ floatconv::fast::i64_to_f64_round:
  orr     r0, r2, r12
  vmov    d0, lr, r0
  pop     {r4, r5, r11, pc}
-.LBB25_2:
+<label>:
  mov     r2, #0
  orr     r0, r2, r12
  vmov    d0, lr, r0

@@ -1,6 +1,6 @@
 floatconv::fast::u64_to_f64_truncate:
  orrs.w  r2, r0, r1
- beq     .LBB14_2
+ beq     <label>
  clz     r2, r0
  cmp     r1, #0
  add.w   r2, r2, #32
@@ -24,6 +24,6 @@ floatconv::fast::u64_to_f64_truncate:
  add.w   r1, r1, #63963136
  vmov    d0, r0, r1
  bx      lr
-.LBB14_2:
+<label>:
  vmov.i32 d0, #0x0
  bx      lr

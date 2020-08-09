@@ -1,5 +1,5 @@
 floatconv::fast::u32_to_f32_round:
- cbz     w0, .LBB16_2
+ cbz     w0, <label>
  clz     w8, w0
  lsl     w9, w0, w8
  lsr     w10, w9, #8
@@ -14,6 +14,6 @@ floatconv::fast::u32_to_f32_round:
  add     w8, w8, w9
  fmov    s0, w8
  ret
-.LBB16_2:
+<label>:
  fmov    s0, wzr
  ret

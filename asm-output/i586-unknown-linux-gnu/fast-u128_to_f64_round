@@ -8,43 +8,43 @@ floatconv::fast::u128_to_f64_round:
  mov     edi, dword, ptr, [esp, +, 56]
  mov     ebx, dword, ptr, [esp, +, 60]
  test    ebx, ebx
- jne     .LBB16_1
+ jne     <label>
  bsr     eax, edi
  xor     eax, 31
  add     eax, 32
  mov     ebp, dword, ptr, [esp, +, 52]
  bsr     edx, esi
  mov     ecx, 63
- jne     .LBB16_4
- jmp     .LBB16_5
-.LBB16_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  bsr     eax, ebx
  xor     eax, 31
  mov     ebp, dword, ptr, [esp, +, 52]
  bsr     edx, esi
  mov     ecx, 63
- je      .LBB16_5
-.LBB16_4:
+ je      <label>
+<label>:
  mov     ecx, edx
-.LBB16_5:
+<label>:
  test    ebp, ebp
- jne     .LBB16_6
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
  mov     edx, edi
  or      edx, ebx
- je      .LBB16_9
- jmp     .LBB16_10
-.LBB16_6:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     ecx, ebp
  xor     ecx, 31
  mov     edx, edi
  or      edx, ebx
- jne     .LBB16_10
-.LBB16_9:
+ jne     <label>
+<label>:
  add     ecx, 64
  mov     eax, ecx
-.LBB16_10:
+<label>:
  mov     edx, edi
  mov     ecx, eax
  shl     edx, cl
@@ -52,22 +52,22 @@ floatconv::fast::u128_to_f64_round:
  shl     edi, cl
  shld    ebp, esi, cl
  test    al, 32
- jne     .LBB16_11
+ jne     <label>
  mov     dword, ptr, [esp], edx
- jmp     .LBB16_13
-.LBB16_11:
+ jmp     <label>
+<label>:
  mov     ebp, edi
  mov     dword, ptr, [esp], 0
  xor     edi, edi
-.LBB16_13:
+<label>:
  mov     dword, ptr, [esp, +, 8], edx
  mov     dh, al
  and     dh, 127
  mov     dl, dh
  sub     dl, 64
- jb      .LBB16_15
+ jb      <label>
  xor     edi, edi
-.LBB16_15:
+<label>:
  mov     dword, ptr, [esp, +, 12], edi
  neg     dl
  mov     edi, dword, ptr, [esp, +, 52]
@@ -77,9 +77,9 @@ floatconv::fast::u128_to_f64_round:
  shrd    esi, edi, cl
  test    dl, 32
  mov     ecx, ebx
- jne     .LBB16_17
+ jne     <label>
  mov     ecx, esi
-.LBB16_17:
+<label>:
  mov     dword, ptr, [esp, +, 4], ecx
  mov     ch, dh
  add     ch, -64
@@ -88,52 +88,52 @@ floatconv::fast::u128_to_f64_round:
  shl     edi, cl
  test    ch, 32
  mov     esi, 0
- jne     .LBB16_19
+ jne     <label>
  mov     esi, edi
-.LBB16_19:
+<label>:
  cmp     dh, 64
- jb      .LBB16_20
+ jb      <label>
  xor     ebp, ebp
  mov     dword, ptr, [esp, +, 4], esi
  test    dl, 32
  mov     dword, ptr, [esp], 0
- je      .LBB16_23
- jmp     .LBB16_24
-.LBB16_20:
+ je      <label>
+ jmp     <label>
+<label>:
  mov     esi, dword, ptr, [esp]
  or      esi, dword, ptr, [esp, +, 4]
  mov     dword, ptr, [esp, +, 4], esi
  test    dl, 32
  mov     dword, ptr, [esp], 0
- jne     .LBB16_24
-.LBB16_23:
+ jne     <label>
+<label>:
  mov     dword, ptr, [esp], ebx
-.LBB16_24:
+<label>:
  mov     ebx, dword, ptr, [esp, +, 60]
  mov     cl, al
  mov     esi, dword, ptr, [esp, +, 56]
  shld    ebx, esi, cl
  test    al, 32
- jne     .LBB16_26
+ jne     <label>
  mov     dword, ptr, [esp, +, 8], ebx
-.LBB16_26:
+<label>:
  mov     ebx, dword, ptr, [esp, +, 52]
  mov     cl, ch
  mov     esi, dword, ptr, [esp, +, 48]
  shld    ebx, esi, cl
  test    ch, 32
- je      .LBB16_27
+ je      <label>
  cmp     dh, 64
- jb      .LBB16_29
-.LBB16_30:
+ jb      <label>
+<label>:
  mov     esi, dword, ptr, [esp, +, 60]
  test    dh, dh
  mov     edx, dword, ptr, [esp, +, 56]
- je      .LBB16_32
-.LBB16_31:
+ je      <label>
+<label>:
  mov     esi, edi
  mov     edx, dword, ptr, [esp, +, 4]
-.LBB16_32:
+<label>:
  mov     edi, esi
  shld    esi, edx, 21
  shld    edx, ebp, 21
@@ -155,11 +155,11 @@ floatconv::fast::u128_to_f64_round:
  shr     edx, 31
  or      ecx, ebx
  mov     ecx, 0
- je      .LBB16_34
+ je      <label>
  shl     eax, 20
  mov     ecx, 1204813824
  sub     ecx, eax
-.LBB16_34:
+<label>:
  add     esi, edx
  mov     dword, ptr, [esp, +, 16], esi
  adc     ecx, edi
@@ -171,15 +171,15 @@ floatconv::fast::u128_to_f64_round:
  pop     ebx
  pop     ebp
  ret
-.LBB16_27:
+<label>:
  mov     edi, ebx
  cmp     dh, 64
- jae     .LBB16_30
-.LBB16_29:
+ jae     <label>
+<label>:
  mov     edi, dword, ptr, [esp, +, 8]
  or      edi, dword, ptr, [esp]
  mov     esi, dword, ptr, [esp, +, 60]
  test    dh, dh
  mov     edx, dword, ptr, [esp, +, 56]
- jne     .LBB16_31
- jmp     .LBB16_32
+ jne     <label>
+ jmp     <label>

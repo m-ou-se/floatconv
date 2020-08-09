@@ -1,6 +1,6 @@
 floatconv::soft::u32_to_f32_round:
  test    edi, edi
- je      .LBB0_1
+ je      <label>
  bsr     ecx, edi
  xor     ecx, 31
  shl     edi, cl
@@ -20,6 +20,6 @@ floatconv::soft::u32_to_f32_round:
  add     eax, edx
  add     eax, 1317011456
  ret
-.LBB0_1:
+<label>:
  xor     eax, eax
  ret

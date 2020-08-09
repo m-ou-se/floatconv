@@ -10,7 +10,7 @@ floatconv::fast::i32_to_f64:
  sar     ecx, 31
  add     edx, ecx
  xor     edx, ecx
- je      .LBB11_1
+ je      <label>
  bsr     ebx, edx
  xor     ebx, 31
  mov     ecx, ebx
@@ -19,17 +19,17 @@ floatconv::fast::i32_to_f64:
  shld    esi, edx, cl
  shl     edx, cl
  test    cl, 32
- je      .LBB11_4
+ je      <label>
  mov     esi, edx
  xor     edx, edx
-.LBB11_4:
+<label>:
  shl     ebx, 20
  sub     esi, ebx
  add     esi, 1104150528
- jmp     .LBB11_5
-.LBB11_1:
+ jmp     <label>
+<label>:
  xor     edx, edx
-.LBB11_5:
+<label>:
  or      esi, eax
  mov     dword, ptr, [esp], edx
  mov     dword, ptr, [esp, +, 4], esi

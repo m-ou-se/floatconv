@@ -7,43 +7,43 @@ floatconv::soft::u128_to_f32_round:
  mov     edi, dword, ptr, [esp, +, 44]
  mov     ebx, dword, ptr, [esp, +, 48]
  test    ebx, ebx
- jne     .LBB2_1
+ jne     <label>
  bsr     edx, edi
  xor     edx, 31
  add     edx, 32
  mov     ebp, dword, ptr, [esp, +, 40]
  bsr     esi, dword, ptr, [esp, +, 36]
  mov     ecx, 63
- jne     .LBB2_4
- jmp     .LBB2_5
-.LBB2_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  bsr     edx, ebx
  xor     edx, 31
  mov     ebp, dword, ptr, [esp, +, 40]
  bsr     esi, dword, ptr, [esp, +, 36]
  mov     ecx, 63
- je      .LBB2_5
-.LBB2_4:
+ je      <label>
+<label>:
  mov     ecx, esi
-.LBB2_5:
+<label>:
  test    ebp, ebp
- jne     .LBB2_6
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
  mov     esi, edi
  or      esi, ebx
- je      .LBB2_9
- jmp     .LBB2_10
-.LBB2_6:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     ecx, ebp
  xor     ecx, 31
  mov     esi, edi
  or      esi, ebx
- jne     .LBB2_10
-.LBB2_9:
+ jne     <label>
+<label>:
  add     ecx, 64
  mov     edx, ecx
-.LBB2_10:
+<label>:
  mov     ebx, edi
  mov     ecx, edx
  shl     ebx, cl
@@ -54,22 +54,22 @@ floatconv::soft::u128_to_f32_round:
  shld    eax, edi, cl
  test    dl, 32
  mov     dword, ptr, [esp, +, 8], ebx
- jne     .LBB2_11
+ jne     <label>
  mov     dword, ptr, [esp], ebx
- jmp     .LBB2_13
-.LBB2_11:
+ jmp     <label>
+<label>:
  mov     eax, esi
  mov     dword, ptr, [esp], 0
  xor     esi, esi
-.LBB2_13:
+<label>:
  mov     dword, ptr, [esp, +, 12], eax
  mov     bh, dl
  and     bh, 127
  mov     ch, bh
  sub     ch, 64
- jb      .LBB2_15
+ jb      <label>
  xor     esi, esi
-.LBB2_15:
+<label>:
  neg     ch
  mov     edi, ebp
  mov     cl, ch
@@ -79,9 +79,9 @@ floatconv::soft::u128_to_f32_round:
  shrd    ebp, eax, cl
  test    ch, 32
  mov     eax, edi
- jne     .LBB2_17
+ jne     <label>
  mov     eax, ebp
-.LBB2_17:
+<label>:
  mov     dword, ptr, [esp, +, 4], eax
  mov     bl, bh
  add     bl, -64
@@ -90,53 +90,53 @@ floatconv::soft::u128_to_f32_round:
  shl     ebp, cl
  test    bl, 32
  mov     eax, 0
- jne     .LBB2_19
+ jne     <label>
  mov     eax, ebp
-.LBB2_19:
+<label>:
  cmp     bh, 64
- jb      .LBB2_20
+ jb      <label>
  mov     dword, ptr, [esp, +, 12], 0
  mov     dword, ptr, [esp], eax
  test    ch, 32
  mov     eax, 0
- je      .LBB2_23
- jmp     .LBB2_24
-.LBB2_20:
+ je      <label>
+ jmp     <label>
+<label>:
  mov     eax, dword, ptr, [esp]
  or      eax, dword, ptr, [esp, +, 4]
  mov     dword, ptr, [esp], eax
  test    ch, 32
  mov     eax, 0
- jne     .LBB2_24
-.LBB2_23:
+ jne     <label>
+<label>:
  mov     eax, edi
-.LBB2_24:
+<label>:
  mov     dword, ptr, [esp, +, 4], eax
  mov     edi, dword, ptr, [esp, +, 48]
  mov     ecx, edx
  mov     eax, dword, ptr, [esp, +, 44]
  shld    edi, eax, cl
  test    dl, 32
- jne     .LBB2_26
+ jne     <label>
  mov     dword, ptr, [esp, +, 8], edi
-.LBB2_26:
+<label>:
  mov     edi, dword, ptr, [esp, +, 40]
  mov     ecx, ebx
  mov     eax, dword, ptr, [esp, +, 36]
  shld    edi, eax, cl
  test    bl, 32
- je      .LBB2_27
+ je      <label>
  cmp     bh, 64
- jb      .LBB2_29
-.LBB2_30:
+ jb      <label>
+<label>:
  mov     ecx, dword, ptr, [esp, +, 44]
  test    bh, bh
  mov     ebx, dword, ptr, [esp, +, 48]
- je      .LBB2_32
-.LBB2_31:
+ je      <label>
+<label>:
  mov     ebx, ebp
  mov     ecx, dword, ptr, [esp]
-.LBB2_32:
+<label>:
  mov     ebp, ebx
  shld    ebp, ecx, 24
  or      esi, ecx
@@ -158,11 +158,11 @@ floatconv::soft::u128_to_f32_round:
  shr     ecx, 31
  or      eax, esi
  mov     eax, 0
- je      .LBB2_34
+ je      <label>
  shl     edx, 23
  mov     eax, 1585446912
  sub     eax, edx
-.LBB2_34:
+<label>:
  add     eax, edi
  add     eax, ecx
  add     esp, 16
@@ -171,15 +171,15 @@ floatconv::soft::u128_to_f32_round:
  pop     ebx
  pop     ebp
  ret
-.LBB2_27:
+<label>:
  mov     ebp, edi
  cmp     bh, 64
- jae     .LBB2_30
-.LBB2_29:
+ jae     <label>
+<label>:
  mov     ebp, dword, ptr, [esp, +, 8]
  or      ebp, dword, ptr, [esp, +, 4]
  mov     ecx, dword, ptr, [esp, +, 44]
  test    bh, bh
  mov     ebx, dword, ptr, [esp, +, 48]
- jne     .LBB2_31
- jmp     .LBB2_32
+ jne     <label>
+ jmp     <label>

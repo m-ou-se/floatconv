@@ -3,7 +3,7 @@ floatconv::soft::i32_to_f64:
  cmp     w0, #0
  cneg    w9, w0, mi
  lsl     x8, x8, #63
- cbz     w9, .LBB11_2
+ cbz     w9, <label>
  clz     w10, w9
  mov     w9, w9
  add     w11, w10, #21
@@ -13,6 +13,6 @@ floatconv::soft::i32_to_f64:
  add     x9, x9, x10
  orr     x0, x9, x8
  ret
-.LBB11_2:
+<label>:
  mov     x0, x8
  ret

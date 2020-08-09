@@ -15,28 +15,28 @@ floatconv::soft::i64_to_f32_round:
  xor     esi, eax
  bsr     eax, esi
  mov     ecx, 63
- je      .LBB9_2
+ je      <label>
  mov     ecx, eax
-.LBB9_2:
+<label>:
  test    edi, edi
- jne     .LBB9_3
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
- jmp     .LBB9_5
-.LBB9_3:
+ jmp     <label>
+<label>:
  bsr     ecx, edi
  xor     ecx, 31
-.LBB9_5:
+<label>:
  mov     dword, ptr, [esp], edi
  shld    edi, esi, cl
  mov     ebp, esi
  shl     ebp, cl
  xor     eax, eax
  test    cl, 32
- je      .LBB9_7
+ je      <label>
  mov     edi, ebp
  xor     ebp, ebp
-.LBB9_7:
+<label>:
  and     edx, -2147483648
  mov     dword, ptr, [esp, +, 4], edx
  mov     edx, edi
@@ -52,11 +52,11 @@ floatconv::soft::i64_to_f32_round:
  sub     ebp, ebx
  shr     ebp, 31
  or      esi, dword, ptr, [esp]
- je      .LBB9_9
+ je      <label>
  shl     ecx, 23
  mov     eax, 1585446912
  sub     eax, ecx
-.LBB9_9:
+<label>:
  add     eax, edx
  add     eax, ebp
  or      eax, dword, ptr, [esp, +, 4]

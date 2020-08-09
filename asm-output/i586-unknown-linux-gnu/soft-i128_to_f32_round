@@ -19,50 +19,50 @@ floatconv::soft::i128_to_f32_round:
  mov     ebp, 0
  sbb     ebp, edi
  test    edi, edi
- js      .LBB10_2
+ js      <label>
  mov     dword, ptr, [esp, +, 4], edx
  mov     dword, ptr, [esp], ecx
  mov     esi, eax
  mov     ebp, edi
-.LBB10_2:
+<label>:
  test    ebp, ebp
- jne     .LBB10_3
+ jne     <label>
  bsr     edx, esi
  xor     edx, 31
  add     edx, 32
- jmp     .LBB10_5
-.LBB10_3:
+ jmp     <label>
+<label>:
  bsr     edx, ebp
  xor     edx, 31
-.LBB10_5:
+<label>:
  mov     eax, dword, ptr, [esp]
  mov     dword, ptr, [esp], eax
  bsr     ecx, eax
  mov     eax, 63
- je      .LBB10_7
+ je      <label>
  mov     eax, ecx
-.LBB10_7:
+<label>:
  mov     ecx, dword, ptr, [esp, +, 4]
  test    ecx, ecx
- jne     .LBB10_8
+ jne     <label>
  xor     eax, 31
  add     eax, 32
  mov     dword, ptr, [esp, +, 36], edi
  mov     ecx, esi
  or      ecx, ebp
- je      .LBB10_11
- jmp     .LBB10_12
-.LBB10_8:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     eax, ecx
  xor     eax, 31
  mov     dword, ptr, [esp, +, 36], edi
  mov     ecx, esi
  or      ecx, ebp
- jne     .LBB10_12
-.LBB10_11:
+ jne     <label>
+<label>:
  add     eax, 64
  mov     edx, eax
-.LBB10_12:
+<label>:
  mov     ebx, esi
  mov     ecx, edx
  shl     ebx, cl
@@ -75,23 +75,23 @@ floatconv::soft::i128_to_f32_round:
  test    dl, 32
  mov     dword, ptr, [esp, +, 28], esi
  mov     dword, ptr, [esp, +, 32], ebx
- jne     .LBB10_13
+ jne     <label>
  mov     dword, ptr, [esp, +, 12], ebx
- jmp     .LBB10_15
-.LBB10_13:
+ jmp     <label>
+<label>:
  mov     dword, ptr, [esp, +, 24], edi
  mov     dword, ptr, [esp, +, 12], 0
  xor     edi, edi
-.LBB10_15:
+<label>:
  mov     dword, ptr, [esp, +, 16], ebp
  mov     bh, dl
  and     bh, 127
  mov     ch, bh
  sub     ch, 64
  mov     esi, dword, ptr, [esp, +, 4]
- jb      .LBB10_17
+ jb      <label>
  xor     edi, edi
-.LBB10_17:
+<label>:
  neg     ch
  mov     cl, ch
  shrd    eax, esi, cl
@@ -99,9 +99,9 @@ floatconv::soft::i128_to_f32_round:
  shr     ebp, cl
  test    ch, 32
  mov     dword, ptr, [esp, +, 8], ebp
- jne     .LBB10_19
+ jne     <label>
  mov     dword, ptr, [esp, +, 8], eax
-.LBB10_19:
+<label>:
  mov     bl, bh
  add     bl, -64
  mov     eax, dword, ptr, [esp]
@@ -109,17 +109,17 @@ floatconv::soft::i128_to_f32_round:
  shl     eax, cl
  test    bl, 32
  mov     dword, ptr, [esp, +, 20], 0
- jne     .LBB10_21
+ jne     <label>
  mov     dword, ptr, [esp, +, 20], eax
-.LBB10_21:
+<label>:
  cmp     bh, 64
- jb      .LBB10_22
+ jb      <label>
  mov     dword, ptr, [esp, +, 24], 0
  test    ch, 32
  mov     ecx, 0
- je      .LBB10_25
- jmp     .LBB10_26
-.LBB10_22:
+ je      <label>
+ jmp     <label>
+<label>:
  mov     dword, ptr, [esp, +, 4], esi
  mov     esi, dword, ptr, [esp, +, 12]
  or      esi, dword, ptr, [esp, +, 8]
@@ -127,10 +127,10 @@ floatconv::soft::i128_to_f32_round:
  mov     esi, dword, ptr, [esp, +, 4]
  test    ch, 32
  mov     ecx, 0
- jne     .LBB10_26
-.LBB10_25:
+ jne     <label>
+<label>:
  mov     ecx, ebp
-.LBB10_26:
+<label>:
  mov     dword, ptr, [esp, +, 12], ecx
  mov     ebp, dword, ptr, [esp, +, 16]
  mov     ecx, edx
@@ -138,31 +138,31 @@ floatconv::soft::i128_to_f32_round:
  mov     edx, dword, ptr, [esp, +, 28]
  shld    ebp, edx, cl
  test    byte, ptr, [esp, +, 8], 32
- jne     .LBB10_28
+ jne     <label>
  mov     dword, ptr, [esp, +, 32], ebp
-.LBB10_28:
+<label>:
  mov     ebp, esi
  mov     ecx, ebx
  mov     edx, dword, ptr, [esp]
  shld    ebp, edx, cl
  test    bl, 32
- jne     .LBB10_30
+ jne     <label>
  mov     eax, ebp
-.LBB10_30:
+<label>:
  cmp     bh, 64
  mov     ecx, dword, ptr, [esp, +, 32]
- jae     .LBB10_32
+ jae     <label>
  or      ecx, dword, ptr, [esp, +, 12]
  mov     eax, ecx
-.LBB10_32:
+<label>:
  mov     ecx, dword, ptr, [esp, +, 16]
  test    bh, bh
  mov     ebx, ecx
  mov     ecx, dword, ptr, [esp, +, 28]
- je      .LBB10_34
+ je      <label>
  mov     ebx, eax
  mov     ecx, dword, ptr, [esp, +, 20]
-.LBB10_34:
+<label>:
  mov     ebp, ebx
  shld    ebp, ecx, 24
  or      edi, ecx
@@ -185,12 +185,12 @@ floatconv::soft::i128_to_f32_round:
  shr     edx, 31
  or      esi, eax
  mov     eax, 0
- je      .LBB10_36
+ je      <label>
  mov     esi, dword, ptr, [esp, +, 8]
  shl     esi, 23
  mov     eax, 1585446912
  sub     eax, esi
-.LBB10_36:
+<label>:
  add     eax, ecx
  add     eax, edx
  or      eax, dword, ptr, [esp, +, 36]

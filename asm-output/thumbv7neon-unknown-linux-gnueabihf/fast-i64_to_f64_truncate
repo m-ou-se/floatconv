@@ -5,7 +5,7 @@ floatconv::fast::i64_to_f64_truncate:
  adc.w   r0, r1, r1, asr, #31
  eor.w   r3, r0, r1, asr, #31
  orrs.w  r0, r2, r3
- beq     .LBB15_2
+ beq     <label>
  clz     r1, r2
  cmp     r3, #0
  add.w   r0, r1, #32
@@ -30,7 +30,7 @@ floatconv::fast::i64_to_f64_truncate:
  orr.w   r0, r2, r12
  vmov    d0, r1, r0
  bx      lr
-.LBB15_2:
+<label>:
  movs    r1, #0
  movs    r2, #0
  orr.w   r0, r2, r12

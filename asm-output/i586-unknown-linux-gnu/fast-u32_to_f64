@@ -4,7 +4,7 @@ floatconv::fast::u32_to_f64:
  mov     eax, dword, ptr, [esp, +, 16]
  fldz
  test    eax, eax
- je      .LBB10_4
+ je      <label>
  fstp    st(0)
  bsr     edx, eax
  xor     edx, 31
@@ -14,17 +14,17 @@ floatconv::fast::u32_to_f64:
  shld    esi, eax, cl
  shl     eax, cl
  test    cl, 32
- je      .LBB10_3
+ je      <label>
  mov     esi, eax
  xor     eax, eax
-.LBB10_3:
+<label>:
  shl     edx, 20
  sub     esi, edx
  mov     dword, ptr, [esp], eax
  add     esi, 1104150528
  mov     dword, ptr, [esp, +, 4], esi
  fld     qword, ptr, [esp]
-.LBB10_4:
+<label>:
  add     esp, 8
  pop     esi
  ret

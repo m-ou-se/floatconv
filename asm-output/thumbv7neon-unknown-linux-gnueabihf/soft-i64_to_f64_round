@@ -5,7 +5,7 @@ floatconv::soft::i64_to_f64_round:
  eor.w   r0, r0, r1, asr, #31
  eor.w   r2, r2, r1, asr, #31
  orrs.w  r3, r0, r2
- beq     .LBB6_2
+ beq     <label>
  push    {r7, lr}
  clz     r3, r0
  cmp     r2, #0
@@ -39,7 +39,7 @@ floatconv::soft::i64_to_f64_round:
  pop.w   {r7, lr}
  orr.w   r1, r2, r12
  bx      lr
-.LBB6_2:
+<label>:
  movs    r2, #0
  orr.w   r1, r2, r12
  movs    r0, #0

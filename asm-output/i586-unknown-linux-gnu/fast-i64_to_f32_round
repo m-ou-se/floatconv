@@ -15,18 +15,18 @@ floatconv::fast::i64_to_f32_round:
  xor     edx, ecx
  bsr     esi, edx
  mov     ecx, 63
- je      .LBB19_2
+ je      <label>
  mov     ecx, esi
-.LBB19_2:
+<label>:
  test    edi, edi
- jne     .LBB19_3
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
- jmp     .LBB19_5
-.LBB19_3:
+ jmp     <label>
+<label>:
  bsr     ecx, edi
  xor     ecx, 31
-.LBB19_5:
+<label>:
  mov     dword, ptr, [esp], edi
  mov     esi, edi
  shld    esi, edx, cl
@@ -34,10 +34,10 @@ floatconv::fast::i64_to_f32_round:
  shl     ebp, cl
  xor     edi, edi
  test    cl, 32
- je      .LBB19_7
+ je      <label>
  mov     esi, ebp
  xor     ebp, ebp
-.LBB19_7:
+<label>:
  and     eax, -2147483648
  mov     dword, ptr, [esp, +, 4], eax
  mov     eax, esi
@@ -53,11 +53,11 @@ floatconv::fast::i64_to_f32_round:
  sub     ebp, ebx
  shr     ebp, 31
  or      edx, dword, ptr, [esp]
- je      .LBB19_9
+ je      <label>
  shl     ecx, 23
  mov     edi, 1585446912
  sub     edi, ecx
-.LBB19_9:
+<label>:
  add     edi, eax
  add     edi, ebp
  or      edi, dword, ptr, [esp, +, 4]

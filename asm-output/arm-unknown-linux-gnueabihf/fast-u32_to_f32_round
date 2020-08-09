@@ -1,6 +1,6 @@
 floatconv::fast::u32_to_f32_round:
  cmp     r0, #0
- vldreq  s0, .LCPI16_0
+ vldreq  s0, <label>
  bxeq    lr
  clz     r1, r0
  lsl     r0, r0, r1
@@ -15,4 +15,4 @@ floatconv::fast::u32_to_f32_round:
  add     r0, r0, #1073741824
  vmov    s0, r0
  bx      lr
-.LCPI16_0:
+<label>:

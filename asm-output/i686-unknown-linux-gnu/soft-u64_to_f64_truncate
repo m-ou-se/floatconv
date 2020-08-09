@@ -4,7 +4,7 @@ floatconv::soft::u64_to_f64_truncate:
  mov     edx, dword, ptr, [esp, +, 12]
  mov     eax, esi
  or      eax, edx
- je      .LBB5_1
+ je      <label>
  bsr     ecx, esi
  bsr     eax, edx
  xor     ecx, 31
@@ -25,7 +25,7 @@ floatconv::soft::u64_to_f64_truncate:
  add     edx, 1137704960
  pop     esi
  ret
-.LBB5_1:
+<label>:
  xor     eax, eax
  xor     edx, edx
  pop     esi

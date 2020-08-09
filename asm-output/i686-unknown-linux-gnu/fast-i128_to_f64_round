@@ -6,13 +6,13 @@ floatconv::fast::i128_to_f64_round:
  sub     esp, 20
  mov     eax, dword, ptr, [esp, +, 52]
  mov     esi, dword, ptr, [esp, +, 40]
- call    .L29$pb
-.L29$pb:
+ call    <label>$pb
+<label>$pb:
  pop     ecx
  mov     ebx, 0
  mov     ebp, dword, ptr, [esp, +, 48]
  mov     edi, 0
- add     ecx, offset, _GLOBAL_OFFSET_TABLE_+(.Ltmp3-.L29$pb)
+ add     ecx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
  mov     edx, eax
  and     edx, -2147483648
  mov     dword, ptr, [esp, +, 4], edx
@@ -29,7 +29,7 @@ floatconv::fast::i128_to_f64_round:
  mov     ebp, 1048575
  mov     eax, -1
  cmp     edx, 256
- jae     .LBB29_1
+ jae     <label>
  and     ebp, ebx
  and     esi, eax
  shld    edx, edi, 12
@@ -41,10 +41,10 @@ floatconv::fast::i128_to_f64_round:
  movd    xmm0, edi
  punpckldq xmm0, xmm2
  punpcklqdq xmm0, xmm1
- por     xmm0, xmmword, ptr, [ecx, +, .LCPI29_2@GOTOFF]
- addpd   xmm0, xmmword, ptr, [ecx, +, .LCPI29_3@GOTOFF]
- jmp     .LBB29_3
-.LBB29_1:
+ por     xmm0, xmmword, ptr, [ecx, +, <label>@GOTOFF]
+ addpd   xmm0, xmmword, ptr, [ecx, +, <label>@GOTOFF]
+ jmp     <label>
+<label>:
  mov     eax, edx
  shr     edx, 12
  shld    eax, edi, 20
@@ -62,9 +62,9 @@ floatconv::fast::i128_to_f64_round:
  movd    xmm0, esi
  punpckldq xmm0, xmm1
  punpcklqdq xmm0, xmm2
- por     xmm0, xmmword, ptr, [ecx, +, .LCPI29_0@GOTOFF]
- addpd   xmm0, xmmword, ptr, [ecx, +, .LCPI29_1@GOTOFF]
-.LBB29_3:
+ por     xmm0, xmmword, ptr, [ecx, +, <label>@GOTOFF]
+ addpd   xmm0, xmmword, ptr, [ecx, +, <label>@GOTOFF]
+<label>:
  movapd  xmm1, xmm0
  unpckhpd xmm1, xmm0
  addsd   xmm1, xmm0

@@ -13,38 +13,38 @@ floatconv::fast::i64_to_f64_truncate:
  xor     esi, ecx
  mov     ecx, esi
  or      ecx, edx
- je      .LBB15_1
+ je      <label>
  test    edx, edx
- jne     .LBB15_3
+ jne     <label>
  bsr     ecx, esi
  xor     ecx, 31
  add     ecx, 32
  shld    edx, esi, cl
  shl     esi, cl
  test    cl, 32
- jne     .LBB15_6
- jmp     .LBB15_7
-.LBB15_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  xor     esi, esi
  xor     edx, edx
- jmp     .LBB15_8
-.LBB15_3:
+ jmp     <label>
+<label>:
  bsr     ecx, edx
  xor     ecx, 31
  shld    edx, esi, cl
  shl     esi, cl
  test    cl, 32
- je      .LBB15_7
-.LBB15_6:
+ je      <label>
+<label>:
  mov     edx, esi
  xor     esi, esi
-.LBB15_7:
+<label>:
  shrd    esi, edx, 11
  shr     edx, 11
  shl     ecx, 20
  sub     edx, ecx
  add     edx, 1137704960
-.LBB15_8:
+<label>:
  or      edx, eax
  mov     dword, ptr, [esp], esi
  mov     dword, ptr, [esp, +, 4], edx

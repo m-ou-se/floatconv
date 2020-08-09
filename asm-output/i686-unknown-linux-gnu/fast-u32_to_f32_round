@@ -4,7 +4,7 @@ floatconv::fast::u32_to_f32_round:
  push    eax
  mov     eax, dword, ptr, [esp, +, 16]
  test    eax, eax
- je      .LBB16_1
+ je      <label>
  bsr     ecx, eax
  xor     ecx, 31
  shl     eax, cl
@@ -23,10 +23,10 @@ floatconv::fast::u32_to_f32_round:
  shr     esi, 31
  lea     eax, [esi, +, edx, +, 1317011456]
  movd    xmm0, eax
- jmp     .LBB16_3
-.LBB16_1:
+ jmp     <label>
+<label>:
  pxor    xmm0, xmm0
-.LBB16_3:
+<label>:
  movd    dword, ptr, [esp], xmm0
  fld     dword, ptr, [esp]
  add     esp, 4

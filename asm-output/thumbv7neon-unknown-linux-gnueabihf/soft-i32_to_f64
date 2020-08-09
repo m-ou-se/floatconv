@@ -4,7 +4,7 @@ floatconv::soft::i32_to_f64:
  and     r12, r0, #-2147483648
  it      mi
  rsbmi   r2, r0, #0
- cbz     r2, .LBB5_2
+ cbz     r2, <label>
  clz     r0, r2
  rsb.w   r3, r0, #11
  subs.w  r1, r0, #11
@@ -21,7 +21,7 @@ floatconv::soft::i32_to_f64:
  it      pl
  movpl   r0, #0
  bx      lr
-.LBB5_2:
+<label>:
  movs    r3, #0
  orr.w   r1, r3, r12
  movs    r0, #0

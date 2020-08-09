@@ -10,7 +10,7 @@ floatconv::fast::i32_to_f32_round:
  sar     ecx, 31
  add     edx, ecx
  xor     edx, ecx
- je      .LBB17_1
+ je      <label>
  bsr     ecx, edx
  xor     ecx, 31
  shl     edx, cl
@@ -28,10 +28,10 @@ floatconv::fast::i32_to_f32_round:
  shl     ecx, 23
  sub     esi, ecx
  lea     ecx, [edi, +, esi, +, 1317011456]
- jmp     .LBB17_3
-.LBB17_1:
+ jmp     <label>
+<label>:
  xor     ecx, ecx
-.LBB17_3:
+<label>:
  or      ecx, eax
  mov     dword, ptr, [esp], ecx
  fld     dword, ptr, [esp]

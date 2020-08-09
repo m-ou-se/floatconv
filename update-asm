@@ -14,6 +14,7 @@ while read t; do
 			n=$(sed s/::/-/g <<<"$n")
 			cargo asm --no-color --target=$t "$f" > "$t/$n"
 			sed -i '/^_Z.*:$/Q' "$t/$n"
+			sed -i 's/\.L\w\+/<label>/g' "$t/$n"
 		fi
 	done <<<"$(cargo asm --target=$t)"
 done <../test-targets

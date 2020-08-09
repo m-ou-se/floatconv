@@ -3,32 +3,32 @@ floatconv::soft::u64_to_f64_truncate:
  mov     eax, dword, ptr, [esp, +, 4]
  mov     ecx, eax
  or      ecx, edx
- je      .LBB2_1
+ je      <label>
  test    edx, edx
- jne     .LBB2_3
+ jne     <label>
  bsr     ecx, eax
  xor     ecx, 31
  add     ecx, 32
  shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- jne     .LBB2_6
- jmp     .LBB2_7
-.LBB2_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  xor     eax, eax
  xor     edx, edx
  ret
-.LBB2_3:
+<label>:
  bsr     ecx, edx
  xor     ecx, 31
  shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- je      .LBB2_7
-.LBB2_6:
+ je      <label>
+<label>:
  mov     edx, eax
  xor     eax, eax
-.LBB2_7:
+<label>:
  shrd    eax, edx, 11
  shr     edx, 11
  shl     ecx, 20

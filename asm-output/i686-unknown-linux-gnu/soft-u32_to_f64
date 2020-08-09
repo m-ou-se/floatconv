@@ -3,7 +3,7 @@ floatconv::soft::u32_to_f64:
  push    esi
  mov     eax, dword, ptr, [esp, +, 12]
  test    eax, eax
- je      .LBB3_1
+ je      <label>
  bsr     ebx, eax
  xor     edx, edx
  xor     esi, esi
@@ -21,7 +21,7 @@ floatconv::soft::u32_to_f64:
  pop     esi
  pop     ebx
  ret
-.LBB3_1:
+<label>:
  xor     eax, eax
  xor     edx, edx
  pop     esi

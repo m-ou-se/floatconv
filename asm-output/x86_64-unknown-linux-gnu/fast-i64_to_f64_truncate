@@ -5,7 +5,7 @@ floatconv::fast::i64_to_f64_truncate:
  neg     rdx
  cmovl   rdx, rdi
  test    rdx, rdx
- je      .LBB27_1
+ je      <label>
  bsr     rcx, rdx
  xor     rcx, 63
  shl     rdx, cl
@@ -17,7 +17,7 @@ floatconv::fast::i64_to_f64_truncate:
  or      rcx, rax
  movq    xmm0, rcx
  ret
-.LBB27_1:
+<label>:
  xor     ecx, ecx
  or      rcx, rax
  movq    xmm0, rcx

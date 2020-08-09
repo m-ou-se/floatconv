@@ -15,32 +15,32 @@ floatconv::soft::i64_to_f64_round:
  xor     edi, eax
  mov     eax, edi
  or      eax, edx
- je      .LBB6_1
+ je      <label>
  test    edx, edx
- jne     .LBB6_3
+ jne     <label>
  bsr     ecx, edi
  xor     ecx, 31
  add     ecx, 32
  shld    edx, edi, cl
  shl     edi, cl
  test    cl, 32
- jne     .LBB6_6
- jmp     .LBB6_7
-.LBB6_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  xor     eax, eax
  xor     edx, edx
- jmp     .LBB6_8
-.LBB6_3:
+ jmp     <label>
+<label>:
  bsr     ecx, edx
  xor     ecx, 31
  shld    edx, edi, cl
  shl     edi, cl
  test    cl, 32
- je      .LBB6_7
-.LBB6_6:
+ je      <label>
+<label>:
  mov     edx, edi
  xor     edi, edi
-.LBB6_7:
+<label>:
  mov     ebx, edx
  shl     ebx, 21
  mov     ebp, edi
@@ -60,7 +60,7 @@ floatconv::soft::i64_to_f64_round:
  sub     edx, ecx
  add     eax, ebx
  adc     edx, 1137704960
-.LBB6_8:
+<label>:
  or      edx, esi
  pop     esi
  pop     edi

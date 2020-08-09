@@ -6,13 +6,13 @@ floatconv::fast::i64_to_f32_round:
  neg     r9
  cmovl   r9, rdi
  test    r9, r9
- je      .LBB19_1
+ je      <label>
  bsr     rcx, r9
  xor     rcx, 63
- jmp     .LBB19_3
-.LBB19_1:
+ jmp     <label>
+<label>:
  mov     ecx, 64
-.LBB19_3:
+<label>:
  mov     rsi, r9
  shl     rsi, cl
  mov     rdi, rsi

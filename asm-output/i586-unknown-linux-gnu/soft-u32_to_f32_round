@@ -3,7 +3,7 @@ floatconv::soft::u32_to_f32_round:
  push    esi
  mov     eax, dword, ptr, [esp, +, 12]
  test    eax, eax
- je      .LBB0_1
+ je      <label>
  bsr     ecx, eax
  xor     ecx, 31
  shl     eax, cl
@@ -24,7 +24,7 @@ floatconv::soft::u32_to_f32_round:
  pop     esi
  pop     edi
  ret
-.LBB0_1:
+<label>:
  xor     eax, eax
  pop     esi
  pop     edi

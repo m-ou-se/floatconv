@@ -5,7 +5,7 @@ floatconv::fast::i32_to_f32_round:
  neg     edx
  cmovl   edx, edi
  test    edx, edx
- je      .LBB17_1
+ je      <label>
  bsr     ecx, edx
  xor     ecx, 31
  shl     edx, cl
@@ -27,7 +27,7 @@ floatconv::fast::i32_to_f32_round:
  or      ecx, r8d
  movd    xmm0, ecx
  ret
-.LBB17_1:
+<label>:
  xor     ecx, ecx
  or      ecx, r8d
  movd    xmm0, ecx

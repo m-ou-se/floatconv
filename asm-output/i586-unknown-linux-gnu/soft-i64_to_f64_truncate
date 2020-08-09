@@ -12,34 +12,34 @@ floatconv::soft::i64_to_f64_truncate:
  xor     eax, ecx
  mov     ecx, eax
  or      ecx, edx
- je      .LBB7_1
+ je      <label>
  test    edx, edx
- jne     .LBB7_3
+ jne     <label>
  bsr     ecx, eax
  xor     ecx, 31
  add     ecx, 32
  shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- jne     .LBB7_6
- jmp     .LBB7_7
-.LBB7_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  xor     eax, eax
  xor     edx, edx
  or      edx, esi
  pop     esi
  ret
-.LBB7_3:
+<label>:
  bsr     ecx, edx
  xor     ecx, 31
  shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- je      .LBB7_7
-.LBB7_6:
+ je      <label>
+<label>:
  mov     edx, eax
  xor     eax, eax
-.LBB7_7:
+<label>:
  shrd    eax, edx, 11
  shr     edx, 11
  shl     ecx, 20

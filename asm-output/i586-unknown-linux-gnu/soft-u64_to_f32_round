@@ -7,27 +7,27 @@ floatconv::soft::u64_to_f32_round:
  mov     ebp, dword, ptr, [esp, +, 24]
  bsr     eax, edx
  mov     ecx, 63
- je      .LBB1_2
+ je      <label>
  mov     ecx, eax
-.LBB1_2:
+<label>:
  test    ebp, ebp
- jne     .LBB1_3
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
- jmp     .LBB1_5
-.LBB1_3:
+ jmp     <label>
+<label>:
  bsr     ecx, ebp
  xor     ecx, 31
-.LBB1_5:
+<label>:
  mov     ebx, edx
  shl     ebx, cl
  shld    ebp, edx, cl
  xor     eax, eax
  test    cl, 32
- je      .LBB1_7
+ je      <label>
  mov     ebp, ebx
  xor     ebx, ebx
-.LBB1_7:
+<label>:
  mov     esi, ebp
  shr     esi, 8
  shld    ebp, ebx, 24
@@ -41,11 +41,11 @@ floatconv::soft::u64_to_f32_round:
  sub     ebx, edi
  shr     ebx, 31
  or      edx, dword, ptr, [esp, +, 24]
- je      .LBB1_9
+ je      <label>
  shl     ecx, 23
  mov     eax, 1585446912
  sub     eax, ecx
-.LBB1_9:
+<label>:
  add     eax, esi
  add     eax, ebx
  pop     esi

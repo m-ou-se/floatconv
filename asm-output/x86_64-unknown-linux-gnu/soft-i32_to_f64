@@ -6,7 +6,7 @@ floatconv::soft::i32_to_f64:
  neg     eax
  cmovl   eax, edi
  test    eax, eax
- je      .LBB11_1
+ je      <label>
  bsr     esi, eax
  xor     esi, 31
  mov     edi, eax
@@ -18,7 +18,7 @@ floatconv::soft::i32_to_f64:
  add     rax, rdi
  or      rax, rdx
  ret
-.LBB11_1:
+<label>:
  xor     eax, eax
  or      rax, rdx
  ret

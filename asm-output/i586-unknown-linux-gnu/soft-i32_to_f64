@@ -9,7 +9,7 @@ floatconv::soft::i32_to_f64:
  sar     ecx, 31
  add     eax, ecx
  xor     eax, ecx
- je      .LBB5_1
+ je      <label>
  bsr     ebx, eax
  xor     ebx, 31
  mov     ecx, ebx
@@ -18,10 +18,10 @@ floatconv::soft::i32_to_f64:
  shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- je      .LBB5_4
+ je      <label>
  mov     edx, eax
  xor     eax, eax
-.LBB5_4:
+<label>:
  shl     ebx, 20
  sub     edx, ebx
  add     edx, 1104150528
@@ -29,7 +29,7 @@ floatconv::soft::i32_to_f64:
  pop     esi
  pop     ebx
  ret
-.LBB5_1:
+<label>:
  xor     eax, eax
  or      edx, esi
  pop     esi

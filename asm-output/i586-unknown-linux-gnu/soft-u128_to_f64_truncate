@@ -7,43 +7,43 @@ floatconv::soft::u128_to_f64_truncate:
  mov     edi, dword, ptr, [esp, +, 40]
  mov     edx, dword, ptr, [esp, +, 44]
  test    edx, edx
- jne     .LBB4_1
+ jne     <label>
  bsr     ebx, edi
  xor     ebx, 31
  add     ebx, 32
  mov     esi, dword, ptr, [esp, +, 36]
  bsr     ecx, dword, ptr, [esp, +, 32]
  mov     eax, 63
- jne     .LBB4_4
- jmp     .LBB4_5
-.LBB4_1:
+ jne     <label>
+ jmp     <label>
+<label>:
  bsr     ebx, edx
  xor     ebx, 31
  mov     esi, dword, ptr, [esp, +, 36]
  bsr     ecx, dword, ptr, [esp, +, 32]
  mov     eax, 63
- je      .LBB4_5
-.LBB4_4:
+ je      <label>
+<label>:
  mov     eax, ecx
-.LBB4_5:
+<label>:
  test    esi, esi
- jne     .LBB4_6
+ jne     <label>
  xor     eax, 31
  add     eax, 32
  mov     ecx, edi
  or      ecx, edx
- je      .LBB4_9
- jmp     .LBB4_10
-.LBB4_6:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     eax, esi
  xor     eax, 31
  mov     ecx, edi
  or      ecx, edx
- jne     .LBB4_10
-.LBB4_9:
+ jne     <label>
+<label>:
  add     eax, 64
  mov     ebx, eax
-.LBB4_10:
+<label>:
  mov     eax, ebx
  and     al, 127
  mov     ch, al
@@ -56,18 +56,18 @@ floatconv::soft::u128_to_f64_truncate:
  shrd    edx, esi, cl
  test    ch, 32
  mov     esi, ebp
- jne     .LBB4_12
+ jne     <label>
  mov     esi, edx
-.LBB4_12:
+<label>:
  mov     dword, ptr, [esp], esi
  mov     cl, bl
  shl     edi, cl
  mov     dword, ptr, [esp, +, 8], ebx
  test    bl, 32
  mov     esi, 0
- jne     .LBB4_14
+ jne     <label>
  mov     esi, edi
-.LBB4_14:
+<label>:
  mov     ebx, eax
  add     bl, -64
  mov     edx, dword, ptr, [esp, +, 32]
@@ -75,48 +75,48 @@ floatconv::soft::u128_to_f64_truncate:
  shl     edx, cl
  test    bl, 32
  mov     dword, ptr, [esp, +, 4], 0
- je      .LBB4_15
+ je      <label>
  cmp     al, 64
- jb      .LBB4_17
-.LBB4_18:
+ jb      <label>
+<label>:
  test    ch, 32
  mov     ecx, 0
- jne     .LBB4_20
-.LBB4_19:
+ jne     <label>
+<label>:
  mov     ecx, ebp
-.LBB4_20:
+<label>:
  mov     dword, ptr, [esp], ecx
  mov     esi, dword, ptr, [esp, +, 44]
  mov     ecx, dword, ptr, [esp, +, 8]
  mov     ebp, dword, ptr, [esp, +, 40]
  shld    esi, ebp, cl
  test    cl, 32
- jne     .LBB4_22
+ jne     <label>
  mov     edi, esi
-.LBB4_22:
+<label>:
  mov     esi, dword, ptr, [esp, +, 36]
  mov     ecx, ebx
  mov     ebp, dword, ptr, [esp, +, 32]
  shld    esi, ebp, cl
  test    bl, 32
- jne     .LBB4_24
+ jne     <label>
  mov     edx, esi
-.LBB4_24:
+<label>:
  cmp     al, 64
  mov     esi, dword, ptr, [esp, +, 8]
  mov     ebx, dword, ptr, [esp, +, 44]
- jae     .LBB4_26
+ jae     <label>
  or      edi, dword, ptr, [esp]
  mov     edx, edi
-.LBB4_26:
+<label>:
  test    al, al
  mov     ecx, ebx
  mov     edi, dword, ptr, [esp, +, 40]
  mov     eax, edi
- je      .LBB4_28
+ je      <label>
  mov     ecx, edx
  mov     eax, dword, ptr, [esp, +, 4]
-.LBB4_28:
+<label>:
  shrd    eax, ecx, 11
  shr     ecx, 11
  mov     ebp, dword, ptr, [esp, +, 36]
@@ -125,11 +125,11 @@ floatconv::soft::u128_to_f64_truncate:
  or      edx, edi
  or      edx, ebp
  mov     edx, 0
- je      .LBB4_30
+ je      <label>
  shl     esi, 20
  mov     edx, 1204813824
  sub     edx, esi
-.LBB4_30:
+<label>:
  add     edx, ecx
  add     esp, 12
  pop     esi
@@ -137,14 +137,14 @@ floatconv::soft::u128_to_f64_truncate:
  pop     ebx
  pop     ebp
  ret
-.LBB4_15:
+<label>:
  mov     dword, ptr, [esp, +, 4], edx
  cmp     al, 64
- jae     .LBB4_18
-.LBB4_17:
+ jae     <label>
+<label>:
  or      esi, dword, ptr, [esp]
  mov     dword, ptr, [esp, +, 4], esi
  test    ch, 32
  mov     ecx, 0
- je      .LBB4_19
- jmp     .LBB4_20
+ je      <label>
+ jmp     <label>

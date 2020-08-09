@@ -8,29 +8,29 @@ floatconv::fast::u64_to_f64_round:
  fldz
  mov     ecx, edx
  or      ecx, eax
- je      .LBB12_7
+ je      <label>
  fstp    st(0)
  test    eax, eax
- jne     .LBB12_2
+ jne     <label>
  bsr     ecx, edx
  xor     ecx, 31
  add     ecx, 32
  shld    eax, edx, cl
  shl     edx, cl
  test    cl, 32
- jne     .LBB12_5
- jmp     .LBB12_6
-.LBB12_2:
+ jne     <label>
+ jmp     <label>
+<label>:
  bsr     ecx, eax
  xor     ecx, 31
  shld    eax, edx, cl
  shl     edx, cl
  test    cl, 32
- je      .LBB12_6
-.LBB12_5:
+ je      <label>
+<label>:
  mov     eax, edx
  xor     edx, edx
-.LBB12_6:
+<label>:
  mov     esi, eax
  shl     esi, 21
  mov     edi, edx
@@ -53,7 +53,7 @@ floatconv::fast::u64_to_f64_round:
  adc     eax, 1137704960
  mov     dword, ptr, [esp, +, 4], eax
  fld     qword, ptr, [esp]
-.LBB12_7:
+<label>:
  add     esp, 8
  pop     esi
  pop     edi

@@ -6,13 +6,13 @@ floatconv::soft::i64_to_f32_round:
  neg     rsi
  cmovl   rsi, rdi
  test    rsi, rsi
- je      .LBB9_1
+ je      <label>
  bsr     rcx, rsi
  xor     rcx, 63
- jmp     .LBB9_3
-.LBB9_1:
+ jmp     <label>
+<label>:
  mov     ecx, 64
-.LBB9_3:
+<label>:
  mov     rax, rsi
  shl     rax, cl
  mov     rdi, rax

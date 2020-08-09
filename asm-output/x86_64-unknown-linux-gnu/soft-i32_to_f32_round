@@ -5,7 +5,7 @@ floatconv::soft::i32_to_f32_round:
  neg     eax
  cmovl   eax, edi
  test    eax, eax
- je      .LBB8_1
+ je      <label>
  bsr     ecx, eax
  xor     ecx, 31
  shl     eax, cl
@@ -26,7 +26,7 @@ floatconv::soft::i32_to_f32_round:
  add     eax, 1317011456
  or      eax, r8d
  ret
-.LBB8_1:
+<label>:
  xor     eax, eax
  or      eax, r8d
  ret

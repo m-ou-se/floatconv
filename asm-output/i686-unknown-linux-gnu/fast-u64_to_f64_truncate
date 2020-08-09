@@ -5,7 +5,7 @@ floatconv::fast::u64_to_f64_truncate:
  mov     eax, dword, ptr, [esp, +, 20]
  mov     ecx, edx
  or      ecx, eax
- je      .LBB26_1
+ je      <label>
  bsr     ecx, edx
  bsr     esi, eax
  xor     ecx, 31
@@ -27,10 +27,10 @@ floatconv::fast::u64_to_f64_truncate:
  add     eax, 1137704960
  movd    xmm1, eax
  punpckldq xmm0, xmm1
- jmp     .LBB26_3
-.LBB26_1:
+ jmp     <label>
+<label>:
  pxor    xmm0, xmm0
-.LBB26_3:
+<label>:
  movq    qword, ptr, [esp], xmm0
  fld     qword, ptr, [esp]
  add     esp, 8

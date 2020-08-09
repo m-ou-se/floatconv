@@ -16,50 +16,50 @@ floatconv::fast::i128_to_f64_round:
  mov     esi, 0
  sbb     esi, ebx
  test    ebx, ebx
- js      .LBB17_2
+ js      <label>
  mov     ebp, edx
  mov     edi, ecx
  mov     eax, dword, ptr, [esp, +, 80]
  mov     esi, dword, ptr, [esp, +, 84]
-.LBB17_2:
+<label>:
  test    esi, esi
- jne     .LBB17_3
+ jne     <label>
  bsr     ecx, eax
  xor     ecx, 31
  add     ecx, 32
  mov     dword, ptr, [esp], ecx
  bsr     edx, edi
  mov     ecx, 63
- jne     .LBB17_6
- jmp     .LBB17_7
-.LBB17_3:
+ jne     <label>
+ jmp     <label>
+<label>:
  bsr     ecx, esi
  xor     ecx, 31
  mov     dword, ptr, [esp], ecx
  bsr     edx, edi
  mov     ecx, 63
- je      .LBB17_7
-.LBB17_6:
+ je      <label>
+<label>:
  mov     ecx, edx
-.LBB17_7:
+<label>:
  test    ebp, ebp
- jne     .LBB17_8
+ jne     <label>
  xor     ecx, 31
  add     ecx, 32
  mov     edx, eax
  or      edx, esi
- je      .LBB17_11
- jmp     .LBB17_12
-.LBB17_8:
+ je      <label>
+ jmp     <label>
+<label>:
  bsr     ecx, ebp
  xor     ecx, 31
  mov     edx, eax
  or      edx, esi
- jne     .LBB17_12
-.LBB17_11:
+ jne     <label>
+<label>:
  add     ecx, 64
  mov     dword, ptr, [esp], ecx
-.LBB17_12:
+<label>:
  mov     ebx, eax
  mov     ecx, dword, ptr, [esp]
  shl     ebx, cl
@@ -69,23 +69,23 @@ floatconv::fast::i128_to_f64_round:
  shl     edx, cl
  test    cl, 32
  mov     dword, ptr, [esp, +, 36], ebx
- jne     .LBB17_13
+ jne     <label>
  mov     dword, ptr, [esp, +, 8], edx
  mov     dword, ptr, [esp, +, 4], ebx
- jmp     .LBB17_15
-.LBB17_13:
+ jmp     <label>
+<label>:
  mov     ebp, edx
  mov     dword, ptr, [esp, +, 4], 0
  mov     dword, ptr, [esp, +, 8], 0
-.LBB17_15:
+<label>:
  mov     dword, ptr, [esp, +, 16], eax
  mov     eax, dword, ptr, [esp]
  and     al, 127
  mov     edx, eax
  sub     dl, 64
- jb      .LBB17_17
+ jb      <label>
  mov     dword, ptr, [esp, +, 8], 0
-.LBB17_17:
+<label>:
  mov     dword, ptr, [esp, +, 12], esi
  neg     dl
  mov     dword, ptr, [esp, +, 24], edi
@@ -96,9 +96,9 @@ floatconv::fast::i128_to_f64_round:
  shr     edi, cl
  test    dl, 32
  mov     ecx, edi
- jne     .LBB17_19
+ jne     <label>
  mov     ecx, ebx
-.LBB17_19:
+<label>:
  mov     ebx, ecx
  mov     dh, al
  add     dh, -64
@@ -107,27 +107,27 @@ floatconv::fast::i128_to_f64_round:
  shl     esi, cl
  test    dh, 32
  mov     ecx, 0
- jne     .LBB17_21
+ jne     <label>
  mov     ecx, esi
-.LBB17_21:
+<label>:
  cmp     al, 64
- jb      .LBB17_22
+ jb      <label>
  xor     ebp, ebp
  mov     dword, ptr, [esp, +, 32], ecx
  test    dl, 32
  mov     ecx, 0
- je      .LBB17_25
- jmp     .LBB17_26
-.LBB17_22:
+ je      <label>
+ jmp     <label>
+<label>:
  mov     ecx, dword, ptr, [esp, +, 4]
  or      ecx, ebx
  mov     dword, ptr, [esp, +, 32], ecx
  test    dl, 32
  mov     ecx, 0
- jne     .LBB17_26
-.LBB17_25:
+ jne     <label>
+<label>:
  mov     ecx, edi
-.LBB17_26:
+<label>:
  mov     dword, ptr, [esp, +, 28], ecx
  mov     dword, ptr, [esp, +, 4], esi
  mov     edi, dword, ptr, [esp, +, 12]
@@ -136,27 +136,27 @@ floatconv::fast::i128_to_f64_round:
  shld    edi, ebx, cl
  test    cl, 32
  mov     ebx, dword, ptr, [esp, +, 36]
- jne     .LBB17_28
+ jne     <label>
  mov     ebx, edi
-.LBB17_28:
+<label>:
  mov     edi, dword, ptr, [esp, +, 20]
  mov     cl, dh
  mov     esi, dword, ptr, [esp, +, 24]
  shld    edi, esi, cl
  test    dh, 32
  mov     ecx, dword, ptr, [esp, +, 4]
- je      .LBB17_29
+ je      <label>
  cmp     al, 64
- jb      .LBB17_31
-.LBB17_32:
+ jb      <label>
+<label>:
  test    al, al
  mov     ebx, dword, ptr, [esp, +, 12]
  mov     edx, dword, ptr, [esp, +, 16]
- je      .LBB17_34
-.LBB17_33:
+ je      <label>
+<label>:
  mov     ebx, ecx
  mov     edx, dword, ptr, [esp, +, 32]
-.LBB17_34:
+<label>:
  mov     esi, ebx
  shld    ebx, edx, 21
  shld    edx, ebp, 21
@@ -180,12 +180,12 @@ floatconv::fast::i128_to_f64_round:
  shr     edx, 31
  or      ebp, ecx
  mov     ecx, 0
- je      .LBB17_36
+ je      <label>
  mov     eax, dword, ptr, [esp]
  shl     eax, 20
  mov     ecx, 1204813824
  sub     ecx, eax
-.LBB17_36:
+<label>:
  add     ebx, edx
  adc     ecx, esi
  mov     dword, ptr, [esp, +, 40], ebx
@@ -198,15 +198,15 @@ floatconv::fast::i128_to_f64_round:
  pop     ebx
  pop     ebp
  ret
-.LBB17_29:
+<label>:
  mov     ecx, edi
  cmp     al, 64
- jae     .LBB17_32
-.LBB17_31:
+ jae     <label>
+<label>:
  or      ebx, dword, ptr, [esp, +, 28]
  mov     ecx, ebx
  test    al, al
  mov     ebx, dword, ptr, [esp, +, 12]
  mov     edx, dword, ptr, [esp, +, 16]
- jne     .LBB17_33
- jmp     .LBB17_34
+ jne     <label>
+ jmp     <label>

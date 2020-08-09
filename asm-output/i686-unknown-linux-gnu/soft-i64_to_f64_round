@@ -16,7 +16,7 @@ floatconv::soft::i64_to_f64_round:
  xor     edx, ecx
  mov     ebx, edi
  or      ebx, edx
- je      .LBB12_1
+ je      <label>
  bsr     ecx, edi
  bsr     ebx, edx
  xor     ecx, 31
@@ -48,10 +48,10 @@ floatconv::soft::i64_to_f64_round:
  sub     edx, ecx
  add     eax, ebx
  adc     edx, 1137704960
- jmp     .LBB12_3
-.LBB12_1:
+ jmp     <label>
+<label>:
  xor     edx, edx
-.LBB12_3:
+<label>:
  or      edx, esi
  pop     esi
  pop     edi

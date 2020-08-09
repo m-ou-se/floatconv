@@ -1,12 +1,12 @@
 floatconv::fast::u64_to_f32_round:
  test    rdi, rdi
- je      .LBB18_1
+ je      <label>
  bsr     rcx, rdi
  xor     rcx, 63
- jmp     .LBB18_3
-.LBB18_1:
+ jmp     <label>
+<label>:
  mov     ecx, 64
-.LBB18_3:
+<label>:
  mov     rax, rdi
  shl     rax, cl
  mov     rdx, rax

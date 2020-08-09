@@ -2,7 +2,7 @@ floatconv::soft::u32_to_f64:
  push    ebx
  mov     eax, dword, ptr, [esp, +, 8]
  test    eax, eax
- je      .LBB0_1
+ je      <label>
  bsr     ebx, eax
  xor     ebx, 31
  mov     ecx, ebx
@@ -11,16 +11,16 @@ floatconv::soft::u32_to_f64:
  shld    edx, eax, cl
  shl     eax, cl
  test    cl, 32
- je      .LBB0_4
+ je      <label>
  mov     edx, eax
  xor     eax, eax
-.LBB0_4:
+<label>:
  shl     ebx, 20
  sub     edx, ebx
  add     edx, 1104150528
  pop     ebx
  ret
-.LBB0_1:
+<label>:
  xor     eax, eax
  xor     edx, edx
  pop     ebx

@@ -2,7 +2,7 @@ floatconv::soft::i32_to_f32_round:
  cmp     w0, #0
  cneg    w9, w0, mi
  and     w8, w0, #0x80000000
- cbz     w9, .LBB8_2
+ cbz     w9, <label>
  clz     w10, w9
  lsl     w9, w9, w10
  lsr     w11, w9, #8
@@ -15,6 +15,6 @@ floatconv::soft::i32_to_f32_round:
  add     w9, w10, w9, lsr, #31
  mov     w10, #1317011456
  add     w9, w9, w10
-.LBB8_2:
+<label>:
  orr     w0, w9, w8
  ret

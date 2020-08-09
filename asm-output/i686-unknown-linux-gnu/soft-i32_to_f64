@@ -10,7 +10,7 @@ floatconv::soft::i32_to_f64:
  neg     edi
  cmovl   edi, ecx
  test    edi, edi
- je      .LBB11_1
+ je      <label>
  bsr     ebx, edi
  xor     edx, edx
  xor     ebx, 31
@@ -24,10 +24,10 @@ floatconv::soft::i32_to_f64:
  shl     ebx, 20
  sub     edx, ebx
  add     edx, 1104150528
- jmp     .LBB11_3
-.LBB11_1:
+ jmp     <label>
+<label>:
  xor     edx, edx
-.LBB11_3:
+<label>:
  or      edx, esi
  pop     esi
  pop     edi

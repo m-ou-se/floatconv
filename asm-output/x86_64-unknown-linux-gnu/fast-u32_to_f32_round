@@ -1,6 +1,6 @@
 floatconv::fast::u32_to_f32_round:
  test    edi, edi
- je      .LBB16_1
+ je      <label>
  bsr     ecx, edi
  xor     ecx, 31
  shl     edi, cl
@@ -21,6 +21,6 @@ floatconv::fast::u32_to_f32_round:
  add     eax, 1317011456
  movd    xmm0, eax
  ret
-.LBB16_1:
+<label>:
  xorps   xmm0, xmm0
  ret

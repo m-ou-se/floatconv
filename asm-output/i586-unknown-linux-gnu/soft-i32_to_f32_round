@@ -9,7 +9,7 @@ floatconv::soft::i32_to_f32_round:
  sar     ecx, 31
  add     eax, ecx
  xor     eax, ecx
- je      .LBB8_1
+ je      <label>
  bsr     ecx, eax
  xor     ecx, 31
  shl     eax, cl
@@ -27,10 +27,10 @@ floatconv::soft::i32_to_f32_round:
  shl     ecx, 23
  sub     esi, ecx
  lea     eax, [edi, +, esi, +, 1317011456]
- jmp     .LBB8_3
-.LBB8_1:
+ jmp     <label>
+<label>:
  xor     eax, eax
-.LBB8_3:
+<label>:
  or      eax, edx
  pop     esi
  pop     edi
