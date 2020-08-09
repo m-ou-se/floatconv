@@ -1,5 +1,3 @@
-#![feature(doc_cfg)]
-
 //! Floating point conversion functions.
 //!
 //! ## Software and hardware implementations
