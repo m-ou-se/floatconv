@@ -1,0 +1,8 @@
+floatconv::fast::u16_to_f32_round:
+ push    eax
+ movzx   eax, word, ptr, [esp, +, 8]
+ cvtsi2ss xmm0, eax
+ movss   dword, ptr, [esp], xmm0
+ fld     dword, ptr, [esp]
+ pop     eax
+ ret

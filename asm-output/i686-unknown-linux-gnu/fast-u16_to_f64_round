@@ -1,0 +1,8 @@
+floatconv::fast::u16_to_f64_round:
+ sub     esp, 12
+ movzx   eax, word, ptr, [esp, +, 16]
+ cvtsi2sd xmm0, eax
+ movsd   qword, ptr, [esp], xmm0
+ fld     qword, ptr, [esp]
+ add     esp, 12
+ ret
