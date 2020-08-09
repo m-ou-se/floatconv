@@ -1,0 +1,18 @@
+floatconv::soft::u8_to_f64:
+ tst     r0, #255
+ moveq   r0, #0
+ moveq   r1, #0
+ bxeq    lr
+ uxtb    r1, r0
+ clz     r2, r1
+ rsb     r3, r2, #11
+ add     r0, r2, #21
+ subs    r12, r2, #11
+ lsr     r3, r1, r3
+ lsl     r0, r1, r0
+ lslpl   r3, r1, r12
+ sub     r1, r3, r2, lsl, #20
+ add     r1, r1, #30408704
+ movwpl  r0, #0
+ add     r1, r1, #1073741824
+ bx      lr

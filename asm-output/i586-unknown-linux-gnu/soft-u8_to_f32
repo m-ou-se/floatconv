@@ -1,0 +1,17 @@
+floatconv::soft::u8_to_f32:
+ mov     al, byte, ptr, [esp, +, 4]
+ test    al, al
+ je      <label>
+ movzx   eax, al
+ bsr     dx, ax
+ xor     edx, 15
+ mov     ecx, edx
+ add     cl, 8
+ shl     eax, cl
+ shl     edx, 23
+ sub     eax, edx
+ add     eax, 1182793728
+ ret
+<label>:
+ xor     eax, eax
+ ret

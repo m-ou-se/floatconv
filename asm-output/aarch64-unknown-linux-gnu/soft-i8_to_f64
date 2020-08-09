@@ -1,0 +1,21 @@
+floatconv::soft::i8_to_f64:
+ sxtb    w8, w0
+ cmp     w8, #0
+ lsr     w10, w0, #7
+ cneg    w9, w8, mi
+ tst     w9, #0xff
+ lsl     x8, x10, #63
+ b.eq    <label>
+ and     w10, w9, #0xff
+ clz     w10, w10
+ and     x9, x9, #0xff
+ add     w11, w10, #21
+ lsl     x9, x9, x11
+ sub     x9, x9, x10, lsl, #52
+ mov     x10, #4742290407621132288
+ add     x9, x9, x10
+ orr     x0, x9, x8
+ ret
+<label>:
+ mov     x0, x8
+ ret

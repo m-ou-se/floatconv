@@ -1,0 +1,16 @@
+floatconv::soft::u16_to_f32:
+ tst     w0, #0xffff
+ b.eq    <label>
+ and     w8, w0, #0xffff
+ clz     w9, w8
+ sub     w9, w9, #16
+ and     w9, w9, #0xffff
+ add     w10, w9, #8
+ lsl     w8, w8, w10
+ sub     w8, w8, w9, lsl, #23
+ mov     w9, #1182793728
+ add     w0, w8, w9
+ ret
+<label>:
+ mov     w0, wzr
+ ret

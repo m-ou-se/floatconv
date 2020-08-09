@@ -1,0 +1,28 @@
+floatconv::soft::u8_to_f64:
+ push    ebx
+ mov     al, byte, ptr, [esp, +, 8]
+ test    al, al
+ je      <label>
+ movzx   eax, al
+ bsr     ebx, eax
+ xor     ebx, 31
+ mov     ecx, ebx
+ add     cl, 21
+ xor     edx, edx
+ shld    edx, eax, cl
+ shl     eax, cl
+ test    cl, 32
+ je      <label>
+ mov     edx, eax
+ xor     eax, eax
+<label>:
+ shl     ebx, 20
+ sub     edx, ebx
+ add     edx, 1104150528
+ pop     ebx
+ ret
+<label>:
+ xor     eax, eax
+ xor     edx, edx
+ pop     ebx
+ ret

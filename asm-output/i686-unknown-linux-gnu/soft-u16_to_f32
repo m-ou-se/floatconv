@@ -1,0 +1,17 @@
+floatconv::soft::u16_to_f32:
+ movzx   eax, word, ptr, [esp, +, 4]
+ test    ax, ax
+ je      <label>
+ bsr     dx, ax
+ movzx   eax, ax
+ xor     edx, 15
+ mov     ecx, edx
+ shl     edx, 23
+ add     cl, 8
+ shl     eax, cl
+ sub     eax, edx
+ add     eax, 1182793728
+ ret
+<label>:
+ xor     eax, eax
+ ret

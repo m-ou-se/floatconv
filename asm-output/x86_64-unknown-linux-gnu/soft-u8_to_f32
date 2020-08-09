@@ -1,0 +1,15 @@
+floatconv::soft::u8_to_f32:
+ test    dil, dil
+ je      <label>
+ movzx   eax, dil
+ bsr     dx, ax
+ xor     edx, 15
+ lea     ecx, [rdx, +, 8]
+ shl     eax, cl
+ shl     edx, 23
+ sub     eax, edx
+ add     eax, 1182793728
+ ret
+<label>:
+ xor     eax, eax
+ ret

@@ -1,0 +1,17 @@
+floatconv::soft::u16_to_f32:
+ mov     r1, #255
+ orr     r1, r1, #65280
+ tst     r0, r1
+ moveq   r0, #0
+ bxeq    lr
+ uxth    r0, r0
+ clz     r1, r0
+ sub     r1, r1, #16
+ mov     r2, #8
+ uxtah   r2, r2, r1
+ uxth    r1, r1
+ lsl     r1, r1, #23
+ rsb     r0, r1, r0, lsl, r2
+ add     r0, r0, #109051904
+ add     r0, r0, #1073741824
+ bx      lr

@@ -1,0 +1,24 @@
+floatconv::soft::i8_to_f32:
+ mov     eax, edi
+ shr     al, 7
+ movzx   edx, al
+ shl     edx, 31
+ mov     eax, edi
+ sar     al, 7
+ add     dil, al
+ xor     dil, al
+ je      <label>
+ movzx   eax, dil
+ bsr     si, ax
+ xor     esi, 15
+ lea     ecx, [rsi, +, 8]
+ shl     eax, cl
+ shl     esi, 23
+ sub     eax, esi
+ add     eax, 1182793728
+ or      eax, edx
+ ret
+<label>:
+ xor     eax, eax
+ or      eax, edx
+ ret

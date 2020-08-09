@@ -1,0 +1,37 @@
+floatconv::soft::i16_to_f64:
+ push    ebx
+ push    edi
+ push    esi
+ mov     edx, dword, ptr, [esp, +, 16]
+ xor     eax, eax
+ mov     esi, edx
+ mov     ecx, edx
+ shl     esi, 16
+ and     esi, -2147483648
+ neg     cx
+ cmovl   cx, dx
+ test    cx, cx
+ je      <label>
+ movzx   edi, cx
+ xor     edx, edx
+ bsr     ebx, edi
+ xor     ebx, 31
+ mov     ecx, ebx
+ add     cl, 21
+ shld    edx, edi, cl
+ shl     edi, cl
+ test    cl, 32
+ cmovne  edx, edi
+ cmove   eax, edi
+ shl     ebx, 20
+ sub     edx, ebx
+ add     edx, 1104150528
+ jmp     <label>
+<label>:
+ xor     edx, edx
+<label>:
+ or      edx, esi
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret

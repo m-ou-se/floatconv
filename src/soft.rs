@@ -7,6 +7,18 @@
 //! in this module return the bits of the floating point value as `u32` or
 //! `u64` instead of `f32` or `f64`.
 
+pub fn u8_to_f32(x: u8) -> u32 {
+    u16_to_f32(x.into())
+}
+
+pub fn u16_to_f32(x: u16) -> u32 {
+    if x == 0 { return 0; }
+    let n = x.leading_zeros();
+    let m = (x as u32) << (8 + n); // Significant bits, with bit 53 still in tact.
+    let e = 141 - n; // Exponent plus 127, minus one.
+    (e << 23) + m // Bit 24 of m will overflow into e.
+}
+
 fn u32_to_f32(x: u32, round: bool) -> u32 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
@@ -43,6 +55,14 @@ fn u128_to_f32(x: u128, round: bool) -> u32 {
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
+pub fn u8_to_f64(x: u8) -> u64 {
+    u32_to_f64(x.into())
+}
+
+pub fn u16_to_f64(x: u16) -> u64 {
+    u32_to_f64(x.into())
+}
+
 pub fn u32_to_f64(x: u32) -> u64 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
@@ -76,9 +96,11 @@ fn u128_to_f64(x: u128, round: bool) -> u64 {
 }
 
 macro_rules! impl_signed {
-    ($name:tt $from:tt $bits:tt $unsigned:tt $return:tt) => {
+    ($name:tt $from:tt $unsigned:tt $return:tt) => {
         pub fn $name(x: $from) -> $return {
-            let s = ((x >> $bits - 1) as $return) << core::mem::size_of::<$return>() * 8 - 1;
+            let from_bits = core::mem::size_of::<$from>() * 8;
+            let return_bits = core::mem::size_of::<$return>() * 8;
+            let s = ((x >> from_bits - 1) as $return) << return_bits - 1;
             $unsigned(x.wrapping_abs() as _) | s
         }
     };
@@ -101,14 +123,19 @@ impl_round!(u128_to_f32_round u128_to_f32_truncate u128 u32 u128_to_f32);
 impl_round!(u64_to_f64_round u64_to_f64_truncate u64 u64 u64_to_f64);
 impl_round!(u128_to_f64_round u128_to_f64_truncate u128 u64 u128_to_f64);
 
-impl_signed!(i32_to_f32_round i32 32 u32_to_f32_round u32);
-impl_signed!(i32_to_f32_truncate i32 32 u32_to_f32_truncate u32);
-impl_signed!(i64_to_f32_round i64 64 u64_to_f32_round u32);
-impl_signed!(i64_to_f32_truncate i64 64 u64_to_f32_truncate u32);
-impl_signed!(i128_to_f32_round i128 128 u128_to_f32_round u32);
-impl_signed!(i128_to_f32_truncate i128 128 u128_to_f32_truncate u32);
-impl_signed!(i32_to_f64 i32 32 u32_to_f64 u64);
-impl_signed!(i64_to_f64_round i64 64 u64_to_f64_round u64);
-impl_signed!(i64_to_f64_truncate i64 64 u64_to_f64_truncate u64);
-impl_signed!(i128_to_f64_round i128 128 u128_to_f64_round u64);
-impl_signed!(i128_to_f64_truncate i128 128 u128_to_f64_truncate u64);
+impl_signed!(i8_to_f32 i8 u8_to_f32 u32);
+impl_signed!(i16_to_f32 i16 u16_to_f32 u32);
+impl_signed!(i32_to_f32_round i32 u32_to_f32_round u32);
+impl_signed!(i32_to_f32_truncate i32 u32_to_f32_truncate u32);
+impl_signed!(i64_to_f32_round i64 u64_to_f32_round u32);
+impl_signed!(i64_to_f32_truncate i64 u64_to_f32_truncate u32);
+impl_signed!(i128_to_f32_round i128 u128_to_f32_round u32);
+impl_signed!(i128_to_f32_truncate i128 u128_to_f32_truncate u32);
+
+impl_signed!(i8_to_f64 i8 u8_to_f64 u64);
+impl_signed!(i16_to_f64 i16 u16_to_f64 u64);
+impl_signed!(i32_to_f64 i32 u32_to_f64 u64);
+impl_signed!(i64_to_f64_round i64 u64_to_f64_round u64);
+impl_signed!(i64_to_f64_truncate i64 u64_to_f64_truncate u64);
+impl_signed!(i128_to_f64_round i128 u128_to_f64_round u64);
+impl_signed!(i128_to_f64_truncate i128 u128_to_f64_truncate u64);

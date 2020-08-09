@@ -1,0 +1,15 @@
+floatconv::soft::u8_to_f32:
+ lsls    r1, r0, #24
+ itt     eq
+ moveq   r0, #0
+ bxeq    lr
+ uxtb    r0, r0
+ clz     r1, r0
+ subs    r1, #16
+ movs    r2, #8
+ uxtah   r2, r2, r1
+ uxth    r1, r1
+ lsls    r0, r2
+ sub.w   r0, r0, r1, lsl, #23
+ add.w   r0, r0, #1182793728
+ bx      lr
