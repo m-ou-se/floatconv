@@ -3,23 +3,25 @@ use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criteri
 macro_rules! benches {
     ($c:ident $f:ident $t:ident $t2:ident $inputs:ident) => {{
         #[inline(never)]
-        fn builtin_conv(x: $t) -> $t2 {
-            x as $t2
-        }
+        fn soft_conv(x: $t) -> $t2 { $t2::from_bits(floatconv::soft::$f(x)) }
+        #[inline(never)]
+        fn fast_conv(x: $t) -> $t2 { floatconv::fast::$f(x) }
+        #[inline(never)]
+        fn builtin_conv(x: $t) -> $t2 { x as $t2 }
         let mut group = $c.benchmark_group(stringify!($f));
         for &(input, name) in $inputs {
             group.bench_with_input(BenchmarkId::new("soft", name), &input, |b, &x| {
-                b.iter(|| floatconv::soft::$f(black_box(x)))
+                b.iter(|| soft_conv(black_box(x)))
             });
         }
         for &(input, name) in $inputs {
             group.bench_with_input(BenchmarkId::new("fast", name), &input, |b, &x| {
-                b.iter(|| floatconv::fast::$f(black_box(x)))
+                b.iter(|| fast_conv(black_box(x)))
             });
         }
         for &(input, name) in $inputs {
             group.bench_with_input(BenchmarkId::new("builtin", name), &input, |b, &x| {
-                b.iter(|| builtin_conv(black_box(x)))
+                b.iter(|| builtin_conv(black_box(x)));
             });
         }
         group.finish();

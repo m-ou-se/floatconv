@@ -3,6 +3,7 @@
 #[allow(unused_macros)]
 macro_rules! impl_signed {
     ($name:tt $from:tt $bits:tt $unsigned:tt) => {
+        #[inline]
         pub fn $name(x: $from) -> f64 {
             let s = ((x >> $bits - 1) as u64) << 63;
             f64::from_bits($unsigned(x.wrapping_abs() as _).to_bits() | s)
@@ -11,6 +12,7 @@ macro_rules! impl_signed {
 }
 
 #[cfg(all(target_arch = "x86", not(target_feature = "sse2")))]
+#[inline]
 pub fn u32_to_f32_round(x: u32) -> f32 {
     if x >> 31 == 0 {
         x as i32 as f32
@@ -23,6 +25,7 @@ pub fn u32_to_f32_round(x: u32) -> f32 {
 }
 
 #[cfg(all(target_arch = "x86", target_feature = "sse2"))]
+#[inline]
 pub fn u64_to_f32_round(x: u64) -> f32 {
     if x >> 63 == 0 {
         x as i64 as f32
@@ -35,6 +38,7 @@ pub fn u64_to_f32_round(x: u64) -> f32 {
 }
 
 #[cfg(all(target_arch = "x86", target_feature = "sse2"))]
+#[inline]
 pub fn u64_to_f64_round(x: u64) -> f64 {
     const A: f64 = (1u128 << 52) as f64;
     const B: f64 = (1u128 << 84) as f64;
@@ -45,6 +49,7 @@ pub fn u64_to_f64_round(x: u64) -> f64 {
 
 #[cfg(any(target_arch = "aarch64", target_feature = "sse2"))]
 group! {
+    #[inline]
     pub fn u128_to_f64_round(x: u128) -> f64 {
         const A: f64 = (1u128 << 52) as f64;
         const B: f64 = (1u128 << 104) as f64;
