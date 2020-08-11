@@ -139,6 +139,8 @@ fn test_u128() {
         // Mantissa of 128-32 bits, with last 24 bits set.
         0b1000000000000000000000000000000000000000000000000000000000000000000000000111111111111111111111111,
         1u128 << 127,
+        2u128 << 126,
+        3u128 << 126,
         1u128 << 64,
         1u128 << 63,
         1u128 << 54,
@@ -174,6 +176,9 @@ fn test_u128() {
         u128::from(u64::max_value() >> 11) << 53,
         u128::from(u64::max_value() >> 11) << 52,
         u128::from(u64::max_value() >> 11) << 51,
+        u128::max_value() - (u128::max_value() >> 24),
+        u128::max_value() - (u128::max_value() >> 23),
+        u128::max_value() - (u128::max_value() >> 22),
     ][..]
     {
         assert_eq!(soft::u128_to_f32_round(i), (i as f32).to_bits());
