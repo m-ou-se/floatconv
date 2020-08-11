@@ -11,19 +11,27 @@ macro_rules! impl_signed {
 }
 
 #[cfg(all(target_arch = "x86", not(target_feature = "sse2")))]
-pub fn u32_to_f32_round(mut x: u32) -> f32 {
-    if x >> 31 > 0 {
-        x = x >> 1 | x & 1;
+pub fn u32_to_f32_round(x: u32) -> f32 {
+    if x >> 31 == 0 {
+        x as i32 as f32
+    } else {
+        let x = x >> 1 | x & 1;
+        x as i32 as f32 * 2.0
+        //TODO: Check if we can use:
+        //  x as i32 as f32 + u32::MAX as f32
     }
-    x as i32 as f32
 }
 
 #[cfg(target_feature = "sse2")]
-pub fn u64_to_f32_round(mut x: u64) -> f32 {
-    if x >> 63 > 0 {
-        x = x >> 1 | x & 1;
+pub fn u64_to_f32_round(x: u64) -> f32 {
+    if x >> 63 == 0 {
+        x as i64 as f32
+    } else {
+        let x = x >> 1 | x & 0xFFFFFFFF;
+        x as i64 as f32 * 2.0
+        //TODO: Check if we can use:
+        //  x as i64 as f32 + u64::MAX as f32
     }
-    x as i64 as f32
 }
 
 #[cfg(target_feature = "sse2")]

@@ -39,6 +39,7 @@ fn test_u32() {
         assert_eq!(soft::u32_to_f64(i), (i as f64).to_bits());
         assert_eq!(fast::u32_to_f64(i), i as f64);
         assert_eq!(soft::u32_to_f32_round(i), (i as f32).to_bits());
+        assert_eq!(fast::u32_to_f32_round(i), i as f32);
     }
 }
 
@@ -89,9 +90,12 @@ fn test_u64() {
         (1u64 << 53) + 1,
         (1u64 << 52) + 1,
         (1u64 << 51) + 1,
+        0b1000000000000000000000011111111111111111111111111111111111111111,
+        0b1111111111111111111111110111111111111111111111111111111111111111,
     ][..]
     {
         assert_eq!(soft::u64_to_f32_round(i), (i as f32).to_bits());
+        assert_eq!(fast::u64_to_f32_round(i), i as f32);
         let f = i as f64;
         let t = if f as u64 > i || i == u64::max_value() {
             f64::from_bits(f.to_bits() - 1)
@@ -172,6 +176,8 @@ fn test_u128() {
         u128::from(u64::max_value() >> 11) << 51,
     ][..]
     {
+        assert_eq!(soft::u128_to_f32_round(i), (i as f32).to_bits());
+        assert_eq!(fast::u128_to_f32_round(i), i as f32);
         let f = i as f64;
         let t = if f as u128 > i || i == u128::max_value() {
             f64::from_bits(f.to_bits() - 1)
@@ -204,6 +210,8 @@ fn test_i32() {
     {
         assert_eq!(soft::i32_to_f64(i), (i as f64).to_bits());
         assert_eq!(fast::i32_to_f64(i), i as f64);
+        assert_eq!(soft::i32_to_f32_round(i), (i as f32).to_bits());
+        assert_eq!(fast::i32_to_f32_round(i), i as f32);
     }
 }
 
@@ -263,6 +271,8 @@ fn test_i64() {
         -(1i64 << 51) + 1,
     ][..]
     {
+        assert_eq!(soft::i64_to_f32_round(i), (i as f32).to_bits());
+        assert_eq!(fast::i64_to_f32_round(i), i as f32);
         assert_eq!(soft::i64_to_f64_round(i), (i as f64).to_bits());
         assert_eq!(fast::i64_to_f64_round(i), i as f64);
     }
@@ -328,6 +338,8 @@ fn test_i128() {
         -(1i128 << 51) + 1,
     ][..]
     {
+        assert_eq!(soft::i128_to_f32_round(i), (i as f32).to_bits());
+        assert_eq!(fast::i128_to_f32_round(i), i as f32);
         assert_eq!(soft::i128_to_f64_round(i), (i as f64).to_bits());
         assert_eq!(fast::i128_to_f64_round(i), i as f64);
     }

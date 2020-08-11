@@ -51,7 +51,7 @@ fn u128_to_f32(x: u128, round: bool) -> u32 {
         let b = (y >> 72) as u32 | (y << 32 >> 32 != 0) as u32; // Insignificant bits, only relevant for rounding.
         m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
     }
-    let e = if x == 0 { 0 } else { 189 - n }; // Exponent plus 127, minus one, except for zero.
+    let e = if x == 0 { 0 } else { 253 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
