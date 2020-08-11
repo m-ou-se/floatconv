@@ -19,9 +19,17 @@ macro_rules! impl_soft {
         /// Soft implementation.
         #[inline]
         pub fn $name(x: $from) -> $to {
-            $to::from_bits(crate::soft::$name(x))
+            let x = impl_soft!(@to_bits $from x);
+            let y = crate::soft::$name(x);
+            impl_soft!(@from_bits $to y)
         }
     };
+    (@from_bits f32 $x:tt) => { f32::from_bits($x) };
+    (@from_bits f64 $x:tt) => { f64::from_bits($x) };
+    (@from_bits $_:tt $x:tt) => { $x };
+    (@to_bits f32 $x:tt) => { f32::to_bits($x) };
+    (@to_bits f64 $x:tt) => { f64::to_bits($x) };
+    (@to_bits $_:tt $x:tt) => { $x };
 }
 
 #[allow(unused_macros)]
@@ -45,6 +53,18 @@ impl_soft!(u64_to_f64_truncate u64 f64);
 impl_soft!(i64_to_f64_truncate i64 f64);
 impl_soft!(u128_to_f64_truncate u128 f64);
 impl_soft!(i128_to_f64_truncate i128 f64);
+
+// TODO: Fast implementations.
+impl_soft!(f32_to_u32 f32 u32);
+impl_soft!(f32_to_i32 f32 i32);
+impl_soft!(f32_to_u64 f32 u64);
+impl_soft!(f32_to_i64 f32 i64);
+impl_soft!(f32_to_u128 f32 u128);
+impl_soft!(f32_to_i128 f32 i128);
+impl_soft!(f64_to_u64 f64 u64);
+impl_soft!(f64_to_i64 f64 i64);
+impl_soft!(f64_to_u128 f64 u128);
+impl_soft!(f64_to_i128 f64 i128);
 
 #[cfg(target_arch = "aarch64")]
 group! {
