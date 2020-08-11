@@ -35,7 +35,7 @@ floatconv::fast::u128_to_f32_round:
  sub     eax, ebx
  shr     eax, 31
  shl     ecx, 23
- mov     edx, 1585446912
+ mov     edx, 2122317824
  sub     edx, ecx
  or      rdi, rsi
  cmove   edx, r8d

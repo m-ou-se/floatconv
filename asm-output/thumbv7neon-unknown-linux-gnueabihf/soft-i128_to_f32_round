@@ -107,7 +107,7 @@ floatconv::soft::i128_to_f32_round:
  orr.w   r2, r2, r11
  sub.w   r1, r1, r6, lsl, #23
  orrs    r2, r3
- add.w   r1, r1, #1585446912
+ add.w   r1, r1, #2122317824
  it      eq
  lsreq   r1, r7, #8
  add.w   r0, r1, r0, lsr, #31

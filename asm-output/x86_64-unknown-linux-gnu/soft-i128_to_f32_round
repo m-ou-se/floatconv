@@ -45,7 +45,7 @@ floatconv::soft::i128_to_f32_round:
  sub     edi, edx
  shr     edi, 31
  shl     ecx, 23
- mov     eax, 1585446912
+ mov     eax, 2122317824
  sub     eax, ecx
  or      r11, r10
  cmove   eax, r8d

@@ -1,4 +1,0 @@
-floatconv::fast::i16_to_f64_round:
- movsx   eax, di
- cvtsi2sd xmm0, eax
- ret

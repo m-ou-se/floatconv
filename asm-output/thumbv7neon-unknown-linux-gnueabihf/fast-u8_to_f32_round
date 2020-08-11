@@ -1,5 +1,0 @@
-floatconv::fast::u8_to_f32_round:
- uxtb    r0, r0
- vmov    s0, r0
- vcvt.f32.u32 s0, s0
- bx      lr

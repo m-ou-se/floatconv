@@ -1,0 +1,7 @@
+floatconv::fast::i8_to_f64:
+ push    eax
+ movsx   eax, byte, ptr, [esp, +, 8]
+ mov     word, ptr, [esp, +, 2], ax
+ fild    word, ptr, [esp, +, 2]
+ pop     eax
+ ret

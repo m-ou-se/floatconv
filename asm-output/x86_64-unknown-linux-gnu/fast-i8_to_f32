@@ -1,0 +1,4 @@
+floatconv::fast::i8_to_f32:
+ movsx   eax, dil
+ cvtsi2ss xmm0, eax
+ ret

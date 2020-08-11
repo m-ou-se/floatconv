@@ -100,7 +100,7 @@ floatconv::fast::u128_to_f32_round:
  lsrs    r5, r6, #8
  sub.w   r5, r5, r12, lsl, #23
  orr.w   r0, r1, r3
- add.w   r5, r5, #1585446912
+ add.w   r5, r5, #2122317824
  orrs    r0, r2
  it      eq
  lsreq   r5, r6, #8

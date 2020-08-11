@@ -1,14 +1,19 @@
 floatconv::fast::u32_to_f32_round:
- push    eax
- mov     eax, dword, ptr, [esp, +, 8]
+ sub     esp, 8
+ mov     eax, dword, ptr, [esp, +, 12]
  test    eax, eax
- jns     <label>
+ js      <label>
+ mov     dword, ptr, [esp], eax
+ fild    dword, ptr, [esp]
+ add     esp, 8
+ ret
+<label>:
  mov     ecx, eax
  shr     ecx
  and     eax, 1
  or      eax, ecx
-<label>:
- mov     dword, ptr, [esp], eax
- fild    dword, ptr, [esp]
- pop     eax
+ mov     dword, ptr, [esp, +, 4], eax
+ fild    dword, ptr, [esp, +, 4]
+ fadd    st(0), st
+ add     esp, 8
  ret

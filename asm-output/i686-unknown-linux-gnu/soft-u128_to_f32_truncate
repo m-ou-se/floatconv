@@ -63,7 +63,7 @@ floatconv::soft::u128_to_f32_truncate:
  or      esi, dword, ptr, [esp, +, 28]
  shl     edx, 23
  or      ecx, eax
- mov     eax, 1585446912
+ mov     eax, 2122317824
  shr     ebp, 8
  sub     eax, edx
  or      esi, ecx

@@ -44,7 +44,7 @@ floatconv::fast::u128_to_f32_truncate:
  lsrs    r6, r7, #8
  sub.w   r6, r6, r12, lsl, #23
  orrs    r0, r2
- add.w   r6, r6, #1585446912
+ add.w   r6, r6, #2122317824
  orrs    r0, r1
  it      eq
  lsreq   r6, r7, #8

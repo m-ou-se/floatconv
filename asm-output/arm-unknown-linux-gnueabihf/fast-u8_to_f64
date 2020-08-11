@@ -1,0 +1,5 @@
+floatconv::fast::u8_to_f64:
+ uxtb    r0, r0
+ vmov    s0, r0
+ vcvt.f64.u32 d0, s0
+ bx      lr

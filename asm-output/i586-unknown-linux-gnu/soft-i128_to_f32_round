@@ -188,7 +188,7 @@ floatconv::soft::i128_to_f32_round:
  je      <label>
  mov     esi, dword, ptr, [esp, +, 8]
  shl     esi, 23
- mov     eax, 1585446912
+ mov     eax, 2122317824
  sub     eax, esi
 <label>:
  add     eax, ecx

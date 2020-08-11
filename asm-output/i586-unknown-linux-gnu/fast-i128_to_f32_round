@@ -183,7 +183,7 @@ floatconv::fast::i128_to_f32_round:
  mov     esi, 0
  je      <label>
  shl     ebx, 23
- mov     esi, 1585446912
+ mov     esi, 2122317824
  sub     esi, ebx
 <label>:
  add     esi, edx

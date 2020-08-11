@@ -113,7 +113,7 @@ floatconv::fast::i128_to_f32_truncate:
  mov     edx, 0
  je      <label>
  shl     eax, 23
- mov     edx, 1585446912
+ mov     edx, 2122317824
  sub     edx, eax
 <label>:
  add     edx, ecx

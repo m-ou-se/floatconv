@@ -1,5 +1,0 @@
-floatconv::fast::i8_to_f64_round:
- sxtb    r0, r0
- vmov    s0, r0
- vcvt.f64.s32 d0, s0
- bx      lr

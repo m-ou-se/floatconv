@@ -1,0 +1,5 @@
+floatconv::fast::i16_to_f32:
+ sxth    r0, r0
+ vmov    s0, r0
+ vcvt.f32.s32 s0, s0
+ bx      lr

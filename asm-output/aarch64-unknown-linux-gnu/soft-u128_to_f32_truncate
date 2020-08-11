@@ -4,7 +4,7 @@ floatconv::soft::u128_to_f32_truncate:
  cmp     x1, #0
  add     x9, x9, #64
  csel    x8, x8, x9, ne
- mov     w10, #1585446912
+ mov     w10, #2122317824
  and     x9, x8, #0x7f
  tst     x8, #0x7f
  lsl     x12, x1, x8

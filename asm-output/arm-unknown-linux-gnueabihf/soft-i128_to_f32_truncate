@@ -44,7 +44,7 @@ floatconv::soft::i128_to_f32_truncate:
  lsr     r0, r1, #8
  sub     r0, r0, r2, lsl, #23
  orr     r2, r12, r4
- add     r0, r0, #511705088
+ add     r0, r0, #1048576000
  orrs    r2, r2, r7
  add     r0, r0, #1073741824
  lsreq   r0, r1, #8

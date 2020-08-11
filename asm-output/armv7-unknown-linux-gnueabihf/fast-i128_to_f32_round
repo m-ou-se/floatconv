@@ -79,7 +79,7 @@ floatconv::fast::i128_to_f32_round:
  lsr     r1, r7, #8
  sub     r1, r1, r11, lsl, #23
  orr     r2, r12, r4
- add     r1, r1, #511705088
+ add     r1, r1, #1048576000
  orr     r3, lr, r5
  add     r1, r1, #1073741824
  orrs    r2, r2, r3

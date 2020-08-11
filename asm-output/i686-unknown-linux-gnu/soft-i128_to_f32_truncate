@@ -74,7 +74,7 @@ floatconv::soft::i128_to_f32_truncate:
  mov     ebx, dword, ptr, [esp, +, 4]
  cmp     ch, 64
  cmovae  esi, eax
- mov     eax, 1585446912
+ mov     eax, 2122317824
  and     edi, -2147483648
  test    ch, ch
  cmove   esi, ebp

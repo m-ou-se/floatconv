@@ -113,7 +113,7 @@ floatconv::fast::u128_to_f32_round:
  mov     edi, dword, ptr, [esp, +, 44]
  and     eax, 1
  sub     ecx, eax
- mov     eax, 1585446912
+ mov     eax, 2122317824
  shr     ecx, 31
  or      edx, ebx
  mov     ebx, dword, ptr, [esp]

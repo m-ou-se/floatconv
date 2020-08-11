@@ -1,4 +1,0 @@
-floatconv::fast::i16_to_f64_round:
- sxth    w8, w0
- scvtf   d0, w8
- ret

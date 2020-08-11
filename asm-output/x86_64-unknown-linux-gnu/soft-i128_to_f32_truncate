@@ -27,7 +27,7 @@ floatconv::soft::i128_to_f32_truncate:
  cmove   rsi, rax
  shr     rsi, 40
  shl     ecx, 23
- mov     eax, 1585446912
+ mov     eax, 2122317824
  sub     eax, ecx
  or      rdx, r10
  cmove   eax, r8d

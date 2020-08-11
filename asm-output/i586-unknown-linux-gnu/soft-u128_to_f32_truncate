@@ -96,7 +96,7 @@ floatconv::soft::u128_to_f32_truncate:
  or      esi, edi
  je      <label>
  shl     edx, 23
- mov     eax, 1585446912
+ mov     eax, 2122317824
  sub     eax, edx
 <label>:
  add     eax, ecx

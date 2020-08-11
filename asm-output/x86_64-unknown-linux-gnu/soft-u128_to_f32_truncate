@@ -16,7 +16,7 @@ floatconv::soft::u128_to_f32_truncate:
  cmove   rdx, rax
  shr     rdx, 40
  shl     ecx, 23
- mov     r8d, 1585446912
+ mov     r8d, 2122317824
  sub     r8d, ecx
  xor     eax, eax
  or      rdi, rsi

@@ -27,7 +27,7 @@ floatconv::fast::i128_to_f32_truncate:
  cmove   rdi, rsi
  shr     rdi, 40
  shl     ecx, 23
- mov     esi, 1585446912
+ mov     esi, 2122317824
  sub     esi, ecx
  or      rdx, rax
  cmove   esi, r8d

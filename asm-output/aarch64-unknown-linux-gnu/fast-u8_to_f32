@@ -1,0 +1,4 @@
+floatconv::fast::u8_to_f32:
+ and     w8, w0, #0xff
+ ucvtf   s0, w8
+ ret

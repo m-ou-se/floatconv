@@ -1,0 +1,4 @@
+floatconv::fast::i8_to_f64:
+ sxtb    w8, w0
+ scvtf   d0, w8
+ ret

@@ -1,4 +1,0 @@
-floatconv::fast::u16_to_f32_round:
- and     w8, w0, #0xffff
- ucvtf   s0, w8
- ret

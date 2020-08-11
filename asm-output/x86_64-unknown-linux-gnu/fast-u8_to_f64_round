@@ -1,4 +1,0 @@
-floatconv::fast::u8_to_f64_round:
- movzx   eax, dil
- cvtsi2sd xmm0, eax
- ret

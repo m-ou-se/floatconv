@@ -1,7 +1,0 @@
-floatconv::fast::u16_to_f64_round:
- push    eax
- movzx   eax, word, ptr, [esp, +, 8]
- mov     dword, ptr, [esp], eax
- fild    dword, ptr, [esp]
- pop     eax
- ret
