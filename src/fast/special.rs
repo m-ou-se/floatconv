@@ -22,7 +22,7 @@ pub fn u32_to_f32_round(x: u32) -> f32 {
     }
 }
 
-#[cfg(target_feature = "sse2")]
+#[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 pub fn u64_to_f32_round(x: u64) -> f32 {
     if x >> 63 == 0 {
         x as i64 as f32
@@ -34,7 +34,7 @@ pub fn u64_to_f32_round(x: u64) -> f32 {
     }
 }
 
-#[cfg(target_feature = "sse2")]
+#[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 pub fn u64_to_f64_round(x: u64) -> f64 {
     const A: f64 = (1u128 << 52) as f64;
     const B: f64 = (1u128 << 84) as f64;

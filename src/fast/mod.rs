@@ -53,7 +53,7 @@ group! {
     impl_native!(i16_to_f32 i16 f32);
     impl_native!(u32_to_f32_round u32 f32);
     impl_native!(i32_to_f32_round i32 f32);
-    impl_special!(u64_to_f32_round u64 f32);
+    impl_native!(u64_to_f32_round u64 f32);
     impl_native!(i64_to_f32_round i64 f32);
     impl_soft!(u128_to_f32_round u128 f32);
     impl_soft!(i128_to_f32_round i128 f32);
@@ -63,7 +63,7 @@ group! {
     impl_native!(i16_to_f64 i16 f64);
     impl_native!(u32_to_f64 u32 f64);
     impl_native!(i32_to_f64 i32 f64);
-    impl_special!(u64_to_f64_round u64 f64);
+    impl_native!(u64_to_f64_round u64 f64);
     impl_native!(i64_to_f64_round i64 f64);
     impl_special!(u128_to_f64_round u128 f64);
     impl_special!(i128_to_f64_round i128 f64);
