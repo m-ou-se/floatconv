@@ -22,9 +22,10 @@
 //! ## Speed
 //!
 //! For conversions that aren't available natively, the software
-//! implementations in this crate seem to be both faster and smaller in almost
-//! all cases compared to the ones currently used by `x as f64` (from the
-//! compiler builtins runtime support library).
+//! implementations in this crate seem to be both faster and
+//! smaller in almost all cases compared to the ones currently
+//! used by `x as f64` or `x as f64` (from the compiler builtins
+//! runtime support library).
 //!
 //! ## Work in progress
 //!
