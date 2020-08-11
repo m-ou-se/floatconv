@@ -35,9 +35,16 @@
 //! - Native conversions are only available on ARM (32- and 64-bit) and x86 (32- and 64-bit).
 //! - The truncating functions do not (yet) use any native floating point instructions.
 
+// Used to group items together for #[cfg(..)].
+macro_rules! group {
+    ($($x:tt)*) => { $($x)* };
+}
+
 #[cfg(test)]
 mod test;
 
 pub mod soft;
 
 pub mod fast;
+
+mod special;

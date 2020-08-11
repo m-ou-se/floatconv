@@ -3,11 +3,36 @@
 //! These are implemented using a mix of native floating point instructions (if
 //! available) and (partial) soft implementations.
 
-#[macro_use]
 #[allow(unused_macros)]
-mod macros;
+macro_rules! impl_native {
+    ($name:tt $from:tt $to:tt) => {
+        #[inline]
+        pub fn $name(x: $from) -> $to {
+            x as $to
+        }
+    };
+}
 
-mod special;
+#[allow(unused_macros)]
+macro_rules! impl_soft {
+    ($name:tt $from:tt $to:tt) => {
+        /// Soft implementation.
+        #[inline]
+        pub fn $name(x: $from) -> $to {
+            $to::from_bits(crate::soft::$name(x))
+        }
+    };
+}
+
+#[allow(unused_macros)]
+macro_rules! impl_special {
+    ($name:tt $from:tt $to:tt) => {
+        #[inline]
+        pub fn $name(x: $from) -> $to {
+            crate::special::$name(x)
+        }
+    };
+}
 
 // TODO: Fast implementations.
 impl_soft!(u32_to_f32_truncate u32 f32);
