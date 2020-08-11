@@ -61,6 +61,8 @@ impl_soft!(f32_to_u64 f32 u64);
 impl_soft!(f32_to_i64 f32 i64);
 impl_soft!(f32_to_u128 f32 u128);
 impl_soft!(f32_to_i128 f32 i128);
+impl_soft!(f64_to_u32 f64 u32);
+impl_soft!(f64_to_i32 f64 i32);
 impl_soft!(f64_to_u64 f64 u64);
 impl_soft!(f64_to_i64 f64 i64);
 impl_soft!(f64_to_u128 f64 u128);
