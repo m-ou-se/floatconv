@@ -19,8 +19,6 @@ pub fn u32_to_f32_round(x: u32) -> f32 {
     } else {
         let x = x >> 1 | x & 1;
         x as i32 as f32 * 2.0
-        //TODO: Check if we can use:
-        //  x as i32 as f32 + u32::MAX as f32
     }
 }
 
@@ -32,8 +30,6 @@ pub fn u64_to_f32_round(x: u64) -> f32 {
     } else {
         let x = x >> 1 | x & 0xFFFFFFFF;
         x as i64 as f32 * 2.0
-        //TODO: Check if we can use:
-        //  x as i64 as f32 + u64::MAX as f32
     }
 }
 
