@@ -9,6 +9,13 @@ fn test_all_from_u8() {
         let a = f64::from_bits(soft::u8_to_f64(i));
         let b = i as f64;
         assert_eq!(a, b, "{} -> f64", i);
+        let i = i as i8;
+        let a = f32::from_bits(soft::i8_to_f32(i));
+        let b = i as f32;
+        assert_eq!(a, b, "{} -> f32", i);
+        let a = f64::from_bits(soft::i8_to_f64(i));
+        let b = i as f64;
+        assert_eq!(a, b, "{} -> f64", i);
     }
 }
 
@@ -19,6 +26,13 @@ fn test_all_from_u16() {
         let b = i as f32;
         assert_eq!(a, b, "{} -> f32", i);
         let a = f64::from_bits(soft::u16_to_f64(i));
+        let b = i as f64;
+        assert_eq!(a, b, "{} -> f64", i);
+        let i = i as i16;
+        let a = f32::from_bits(soft::i16_to_f32(i));
+        let b = i as f32;
+        assert_eq!(a, b, "{} -> f32", i);
+        let a = f64::from_bits(soft::i16_to_f64(i));
         let b = i as f64;
         assert_eq!(a, b, "{} -> f64", i);
     }
@@ -32,6 +46,13 @@ fn test_all_from_u32() {
         let b = i as f32;
         assert_eq!(a, b, "{} -> f32", i);
         let a = f64::from_bits(soft::u32_to_f64(i));
+        let b = i as f64;
+        assert_eq!(a, b, "{} -> f64", i);
+        let i = i as i32;
+        let a = f32::from_bits(soft::i32_to_f32_round(i));
+        let b = i as f32;
+        assert_eq!(a, b, "{} -> f32", i);
+        let a = f64::from_bits(soft::i32_to_f64(i));
         let b = i as f64;
         assert_eq!(a, b, "{} -> f64", i);
     }
