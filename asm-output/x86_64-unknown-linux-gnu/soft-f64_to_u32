@@ -1,0 +1,21 @@
+floatconv::soft::f64_to_u32:
+ xor     eax, eax
+ movabs  rcx, 9218868437227405312
+ cmp     rdi, rcx
+ ja      <label>
+ mov     rdx, rdi
+ shr     rdx, 52
+ mov     eax, -1
+ cmp     edx, 1054
+ ja      <label>
+ mov     eax, 0
+ cmp     edx, 1023
+ jb      <label>
+ shr     rdi, 21
+ or      edi, -2147483648
+ mov     cl, 30
+ sub     cl, dl
+ shr     edi, cl
+ mov     eax, edi
+<label>:
+ ret

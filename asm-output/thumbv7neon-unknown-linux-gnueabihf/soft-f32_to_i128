@@ -1,0 +1,95 @@
+floatconv::soft::f32_to_i128:
+ mov     r12, r0
+ bic     r0, r0, #-2147483648
+ cmp.w   r0, #2139095040
+ bls     <label>
+ movs    r0, #0
+ b       <label>
+<label>:
+ lsrs    r1, r0, #24
+ cmp     r1, #126
+ bls     <label>
+ mvn     r3, #-2147483648
+ mov.w   r0, #-1
+ cmp.w   r12, #0
+ it      mi
+ movmi.w r3, #-2147483648
+ it      mi
+ movmi   r0, #0
+ mov     r1, r0
+ mov     r2, r0
+ bx      lr
+<label>:
+ lsrs    r1, r0, #23
+ movs    r0, #0
+ cmp     r1, #126
+ bls     <label>
+ push    {r4, r5, r6, r7, lr}
+ movs    r2, #125
+ mov.w   r1, #1073741824
+ sub.w   r2, r2, r12, lsr, #23
+ bfi     r1, r12, #7, #23
+ and     r2, r2, #127
+ rsb.w   r5, r2, #32
+ rsb.w   r4, r2, #64
+ subs.w  r3, r2, #32
+ lsl.w   lr, r1, r5
+ lsl.w   r6, r1, r4
+ sub.w   r4, r2, #64
+ it      pl
+ lsrpl.w lr, r1, r3
+ cmp     r2, #64
+ it      hs
+ movhs   lr, r0
+ cmp     r5, #0
+ lsr.w   r4, r1, r4
+ it      pl
+ movpl   r6, #0
+ subs.w  r7, r2, #96
+ it      pl
+ movpl   r4, #0
+ cmp     r2, #64
+ it      lo
+ movlo   r4, r6
+ rsb.w   r6, r2, #96
+ cmp     r2, #0
+ it      eq
+ moveq   r4, r2
+ lsl.w   r6, r1, r6
+ cmp     r7, #0
+ it      pl
+ lsrpl.w r6, r1, r7
+ cmp     r5, #0
+ mov.w   r5, #0
+ it      pl
+ movpl   r5, #0
+ cmp     r2, #64
+ it      hs
+ movhs   r5, r6
+ cmp     r2, #0
+ it      eq
+ moveq   r5, r2
+ lsr.w   r6, r1, r2
+ cmp     r3, #0
+ it      pl
+ movpl   r6, #0
+ cmp     r2, #64
+ it      hs
+ movhs   r6, r0
+ rsbs    r7, r5, #0
+ sbcs.w  r1, r0, r4
+ sbcs.w  r2, r0, lr
+ sbc.w   r3, r0, r6
+ cmp.w   r12, #0
+ itttt   pl
+ movpl   r7, r5
+ movpl   r1, r4
+ movpl   r2, lr
+ movpl   r3, r6
+ mov     r0, r7
+ pop     {r4, r5, r6, r7, pc}
+<label>:
+ movs    r1, #0
+ movs    r2, #0
+ movs    r3, #0
+ bx      lr

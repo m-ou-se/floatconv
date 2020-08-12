@@ -1,0 +1,37 @@
+floatconv::soft::f64_to_i32:
+ movw    r12, #0
+ bic     r2, r1, #-2147483648
+ rsbs    r3, r0, #0
+ movt    r12, #32752
+ sbcs.w  r3, r12, r2
+ itt     lo
+ movlo   r0, #0
+ bxlo    lr
+ movw    r3, #65535
+ movt    r3, #16863
+ cmp     r2, r3
+ bls     <label>
+ mvn     r0, #-2147483648
+ cmp     r1, #0
+ it      mi
+ movmi.w r0, #-2147483648
+ bx      lr
+<label>:
+ movw    r3, #65535
+ movt    r3, #16367
+ cmp     r2, r3
+ itt     ls
+ movls   r0, #0
+ bxls    lr
+ lsrs    r0, r0, #22
+ movs    r2, #1
+ orr.w   r0, r0, r1, lsl, #10
+ cmp     r1, #0
+ bfi     r0, r2, #30, #2
+ mov.w   r2, #29
+ sub.w   r2, r2, r1, lsr, #20
+ and     r2, r2, #31
+ lsr.w   r0, r0, r2
+ it      mi
+ rsbmi   r0, r0, #0
+ bx      lr

@@ -1,0 +1,22 @@
+floatconv::soft::f32_to_u8:
+ cmp     edi, 2139095040
+ ja      <label>
+ mov     al, -1
+ cmp     edi, 1132462079
+ ja      <label>
+ cmp     edi, 1065353216
+ jb      <label>
+ mov     eax, edi
+ shr     eax, 16
+ or      al, -128
+ shr     edi, 23
+ mov     cl, 6
+ sub     cl, dil
+ and     cl, 7
+ shr     al, cl
+<label>:
+ ret
+<label>:
+<label>:
+ xor     eax, eax
+ ret

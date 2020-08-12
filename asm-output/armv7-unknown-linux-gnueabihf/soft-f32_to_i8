@@ -1,0 +1,32 @@
+floatconv::soft::f32_to_i8:
+ movw    r12, #65535
+ bic     r2, r0, #-2147483648
+ movt    r12, #16255
+ add     r3, r12, #1073741825
+ mov     r1, #0
+ cmp     r2, r3
+ bhi     <label>
+ lsr     r3, r2, #24
+ cmp     r3, #66
+ bls     <label>
+ mov     r1, #127
+ cmp     r0, #0
+ mvnmi   r1, #127
+ mov     r0, r1
+ bx      lr
+<label>:
+ cmp     r2, r12
+ bls     <label>
+ lsr     r2, r0, #17
+ mov     r1, #1
+ bfi     r2, r1, #6, #26
+ mov     r1, #5
+ sub     r1, r1, r0, lsr, #23
+ cmp     r0, #0
+ and     r3, r1, #7
+ mov     r12, #0
+ lsr     r1, r2, r3
+ submi   r1, r12, r2, lsr, r3
+<label>:
+ mov     r0, r1
+ bx      lr

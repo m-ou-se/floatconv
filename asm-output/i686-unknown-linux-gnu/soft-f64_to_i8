@@ -1,0 +1,43 @@
+floatconv::soft::f64_to_i8:
+ push    ebx
+ mov     eax, dword, ptr, [esp, +, 12]
+ mov     edx, dword, ptr, [esp, +, 8]
+ mov     ecx, eax
+ and     ecx, 2147483647
+ neg     edx
+ mov     edx, 2146435072
+ sbb     edx, ecx
+ jb      <label>
+ mov     edx, ecx
+ shr     edx, 21
+ cmp     edx, 514
+ jbe     <label>
+ shr     eax, 31
+ add     al, 127
+ pop     ebx
+ ret
+<label>:
+ shr     ecx, 20
+ cmp     ecx, 1022
+ jbe     <label>
+ mov     edx, eax
+ mov     ebx, eax
+ mov     cl, 5
+ shr     edx, 14
+ shr     ebx, 20
+ and     dl, 63
+ sub     cl, bl
+ or      dl, 64
+ shr     dl, cl
+ movzx   ecx, dl
+ neg     dl
+ test    eax, eax
+ movzx   eax, dl
+ cmovns  eax, ecx
+ pop     ebx
+ ret
+<label>:
+<label>:
+ xor     eax, eax
+ pop     ebx
+ ret

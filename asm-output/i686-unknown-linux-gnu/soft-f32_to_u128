@@ -1,0 +1,88 @@
+floatconv::soft::f32_to_u128:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 8
+ mov     ecx, dword, ptr, [esp, +, 32]
+ mov     eax, dword, ptr, [esp, +, 28]
+ cmp     ecx, 2139095040
+ ja      <label>
+ cmp     ecx, 2139095040
+ jne     <label>
+ mov     edx, -1
+ mov     esi, -1
+ mov     edi, -1
+ mov     ebx, -1
+ jmp     <label>
+<label>:
+ cmp     ecx, 1065353216
+ jb      <label>
+ mov     esi, ecx
+ shr     ecx, 23
+ mov     dl, 126
+ xor     edi, edi
+ sub     dl, cl
+ shl     esi, 8
+ mov     ch, dl
+ or      esi, -2147483648
+ and     ch, 127
+ mov     ebp, esi
+ mov     byte, ptr, [esp, +, 3], ch
+ add     ch, -64
+ mov     cl, ch
+ shr     ebp, cl
+ test    ch, 32
+ mov     cl, dl
+ mov     ebx, ebp
+ cmovne  ebx, edi
+ xor     edi, edi
+ mov     dword, ptr, [esp, +, 4], ebx
+ mov     ebx, esi
+ shrd    edi, esi, cl
+ shr     ebx, cl
+ test    dl, 32
+ mov     edx, 0
+ mov     cl, ch
+ cmovne  edi, ebx
+ cmovne  ebx, edx
+ xor     edx, edx
+ cmp     byte, ptr, [esp, +, 3], 64
+ cmovae  ebx, edx
+ xor     edx, edx
+ shrd    edx, esi, cl
+ test    ch, 32
+ mov     ch, byte, ptr, [esp, +, 3]
+ cmovne  edx, ebp
+ mov     ebp, 0
+ mov     cl, ch
+ sub     cl, 64
+ cmovb   edx, ebp
+ neg     cl
+ shld    esi, ebp, cl
+ test    cl, 32
+ cmovne  esi, ebp
+ cmp     ch, 64
+ cmovae  esi, dword, ptr, [esp, +, 4]
+ cmovae  edi, ebp
+ test    ch, ch
+ mov     ecx, 0
+ cmove   edx, ebp
+ cmove   esi, ecx
+ jmp     <label>
+<label>:
+ xor     edx, edx
+ xor     esi, esi
+ xor     edi, edi
+ xor     ebx, ebx
+<label>:
+ mov     dword, ptr, [eax], edx
+ mov     dword, ptr, [eax, +, 4], esi
+ mov     dword, ptr, [eax, +, 8], edi
+ mov     dword, ptr, [eax, +, 12], ebx
+ add     esp, 8
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret     4

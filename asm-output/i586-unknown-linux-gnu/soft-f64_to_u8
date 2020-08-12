@@ -1,0 +1,29 @@
+floatconv::soft::f64_to_u8:
+ push    ebx
+ mov     edx, dword, ptr, [esp, +, 12]
+ mov     eax, dword, ptr, [esp, +, 8]
+ neg     eax
+ mov     eax, 2146435072
+ sbb     eax, edx
+ jb      <label>
+ mov     ebx, edx
+ shr     ebx, 20
+ mov     al, -1
+ cmp     ebx, 1030
+ ja      <label>
+ cmp     ebx, 1023
+ jb      <label>
+ shr     edx, 13
+ or      dl, -128
+ mov     cl, 6
+ sub     cl, bl
+ shr     dl, cl
+ mov     eax, edx
+<label>:
+ pop     ebx
+ ret
+<label>:
+<label>:
+ xor     eax, eax
+ pop     ebx
+ ret

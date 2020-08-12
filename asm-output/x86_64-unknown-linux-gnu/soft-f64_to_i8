@@ -1,0 +1,37 @@
+floatconv::soft::f64_to_i8:
+ movabs  rcx, 9223372036854775807
+ and     rcx, rdi
+ movabs  rdx, 9218868437227405312
+ cmp     rcx, rdx
+ ja      <label>
+ mov     rax, rdi
+ mov     rdx, rcx
+ shr     rdx, 53
+ cmp     edx, 514
+ jbe     <label>
+ shr     rax, 63
+ add     al, 127
+ ret
+<label>:
+ shr     rcx, 52
+ cmp     ecx, 1022
+ jbe     <label>
+ mov     rdx, rax
+ shr     rdx, 46
+ and     dl, 63
+ or      dl, 64
+ mov     rsi, rax
+ shr     rsi, 52
+ mov     cl, 5
+ sub     cl, sil
+ shr     dl, cl
+ movzx   ecx, dl
+ neg     dl
+ test    rax, rax
+ movzx   eax, dl
+ cmovns  eax, ecx
+ ret
+<label>:
+<label>:
+ xor     eax, eax
+ ret

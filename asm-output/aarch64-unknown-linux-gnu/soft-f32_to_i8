@@ -1,0 +1,28 @@
+floatconv::soft::f32_to_i8:
+ and     w8, w0, #0x7fffffff
+ mov     w9, #2139095040
+ cmp     w8, w9
+ b.hi    <label>
+ lsr     w9, w8, #24
+ cmp     w9, #66
+ b.ls    <label>
+ cmp     w0, #0
+ mov     w8, #-128
+ cinv    w0, w8, ge
+ ret
+<label>:
+ lsr     w8, w8, #23
+ cmp     w8, #126
+ b.ls    <label>
+ mov     w9, #5
+ mov     w8, #64
+ sub     w9, w9, w0, lsr, #23
+ bfxil   w8, w0, #17, #6
+ and     w9, w9, #0x7
+ lsr     w8, w8, w9
+ cmp     w0, #0
+ cneg    w0, w8, lt
+ ret
+<label>:
+ mov     w0, wzr
+ ret

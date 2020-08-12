@@ -1,0 +1,27 @@
+floatconv::soft::f64_to_u32:
+ mov     r12, #267386880
+ rsbs    r3, r0, #0
+ orr     r12, r12, #1879048192
+ mov     r2, #0
+ sbcs    r3, r12, r1
+ blo     <label>
+ ldr     r3, <label>
+ mvn     r2, #0
+ cmp     r1, r3
+ bhi     <label>
+ mov     r2, #267386880
+ orr     r2, r2, #805306368
+ cmp     r1, r2
+ mov     r2, #0
+ blo     <label>
+ mov     r2, #30
+ lsr     r0, r0, #21
+ sub     r2, r2, r1, lsr, #20
+ orr     r0, r0, r1, lsl, #11
+ and     r2, r2, #31
+ orr     r0, r0, #-2147483648
+ lsr     r2, r0, r2
+<label>:
+ mov     r0, r2
+ bx      lr
+<label>:

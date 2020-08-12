@@ -1,0 +1,24 @@
+floatconv::soft::f64_to_u16:
+ movabs  rax, 9218868437227405312
+ cmp     rdi, rax
+ ja      <label>
+ mov     rdx, rdi
+ shr     rdx, 52
+ mov     ax, -1
+ cmp     edx, 1038
+ ja      <label>
+ cmp     edx, 1023
+ jb      <label>
+ shr     rdi, 37
+ or      edi, 32768
+ movzx   eax, di
+ mov     cl, 14
+ sub     cl, dl
+ and     cl, 15
+ shr     eax, cl
+<label>:
+ ret
+<label>:
+<label>:
+ xor     eax, eax
+ ret

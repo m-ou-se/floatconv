@@ -1,0 +1,45 @@
+floatconv::soft::f32_to_i128:
+ mov     ecx, edi
+ and     ecx, 2147483647
+ xor     eax, eax
+ mov     edx, 0
+ cmp     ecx, 2139095040
+ ja      <label>
+ xor     eax, eax
+ cmp     ecx, 2130706431
+ jbe     <label>
+ test    edi, edi
+ sets    al
+ xor     ecx, ecx
+ add     rax, -1
+ movabs  rdx, 9223372036854775807
+ adc     rdx, rcx
+ ret
+<label>:
+ mov     edx, 0
+ cmp     ecx, 1065353215
+ jbe     <label>
+ mov     eax, edi
+ and     eax, 8388607
+ shl     rax, 39
+ movabs  rsi, 4611686018427387904
+ or      rsi, rax
+ mov     eax, edi
+ shr     eax, 23
+ mov     cl, 125
+ sub     cl, al
+ xor     edx, edx
+ xor     r8d, r8d
+ shrd    r8, rsi, cl
+ shr     rsi, cl
+ test    cl, 64
+ cmovne  r8, rsi
+ cmovne  rsi, rdx
+ mov     rax, r8
+ neg     rax
+ sbb     rdx, rsi
+ test    edi, edi
+ cmovns  rax, r8
+ cmovns  rdx, rsi
+<label>:
+ ret

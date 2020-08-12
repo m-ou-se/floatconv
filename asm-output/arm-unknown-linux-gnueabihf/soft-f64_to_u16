@@ -1,0 +1,27 @@
+floatconv::soft::f64_to_u16:
+ mov     r2, r0
+ mov     r3, #267386880
+ orr     r3, r3, #1879048192
+ rsbs    r2, r2, #0
+ mov     r0, #0
+ sbcs    r2, r3, r1
+ blo     <label>
+ ldr     r2, <label>
+ cmp     r1, r2
+ movhi   r0, #255
+ orrhi   r0, r0, #65280
+ bxhi    lr
+ mov     r2, #267386880
+ orr     r2, r2, #805306368
+ cmp     r1, r2
+ bxlo    lr
+ mov     r0, #14
+ mov     r2, #32768
+ sub     r0, r0, r1, lsr, #20
+ orr     r1, r2, r1, lsr, #5
+ and     r0, r0, #15
+ uxth    r1, r1
+ lsr     r0, r1, r0
+<label>:
+ bx      lr
+<label>:

@@ -4,6 +4,7 @@ cd "$(dirname "$0")"
 rm -rf asm-output
 mkdir -p asm-output
 cd asm-output
+export RUSTFLAGS=--cfg=noinline
 cargo asm >/dev/null
 while read t; do
 	mkdir -p "$t"

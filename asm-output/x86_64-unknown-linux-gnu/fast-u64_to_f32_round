@@ -6,8 +6,8 @@ floatconv::fast::u64_to_f32_round:
 <label>:
  mov     rax, rdi
  shr     rax
- mov     ecx, edi
- or      rcx, rax
- cvtsi2ss xmm0, rcx
+ and     edi, 1
+ or      rdi, rax
+ cvtsi2ss xmm0, rdi
  addss   xmm0, xmm0
  ret

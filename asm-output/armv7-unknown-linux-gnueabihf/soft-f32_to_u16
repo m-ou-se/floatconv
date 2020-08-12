@@ -1,0 +1,24 @@
+floatconv::soft::f32_to_u16:
+ movw    r2, #65535
+ mov     r1, #0
+ movt    r2, #16255
+ add     r3, r2, #1073741825
+ cmp     r0, r3
+ bhi     <label>
+ add     r3, r2, #134217728
+ movw    r1, #65535
+ cmp     r0, r3
+ bhi     <label>
+ cmp     r0, r2
+ mov     r1, #0
+ bls     <label>
+ mov     r1, #14
+ mov     r2, #32768
+ sub     r1, r1, r0, lsr, #23
+ orr     r0, r2, r0, lsr, #8
+ and     r1, r1, #15
+ uxth    r0, r0
+ lsr     r1, r0, r1
+<label>:
+ mov     r0, r1
+ bx      lr

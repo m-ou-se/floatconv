@@ -1,0 +1,21 @@
+floatconv::soft::f64_to_u32:
+ mov     x8, #9218868437227405312
+ cmp     x0, x8
+ b.hi    <label>
+ lsr     x8, x0, #52
+ cmp     x8, #1054
+ b.ls    <label>
+ mov     w0, #-1
+ ret
+<label>:
+ cmp     x8, #1023
+ b.lo    <label>
+ lsr     x9, x0, #21
+ mov     w10, #30
+ orr     w9, w9, #0x80000000
+ sub     w8, w10, w8
+ lsr     w0, w9, w8
+ ret
+<label>:
+ mov     w0, wzr
+ ret

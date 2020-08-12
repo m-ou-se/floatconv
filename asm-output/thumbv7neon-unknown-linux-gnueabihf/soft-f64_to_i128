@@ -1,0 +1,111 @@
+floatconv::soft::f64_to_i128:
+ push.w  {r4, r5, r6, r7, r8, r9, r10, lr}
+ mov     r2, r0
+ movs    r0, #0
+ bic     r3, r1, #-2147483648
+ movt    r0, #32752
+ rsbs    r6, r2, #0
+ sbcs    r0, r3
+ bhs     <label>
+ movs    r0, #0
+ b       <label>
+<label>:
+ movw    r0, #65535
+ movt    r0, #18399
+ cmp     r3, r0
+ bls     <label>
+ mvn     r3, #-2147483648
+ mov.w   r0, #-1
+ cmp     r1, #0
+ it      mi
+ movmi.w r3, #-2147483648
+ it      mi
+ movmi   r0, #0
+ mov     r2, r0
+ mov     r1, r0
+ pop.w   {r4, r5, r6, r7, r8, r9, r10, pc}
+<label>:
+ movw    r6, #65535
+ movs    r0, #0
+ movt    r6, #16367
+ cmp     r3, r6
+ bls     <label>
+ lsls    r3, r1, #10
+ orr.w   r12, r3, r2, lsr, #22
+ movs    r3, #1
+ lsls    r6, r2, #10
+ bfi     r12, r3, #30, #2
+ movs    r3, #125
+ sub.w   r3, r3, r1, lsr, #20
+ and     r3, r3, #127
+ rsb.w   r5, r3, #32
+ rsb.w   r9, r3, #64
+ lsr.w   r2, r6, r3
+ subs.w  r8, r3, #32
+ lsl.w   r4, r12, r5
+ orr.w   lr, r2, r4
+ rsb.w   r2, r9, #32
+ sub.w   r7, r3, #64
+ it      pl
+ lsrpl.w lr, r12, r8
+ cmp     r3, #64
+ lsl.w   r4, r12, r9
+ lsr.w   r2, r6, r2
+ it      hs
+ movhs   lr, r0
+ orrs    r2, r4
+ cmp     r5, #0
+ lsr.w   r4, r12, r7
+ it      pl
+ lslpl.w r2, r6, r5
+ subs.w  r10, r3, #96
+ it      pl
+ movpl   r4, #0
+ cmp     r3, #64
+ it      lo
+ movlo   r4, r2
+ rsb.w   r2, r3, #96
+ cmp     r3, #0
+ it      eq
+ moveq   r4, r3
+ lsl.w   r2, r12, r2
+ lsr.w   r7, r6, r7
+ orrs    r2, r7
+ cmp.w   r10, #0
+ it      pl
+ lsrpl.w r2, r12, r10
+ cmp     r5, #0
+ lsl.w   r6, r6, r9
+ lsr.w   r5, r12, r3
+ it      pl
+ movpl   r6, #0
+ cmp     r3, #64
+ it      hs
+ movhs   r6, r2
+ cmp     r3, #0
+ it      eq
+ moveq   r6, r3
+ cmp.w   r8, #0
+ it      pl
+ movpl   r5, #0
+ cmp     r3, #64
+ it      hs
+ movhs   r5, r0
+ rsbs    r7, r6, #0
+ sbcs.w  r12, r0, r4
+ sbcs.w  r2, r0, lr
+ sbc.w   r3, r0, r5
+ cmp     r1, #0
+ itttt   pl
+ movpl   r7, r6
+ movpl   r12, r4
+ movpl   r2, lr
+ movpl   r3, r5
+ mov     r0, r7
+ mov     r1, r12
+ pop.w   {r4, r5, r6, r7, r8, r9, r10, pc}
+<label>:
+ movs    r1, #0
+ movs    r2, #0
+ movs    r3, #0
+ pop.w   {r4, r5, r6, r7, r8, r9, r10, pc}

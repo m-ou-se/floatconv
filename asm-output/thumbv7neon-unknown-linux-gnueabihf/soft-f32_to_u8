@@ -1,0 +1,24 @@
+floatconv::soft::f32_to_u8:
+ cmp.w   r0, #2139095040
+ itt     hi
+ movhi   r0, #0
+ bxhi    lr
+ movw    r1, #65535
+ movt    r1, #16255
+ add.w   r2, r1, #67108864
+ cmp     r0, r2
+ itt     hi
+ movhi   r0, #255
+ bxhi    lr
+ cmp     r0, r1
+ itt     ls
+ movls   r0, #0
+ bxls    lr
+ movs    r1, #6
+ movs    r2, #128
+ sub.w   r1, r1, r0, lsr, #23
+ orr.w   r0, r2, r0, lsr, #16
+ and     r1, r1, #7
+ uxtb    r0, r0
+ lsrs    r0, r1
+ bx      lr

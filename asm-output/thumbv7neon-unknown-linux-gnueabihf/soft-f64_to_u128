@@ -1,0 +1,93 @@
+floatconv::soft::f64_to_u128:
+ mov     r2, r0
+ movs    r0, #0
+ movt    r0, #32752
+ rsbs    r3, r2, #0
+ sbcs    r0, r1
+ bhs     <label>
+ movs    r0, #0
+ b       <label>
+<label>:
+ movw    r0, #65535
+ movt    r0, #18415
+ cmp     r1, r0
+ bls     <label>
+ mov.w   r0, #-1
+ mov.w   r1, #-1
+ mov.w   r2, #-1
+ mov.w   r3, #-1
+ bx      lr
+<label>:
+ movs    r3, #0
+ movs    r0, #0
+ movt    r3, #16368
+ cmp     r1, r3
+ blo     <label>
+ push.w  {r4, r5, r6, r7, r8, r9, lr}
+ lsls    r3, r1, #11
+ movs    r5, #126
+ sub.w   r1, r5, r1, lsr, #20
+ orr.w   r3, r3, r2, lsr, #21
+ and     r12, r1, #127
+ orr     r3, r3, #-2147483648
+ rsb.w   r1, r12, #32
+ lsls    r5, r2, #11
+ lsr.w   r2, r5, r12
+ sub.w   r8, r12, #64
+ lsl.w   r4, r3, r1
+ orrs    r2, r4
+ rsb.w   r4, r12, #96
+ subs.w  lr, r12, #32
+ rsb.w   r6, r12, #64
+ it      pl
+ lsrpl.w r2, r3, lr
+ cmp.w   r12, #64
+ lsl.w   r4, r3, r4
+ lsr.w   r7, r5, r8
+ it      hs
+ movhs   r2, r0
+ orrs    r7, r4
+ subs.w  r9, r12, #96
+ lsl.w   r4, r5, r6
+ it      pl
+ lsrpl.w r7, r3, r9
+ cmp     r1, #0
+ it      pl
+ movpl   r4, #0
+ cmp.w   r12, #64
+ it      hs
+ movhs   r4, r7
+ lsl.w   r7, r3, r6
+ rsb.w   r6, r6, #32
+ cmp.w   r12, #0
+ it      eq
+ moveq   r4, r12
+ lsr.w   r6, r5, r6
+ cmp     r1, #0
+ orr.w   r6, r6, r7
+ it      pl
+ lslpl.w r6, r5, r1
+ lsr.w   r1, r3, r8
+ cmp.w   r9, #0
+ it      pl
+ movpl   r1, #0
+ cmp.w   r12, #64
+ it      lo
+ movlo   r1, r6
+ cmp.w   r12, #0
+ lsr.w   r3, r3, r12
+ it      eq
+ moveq   r1, r12
+ cmp.w   lr, #0
+ it      pl
+ movpl   r3, #0
+ cmp.w   r12, #64
+ it      hs
+ movhs   r3, r0
+ mov     r0, r4
+ pop.w   {r4, r5, r6, r7, r8, r9, pc}
+<label>:
+ movs    r1, #0
+ movs    r2, #0
+ movs    r3, #0
+ bx      lr

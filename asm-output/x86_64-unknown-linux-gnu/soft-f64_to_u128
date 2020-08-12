@@ -1,0 +1,30 @@
+floatconv::soft::f64_to_u128:
+ xor     eax, eax
+ movabs  rcx, 9218868437227405312
+ mov     edx, 0
+ cmp     rdi, rcx
+ ja      <label>
+ mov     rsi, rdi
+ shr     rsi, 52
+ mov     rax, -1
+ mov     rdx, -1
+ cmp     esi, 1150
+ ja      <label>
+ xor     eax, eax
+ mov     edx, 0
+ cmp     esi, 1023
+ jb      <label>
+ shl     rdi, 11
+ movabs  rdx, -9223372036854775808
+ or      rdx, rdi
+ mov     cl, 126
+ sub     cl, sil
+ xor     esi, esi
+ xor     eax, eax
+ shrd    rax, rdx, cl
+ shr     rdx, cl
+ test    cl, 64
+ cmovne  rax, rdx
+ cmovne  rdx, rsi
+<label>:
+ ret

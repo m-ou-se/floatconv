@@ -7,12 +7,12 @@
 //! in this module take or return the bits of the floating point value as `u32`
 //! or `u64` instead of `f32` or `f64`.
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 pub fn u8_to_f32(x: u8) -> u32 {
     u16_to_f32(x.into())
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 pub fn u16_to_f32(x: u16) -> u32 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
@@ -21,7 +21,7 @@ pub fn u16_to_f32(x: u16) -> u32 {
     (e << 23) + m // Bit 24 of m will overflow into e.
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 fn u32_to_f32(x: u32, round: bool) -> u32 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
@@ -34,7 +34,7 @@ fn u32_to_f32(x: u32, round: bool) -> u32 {
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 fn u64_to_f32(x: u64, round: bool) -> u32 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
@@ -47,7 +47,7 @@ fn u64_to_f32(x: u64, round: bool) -> u32 {
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 fn u128_to_f32(x: u128, round: bool) -> u32 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
@@ -60,17 +60,17 @@ fn u128_to_f32(x: u128, round: bool) -> u32 {
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 pub fn u8_to_f64(x: u8) -> u64 {
     u32_to_f64(x.into())
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 pub fn u16_to_f64(x: u16) -> u64 {
     u32_to_f64(x.into())
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 pub fn u32_to_f64(x: u32) -> u64 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
@@ -79,7 +79,7 @@ pub fn u32_to_f64(x: u32) -> u64 {
     (e << 52) + m // Bit 53 of m will overflow into e.
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 fn u64_to_f64(x: u64, round: bool) -> u64 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
@@ -92,7 +92,7 @@ fn u64_to_f64(x: u64, round: bool) -> u64 {
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
-#[inline]
+#[cfg_attr(not(noinline), inline)]
 fn u128_to_f64(x: u128, round: bool) -> u64 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
@@ -107,7 +107,7 @@ fn u128_to_f64(x: u128, round: bool) -> u64 {
 
 macro_rules! impl_signed {
     ($name:tt $from:tt $unsigned:tt $return:tt) => {
-        #[inline]
+        #[cfg_attr(not(noinline), inline)]
         pub fn $name(x: $from) -> $return {
             let from_bits = core::mem::size_of::<$from>() * 8;
             let return_bits = core::mem::size_of::<$return>() * 8;
@@ -119,11 +119,11 @@ macro_rules! impl_signed {
 
 macro_rules! impl_round {
     ($name_round:tt $name_truncate:tt $from:tt $return:tt $name:tt) => {
-        #[inline]
+        #[cfg_attr(not(noinline), inline)]
         pub fn $name_round(x: $from) -> $return {
             $name(x, true)
         }
-        #[inline]
+        #[cfg_attr(not(noinline), inline)]
         pub fn $name_truncate(x: $from) -> $return {
             $name(x, false)
         }
@@ -155,7 +155,7 @@ impl_signed!(i128_to_f64_truncate i128 u128_to_f64_truncate u64);
 
 macro_rules! impl_to_int {
     ($f:tt $s:tt $e:tt $n:tt $t:tt $u:tt $signed:tt) => {
-        #[inline]
+        #[cfg_attr(not(noinline), inline)]
         pub fn $n(mut x: $f) -> $t {
             const BITS: u32 = $t::MAX.count_ones();
             const FBITS: u32 = $f::MAX.count_ones();

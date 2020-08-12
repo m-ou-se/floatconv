@@ -6,7 +6,7 @@
 #[allow(unused_macros)]
 macro_rules! impl_native {
     ($name:tt $from:tt $to:tt) => {
-        #[inline]
+        #[cfg_attr(not(noinline), inline)]
         pub fn $name(x: $from) -> $to {
             x as $to
         }
@@ -35,7 +35,7 @@ macro_rules! impl_soft {
 #[allow(unused_macros)]
 macro_rules! impl_special {
     ($name:tt $from:tt $to:tt) => {
-        #[inline]
+        #[cfg_attr(not(noinline), inline)]
         pub fn $name(x: $from) -> $to {
             crate::special::$name(x)
         }
