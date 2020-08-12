@@ -1,0 +1,20 @@
+floatconv::fast::f64_to_i32:
+ vldr    d16, <label>
+ vcmp.f64 d0, d16
+ vmrs    APSR_nzcv, fpscr
+ it      gt
+ vmovgt.f64 d16, d0
+ vcvt.s32.f64 s2, d16
+ vldr    d16, <label>
+ vmov    r0, s2
+ vcmp.f64 d0, d16
+ vmrs    APSR_nzcv, fpscr
+ it      gt
+ mvngt   r0, #-2147483648
+ vcmp.f64 d0, d0
+ vmrs    APSR_nzcv, fpscr
+ it      vs
+ movvs   r0, #0
+ bx      lr
+<label>:
+<label>:

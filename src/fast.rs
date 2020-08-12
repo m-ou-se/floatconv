@@ -54,22 +54,20 @@ impl_soft!(i64_to_f64_truncate i64 f64);
 impl_soft!(u128_to_f64_truncate u128 f64);
 impl_soft!(i128_to_f64_truncate i128 f64);
 
-// TODO: Fast implementations.
-impl_soft!(f32_to_u32 f32 u32);
-impl_soft!(f32_to_i32 f32 i32);
-impl_soft!(f32_to_u64 f32 u64);
-impl_soft!(f32_to_i64 f32 i64);
-impl_soft!(f32_to_u128 f32 u128);
-impl_soft!(f32_to_i128 f32 i128);
-impl_soft!(f64_to_u32 f64 u32);
-impl_soft!(f64_to_i32 f64 i32);
-impl_soft!(f64_to_u64 f64 u64);
-impl_soft!(f64_to_i64 f64 i64);
-impl_soft!(f64_to_u128 f64 u128);
-impl_soft!(f64_to_i128 f64 i128);
-
 #[cfg(target_arch = "aarch64")]
 group! {
+    impl_native!(f32_to_u32 f32 u32);
+    impl_native!(f32_to_i32 f32 i32);
+    impl_native!(f32_to_u64 f32 u64);
+    impl_native!(f32_to_i64 f32 i64);
+    impl_soft!(f32_to_u128 f32 u128);
+    impl_soft!(f32_to_i128 f32 i128);
+    impl_native!(f64_to_u32 f64 u32);
+    impl_native!(f64_to_i32 f64 i32);
+    impl_native!(f64_to_u64 f64 u64);
+    impl_native!(f64_to_i64 f64 i64);
+    impl_soft!(f64_to_u128 f64 u128);
+    impl_soft!(f64_to_i128 f64 i128);
     impl_native!(u8_to_f32 u8 f32);
     impl_native!(i8_to_f32 i8 f32);
     impl_native!(u16_to_f32 u16 f32);
@@ -94,6 +92,18 @@ group! {
 
 #[cfg(target_arch = "x86_64")]
 group! {
+    impl_native!(f32_to_u32 f32 u32);
+    impl_native!(f32_to_i32 f32 i32);
+    impl_native!(f32_to_u64 f32 u64);
+    impl_native!(f32_to_i64 f32 i64);
+    impl_soft!(f32_to_u128 f32 u128);
+    impl_soft!(f32_to_i128 f32 i128);
+    impl_native!(f64_to_u32 f64 u32);
+    impl_native!(f64_to_i32 f64 i32);
+    impl_native!(f64_to_u64 f64 u64);
+    impl_native!(f64_to_i64 f64 i64);
+    impl_soft!(f64_to_u128 f64 u128);
+    impl_soft!(f64_to_i128 f64 i128);
     impl_native!(u8_to_f32 u8 f32);
     impl_native!(i8_to_f32 i8 f32);
     impl_native!(u16_to_f32 u16 f32);
@@ -118,6 +128,18 @@ group! {
 
 #[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 group! {
+    impl_native!(f32_to_u32 f32 u32);
+    impl_native!(f32_to_i32 f32 i32);
+    impl_native!(f32_to_u64 f32 u64);
+    impl_native!(f32_to_i64 f32 i64);
+    impl_soft!(f32_to_u128 f32 u128);
+    impl_soft!(f32_to_i128 f32 i128);
+    impl_native!(f64_to_u32 f64 u32);
+    impl_native!(f64_to_i32 f64 i32);
+    impl_native!(f64_to_u64 f64 u64);
+    impl_native!(f64_to_i64 f64 i64);
+    impl_soft!(f64_to_u128 f64 u128);
+    impl_soft!(f64_to_i128 f64 i128);
     impl_native!(u8_to_f32 u8 f32);
     impl_native!(i8_to_f32 i8 f32);
     impl_native!(u16_to_f32 u16 f32);
@@ -142,6 +164,18 @@ group! {
 
 #[cfg(all(target_arch = "x86", not(target_feature = "sse2")))]
 group! {
+    impl_native!(f32_to_u32 f32 u32);
+    impl_native!(f32_to_i32 f32 i32);
+    impl_native!(f32_to_u64 f32 u64);
+    impl_native!(f32_to_i64 f32 i64);
+    impl_soft!(f32_to_u128 f32 u128);
+    impl_soft!(f32_to_i128 f32 i128);
+    impl_native!(f64_to_u32 f64 u32);
+    impl_native!(f64_to_i32 f64 i32);
+    impl_native!(f64_to_u64 f64 u64);
+    impl_native!(f64_to_i64 f64 i64);
+    impl_soft!(f64_to_u128 f64 u128);
+    impl_soft!(f64_to_i128 f64 i128);
     impl_native!(u8_to_f32 u8 f32);
     impl_native!(i8_to_f32 i8 f32);
     impl_native!(u16_to_f32 u16 f32);
@@ -166,6 +200,18 @@ group! {
 
 #[cfg(target_feature = "vfp2")]
 group! {
+    impl_native!(f32_to_u32 f32 u32);
+    impl_native!(f32_to_i32 f32 i32);
+    impl_soft!(f32_to_u64 f32 u64);
+    impl_soft!(f32_to_i64 f32 i64);
+    impl_soft!(f32_to_u128 f32 u128);
+    impl_soft!(f32_to_i128 f32 i128);
+    impl_native!(f64_to_u32 f64 u32);
+    impl_native!(f64_to_i32 f64 i32);
+    impl_soft!(f64_to_u64 f64 u64);
+    impl_soft!(f64_to_i64 f64 i64);
+    impl_soft!(f64_to_u128 f64 u128);
+    impl_soft!(f64_to_i128 f64 i128);
     impl_native!(u8_to_f32 u8 f32);
     impl_native!(i8_to_f32 i8 f32);
     impl_native!(u16_to_f32 u16 f32);
@@ -195,6 +241,18 @@ group! {
     target_feature = "vfp2",
 )))]
 group! {
+    impl_soft!(f32_to_u32 f32 u32);
+    impl_soft!(f32_to_i32 f32 i32);
+    impl_soft!(f32_to_u64 f32 u64);
+    impl_soft!(f32_to_i64 f32 i64);
+    impl_soft!(f32_to_u128 f32 u128);
+    impl_soft!(f32_to_i128 f32 i128);
+    impl_soft!(f64_to_u32 f64 u32);
+    impl_soft!(f64_to_i32 f64 i32);
+    impl_soft!(f64_to_u64 f64 u64);
+    impl_soft!(f64_to_i64 f64 i64);
+    impl_soft!(f64_to_u128 f64 u128);
+    impl_soft!(f64_to_i128 f64 i128);
     impl_soft!(u8_to_f32 u8 f32);
     impl_soft!(i8_to_f32 i8 f32);
     impl_soft!(u16_to_f32 u16 f32);

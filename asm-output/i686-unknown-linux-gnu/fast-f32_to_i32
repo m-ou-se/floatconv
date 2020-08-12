@@ -1,0 +1,16 @@
+floatconv::fast::f32_to_i32:
+ movss   xmm0, dword, ptr, [esp, +, 4]
+ call    <label>$pb
+<label>$pb:
+ pop     eax
+ mov     ecx, 2147483647
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ movaps  xmm1, xmm0
+ ucomiss xmm0, dword, ptr, [eax, +, <label>@GOTOFF]
+ maxss   xmm1, dword, ptr, [eax, +, <label>@GOTOFF]
+ cvttss2si eax, xmm1
+ cmovbe  ecx, eax
+ xor     eax, eax
+ ucomiss xmm0, xmm0
+ cmovnp  eax, ecx
+ ret

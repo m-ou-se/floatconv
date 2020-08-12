@@ -1,0 +1,29 @@
+floatconv::fast::f64_to_i64:
+ sub     esp, 20
+ movsd   xmm0, qword, ptr, [esp, +, 24]
+ call    <label>$pb
+<label>$pb:
+ pop     eax
+ mov     edx, 2147483647
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ movapd  xmm1, xmm0
+ maxsd   xmm1, qword, ptr, [eax, +, <label>@GOTOFF]
+ movsd   qword, ptr, [esp, +, 8], xmm1
+ fld     qword, ptr, [esp, +, 8]
+ fnstcw  word, ptr, [esp, +, 4]
+ movzx   ecx, word, ptr, [esp, +, 4]
+ or      ecx, 3072
+ ucomisd xmm0, qword, ptr, [eax, +, <label>@GOTOFF]
+ mov     eax, -1
+ mov     word, ptr, [esp, +, 6], cx
+ fldcw   word, ptr, [esp, +, 6]
+ fistp   qword, ptr, [esp, +, 8]
+ fldcw   word, ptr, [esp, +, 4]
+ cmovbe  edx, dword, ptr, [esp, +, 12]
+ cmovbe  eax, dword, ptr, [esp, +, 8]
+ xor     ecx, ecx
+ ucomisd xmm0, xmm0
+ cmovp   eax, ecx
+ cmovp   edx, ecx
+ add     esp, 20
+ ret

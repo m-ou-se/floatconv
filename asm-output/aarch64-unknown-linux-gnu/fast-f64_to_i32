@@ -1,0 +1,14 @@
+floatconv::fast::f64_to_i32:
+ mov     x8, #-4476578029606273024
+ mov     x9, #281474972516352
+ movk    x9, #16863, lsl, #48
+ fmov    d1, x8
+ fmaxnm  d1, d0, d1
+ fmov    d2, x9
+ mov     w10, #2147483647
+ fcmp    d0, d2
+ fcvtzs  w8, d1
+ csel    w8, w10, w8, gt
+ fcmp    d0, d0
+ csel    w0, w8, wzr, vc
+ ret

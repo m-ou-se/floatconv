@@ -1,0 +1,8 @@
+floatconv::fast::f64_to_u32:
+ ucomisd xmm0, qword, ptr, [rip, +, <label>]
+ xorpd   xmm1, xmm1
+ maxsd   xmm0, xmm1
+ cvttsd2si rcx, xmm0
+ mov     eax, -1
+ cmovbe  eax, ecx
+ ret

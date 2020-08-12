@@ -1,0 +1,17 @@
+floatconv::fast::f32_to_u64:
+ xorps   xmm1, xmm1
+ movaps  xmm2, xmm0
+ maxss   xmm2, xmm1
+ movss   xmm1, dword, ptr, [rip, +, <label>]
+ movaps  xmm3, xmm2
+ subss   xmm3, xmm1
+ cvttss2si rax, xmm3
+ movabs  rcx, -9223372036854775808
+ xor     rcx, rax
+ cvttss2si rdx, xmm2
+ ucomiss xmm2, xmm1
+ cmovae  rdx, rcx
+ ucomiss xmm0, dword, ptr, [rip, +, <label>]
+ mov     rax, -1
+ cmovbe  rax, rdx
+ ret

@@ -1,0 +1,9 @@
+floatconv::fast::f64_to_u64:
+ fmov    d1, xzr
+ mov     x8, #4895412794951729151
+ fmaxnm  d1, d0, d1
+ fmov    d2, x8
+ fcvtzu  x8, d1
+ fcmp    d0, d2
+ csinv   x0, x8, xzr, le
+ ret

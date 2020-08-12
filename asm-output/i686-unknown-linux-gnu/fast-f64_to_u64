@@ -1,0 +1,42 @@
+floatconv::fast::f64_to_u64:
+ push    ebx
+ sub     esp, 16
+ movsd   xmm0, qword, ptr, [esp, +, 24]
+ call    <label>$pb
+<label>$pb:
+ pop     eax
+ xorpd   xmm1, xmm1
+ mov     edx, -1
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ movapd  xmm2, xmm0
+ maxsd   xmm2, xmm1
+ movsd   xmm1, qword, ptr, [eax, +, <label>@GOTOFF]
+ movapd  xmm3, xmm2
+ movapd  xmm4, xmm2
+ cmpltsd xmm3, xmm1
+ andnpd  xmm3, xmm1
+ subsd   xmm4, xmm3
+ movsd   qword, ptr, [esp, +, 8], xmm4
+ fld     qword, ptr, [esp, +, 8]
+ fnstcw  word, ptr, [esp, +, 4]
+ movzx   ecx, word, ptr, [esp, +, 4]
+ or      ecx, 3072
+ mov     word, ptr, [esp, +, 6], cx
+ xor     ecx, ecx
+ ucomisd xmm2, xmm1
+ fldcw   word, ptr, [esp, +, 6]
+ setae   bl
+ ucomisd xmm0, qword, ptr, [eax, +, <label>@GOTOFF]
+ mov     eax, -1
+ fistp   qword, ptr, [esp, +, 8]
+ fldcw   word, ptr, [esp, +, 4]
+ ja      <label>
+ mov     cl, bl
+ mov     eax, dword, ptr, [esp, +, 8]
+ shl     ecx, 31
+ xor     ecx, dword, ptr, [esp, +, 12]
+ mov     edx, ecx
+<label>:
+ add     esp, 16
+ pop     ebx
+ ret

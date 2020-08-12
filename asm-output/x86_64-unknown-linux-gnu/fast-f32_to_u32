@@ -1,0 +1,8 @@
+floatconv::fast::f32_to_u32:
+ ucomiss xmm0, dword, ptr, [rip, +, <label>]
+ xorps   xmm1, xmm1
+ maxss   xmm0, xmm1
+ cvttss2si rcx, xmm0
+ mov     eax, -1
+ cmovbe  eax, ecx
+ ret

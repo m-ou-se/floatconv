@@ -1,0 +1,61 @@
+floatconv::fast::f64_to_i64:
+ sub     esp, 20
+ call    <label>$pb
+<label>$pb:
+ pop     edx
+ add     edx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ fld     qword, ptr, [esp, +, 24]
+ fld     qword, ptr, [edx, +, <label>@GOTOFF]
+ fxch    st(1)
+ fucom   st(1)
+ fstp    st(1)
+ fnstsw  ax
+ mov     ecx, eax
+ fld     dword, ptr, [edx, +, <label>@GOTOFF]
+ fxch    st(1)
+ fucom   st(1)
+ fnstsw  ax
+ sahf
+ fld     st(0)
+ ja      <label>
+ fstp    st(0)
+ fldz
+ fxch    st(2)
+<label>:
+ fstp    st(2)
+ fnstcw  word, ptr, [esp, +, 4]
+ movzx   eax, word, ptr, [esp, +, 4]
+ or      eax, 3072
+ mov     word, ptr, [esp, +, 6], ax
+ fldcw   word, ptr, [esp, +, 6]
+ fxch    st(1)
+ fistp   qword, ptr, [esp, +, 8]
+ fldcw   word, ptr, [esp, +, 4]
+ mov     ah, ch
+ sahf
+ mov     eax, dword, ptr, [esp, +, 8]
+ mov     edx, 2147483647
+ ja      <label>
+ mov     edx, dword, ptr, [esp, +, 12]
+ mov     ecx, -1
+ ja      <label>
+ jmp     <label>
+<label>:
+ mov     ecx, -1
+ ja      <label>
+<label>:
+ mov     ecx, eax
+<label>:
+ fucomp  st(0)
+ fnstsw  ax
+ sahf
+ jnp     <label>
+ xor     ecx, ecx
+ xor     edx, edx
+ mov     eax, ecx
+ add     esp, 20
+ ret
+<label>:
+ mov     eax, ecx
+ add     esp, 20
+ ret
