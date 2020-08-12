@@ -269,7 +269,7 @@ group! {
     impl_soft!(i16_to_f64 i16 f64);
     impl_soft!(u32_to_f64 u32 f64);
     impl_soft!(i32_to_f64 i32 f64);
-    impl_soft!(u64_to_f64_round i64 f64);
+    impl_soft!(u64_to_f64_round u64 f64);
     impl_soft!(i64_to_f64_round i64 f64);
     impl_soft!(u128_to_f64_round u128 f64);
     impl_soft!(i128_to_f64_round i128 f64);
