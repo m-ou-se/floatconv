@@ -29,7 +29,7 @@
 //! - These conversions truncate, which means they round towards zero.
 //! - Values higher than what the integer can represent (including +∞) result
 //!   in the maximum integer value.
-//! - Values lower than what the integer can represent (including -∞) result
+//! - Values lower than what the integer can represent (including −∞) result
 //!   in the minimum integer value.
 //! - `NaN` is converted to zero.
 //!
