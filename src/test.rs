@@ -1,6 +1,66 @@
 use crate::*;
 
 #[test]
+fn test_all_from_u8() {
+    for i in 0..=u8::MAX {
+        let a = f32::from_bits(soft::u8_to_f32(i));
+        let b = i as f32;
+        assert_eq!(a, b, "{} -> f32", i);
+        let a = f64::from_bits(soft::u8_to_f64(i));
+        let b = i as f64;
+        assert_eq!(a, b, "{} -> f64", i);
+    }
+}
+
+#[test]
+fn test_all_from_u16() {
+    for i in 0..=u16::MAX {
+        let a = f32::from_bits(soft::u16_to_f32(i));
+        let b = i as f32;
+        assert_eq!(a, b, "{} -> f32", i);
+        let a = f64::from_bits(soft::u16_to_f64(i));
+        let b = i as f64;
+        assert_eq!(a, b, "{} -> f64", i);
+    }
+}
+
+#[test]
+#[ignore]
+fn test_all_from_u32() {
+    for i in 0..=u32::MAX {
+        let a = f32::from_bits(soft::u32_to_f32_round(i));
+        let b = i as f32;
+        assert_eq!(a, b, "{} -> f32", i);
+        let a = f64::from_bits(soft::u32_to_f64(i));
+        let b = i as f64;
+        assert_eq!(a, b, "{} -> f64", i);
+    }
+}
+
+#[test]
+#[ignore]
+fn test_all_from_f32() {
+    for i in 0..=u32::MAX {
+        let f = f32::from_bits(i);
+        let a = soft::f32_to_u8(i);
+        let b = f as u8;
+        assert_eq!(a, b, "{:?} -> u8", f);
+        let a = soft::f32_to_u16(i);
+        let b = f as u16;
+        assert_eq!(a, b, "{:?} -> u16", f);
+        let a = soft::f32_to_u32(i);
+        let b = f as u32;
+        assert_eq!(a, b, "{:?} -> u32", f);
+        let a = soft::f32_to_u64(i);
+        let b = f as u64;
+        assert_eq!(a, b, "{:?} -> u64", f);
+        let a = soft::f32_to_u128(i);
+        let b = f as u128;
+        assert_eq!(a, b, "{:?} -> u128", f);
+    }
+}
+
+#[test]
 fn test_u32() {
     for &i in &[
         0,
