@@ -43,7 +43,11 @@ pub fn u64_to_f64_round(x: u64) -> f64 {
     l + h
 }
 
-#[cfg(any(target_arch = "aarch64", target_feature = "sse2"))]
+#[cfg(any(
+    target_arch = "aarch64",
+    target_arch = "x86_64",
+    all(target_arch = "x86", target_feature = "sse2"),
+))]
 group! {
     #[inline]
     pub fn u128_to_f64_round(x: u128) -> f64 {
