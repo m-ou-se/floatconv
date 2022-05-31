@@ -1,19 +1,5 @@
 floatconv::soft::f64_to_u16:
- movs    r2, #0
- rsbs    r0, r0, #0
- movt    r2, #32752
- sbcs.w  r0, r2, r1
- itt     lo
- movlo   r0, #0
- bxlo    lr
-<label>:
- movs    r0, #0
- movt    r0, #16624
- cmp     r1, r0
- itt     hs
- movwhs  r0, #65535
- bxhs    lr
-<label>:
+ mov     r2, r0
  movs    r0, #0
  movt    r0, #16368
  cmp     r1, r0
@@ -21,6 +7,10 @@ floatconv::soft::f64_to_u16:
  movlo   r0, #0
  bxlo    lr
 <label>:
+ movs    r0, #0
+ movt    r0, #16624
+ cmp     r1, r0
+ bhs     <label>
  movs    r0, #14
  mov.w   r2, #32768
  sub.w   r0, r0, r1, lsr, #20
@@ -28,4 +18,16 @@ floatconv::soft::f64_to_u16:
  and     r0, r0, #15
  uxth    r1, r1
  lsr.w   r0, r1, r0
+ bx      lr
+<label>:
+ movs    r3, #0
+ movs    r0, #0
+ subs    r2, #1
+ movt    r3, #32752
+ sbcs    r1, r3
+ it      lo
+ movlo   r0, #1
+ cmp     r0, #0
+ it      ne
+ movne.w r0, #-1
  bx      lr

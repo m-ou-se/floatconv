@@ -1,29 +1,27 @@
 floatconv::soft::f32_to_i8:
  bic     r1, r0, #-2147483648
- cmp.w   r1, #2139095040
- bhi     <label>
- lsrs    r2, r1, #24
- cmp     r2, #66
- ittt    hi
- movhi   r1, #127
- eorhi.w r0, r1, r0, asr, #31
- bxhi    lr
-<label>:
- lsrs    r1, r1, #23
- cmp     r1, #126
- bls     <label>
- lsrs    r1, r0, #17
- movs    r2, #1
- bfi     r1, r2, #6, #26
- movs    r2, #5
- sub.w   r2, r2, r0, lsr, #23
- cmp.w   r0, #-1
- and     r2, r2, #7
- lsr.w   r1, r1, r2
- it      le
- rsble   r1, r1, #0
+ cmp.w   r1, #1065353216
+ blo     <label>
+ cmp.w   r1, #1124073472
+ bhs     <label>
+ movs    r1, #6
+ movs    r2, #128
+ sub.w   r1, r1, r0, lsr, #23
+ orr.w   r2, r2, r0, lsr, #16
+ and     r1, r1, #7
+ cmp     r0, #0
+ uxtb    r2, r2
+ lsr.w   r1, r2, r1
+ it      mi
+ rsbmi   r1, r1, #0
  mov     r0, r1
  bx      lr
+<label>:
+ cmp.w   r1, #2139095040
+ ittt    ls
+ movls   r1, #127
+ eorls.w r0, r1, r0, asr, #31
+ bxls    lr
 <label>:
  movs    r0, #0
  bx      lr

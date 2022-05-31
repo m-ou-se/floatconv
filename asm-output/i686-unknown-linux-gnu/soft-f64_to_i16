@@ -1,42 +1,39 @@
 floatconv::soft::f64_to_i16:
  push    esi
  mov     edx, dword, ptr, [esp, +, 12]
- mov     ecx, dword, ptr, [esp, +, 8]
  mov     eax, edx
  and     eax, 2147483647
- neg     ecx
- mov     ecx, 2146435072
- sbb     ecx, eax
+ mov     ecx, eax
+ shr     ecx, 20
+ cmp     ecx, 1023
  jb      <label>
  mov     ecx, eax
  shr     ecx, 21
- cmp     ecx, 518
- jbe     <label>
- xor     ecx, ecx
- test    edx, edx
- mov     eax, -32768
- setns   cl
- sub     eax, ecx
- pop     esi
- ret
-<label>:
- shr     eax, 20
- cmp     eax, 1022
- jbe     <label>
- mov     esi, edx
+ cmp     ecx, 519
+ jae     <label>
  mov     eax, edx
- mov     cl, 13
- shr     esi, 6
+ mov     cl, 14
+ shr     eax, 5
+ or      eax, 32768
+ movzx   esi, ax
+ mov     eax, edx
  shr     eax, 20
- and     esi, 16383
  sub     cl, al
- or      esi, 16384
  and     cl, 15
  shr     esi, cl
  mov     eax, esi
  neg     eax
  test    edx, edx
  cmovns  eax, esi
+ pop     esi
+ ret
+<label>:
+ cmp     dword, ptr, [esp, +, 8], 1
+ sbb     eax, 2146435072
+ jae     <label>
+ shr     edx, 31
+ add     edx, 32767
+ mov     eax, edx
  pop     esi
  ret
 <label>:

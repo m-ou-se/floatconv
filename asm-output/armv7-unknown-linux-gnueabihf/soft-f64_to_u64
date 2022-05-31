@@ -1,24 +1,15 @@
 floatconv::soft::f64_to_u64:
+ movw    r3, #0
  mov     r2, r0
- movw    r12, #0
- rsbs    r3, r2, #0
- movt    r12, #32752
- sbcs    r3, r12, r1
- mov     r0, #0
- mov     r3, #0
- blo     <label>
- movw    r3, #0
- mvn     r0, #0
- movt    r3, #17392
- cmp     r1, r3
- mvn     r3, #0
- bhs     <label>
- movw    r3, #0
- mov     r0, #0
  movt    r3, #16368
  cmp     r1, r3
+ mov     r0, #0
  mov     r3, #0
  blo     <label>
+ movw    r0, #0
+ movt    r0, #17392
+ cmp     r1, r0
+ bhs     <label>
  mov     r0, #62
  sub     r0, r0, r1, lsr, #20
  lsl     r1, r1, #11
@@ -31,8 +22,20 @@ floatconv::soft::f64_to_u64:
  orr     r0, r0, r1, lsl, r2
  subs    r2, r3, #32
  lsr     r3, r1, r3
- lsrpl   r0, r1, r2
  movwpl  r3, #0
+ lsrpl   r0, r1, r2
+ mov     r1, r3
+ bx      lr
+<label>:
+ movw    r3, #0
+ subs    r2, r2, #1
+ movt    r3, #32752
+ mov     r0, #0
+ sbcs    r1, r1, r3
+ movwlo  r0, #1
+ cmp     r0, #0
+ mvnne   r0, #0
+ mov     r3, r0
 <label>:
  mov     r1, r3
  bx      lr

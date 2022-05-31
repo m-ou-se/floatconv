@@ -7,39 +7,19 @@ floatconv::soft::f32_to_i64:
  mov     edx, 0
  mov     ecx, esi
  and     ecx, 2147483647
- cmp     ecx, 2139095040
- ja      <label>
- cmp     ecx, 1593835519
- jbe     <label>
- mov     eax, -1
- mov     edx, 2147483647
- mov     ecx, -1
- mov     edi, 2147483647
- add     eax, 1
- adc     edx, 0
- test    esi, esi
- cmovns  eax, ecx
- cmovns  edx, edi
-<label>:
- pop     esi
- pop     edi
- pop     ebx
- ret
-<label>:
- xor     eax, eax
- cmp     ecx, 1065353215
- mov     edx, 0
- jbe     <label>
+ cmp     ecx, 1065353216
+ jb      <label>
+ cmp     ecx, 1593835520
+ jae     <label>
  mov     edi, esi
  mov     eax, esi
- mov     cl, 61
+ mov     cl, 62
  xor     ebx, ebx
  xor     edx, edx
- shl     edi, 7
+ shl     edi, 8
  shr     eax, 23
- and     edi, 1073741696
+ or      edi, -2147483648
  sub     cl, al
- or      edi, 1073741824
  shrd    ebx, edi, cl
  shr     edi, cl
  test    cl, 32
@@ -51,6 +31,25 @@ floatconv::soft::f32_to_i64:
  test    esi, esi
  cmovns  eax, ebx
  cmovns  edx, edi
+<label>:
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret
+<label>:
+ xor     eax, eax
+ cmp     ecx, 2139095041
+ mov     edx, 0
+ jae     <label>
+ xor     eax, eax
+ xor     ecx, ecx
+ mov     edx, -2147483648
+ mov     edi, -2147483648
+ add     eax, -1
+ adc     edx, -1
+ test    esi, esi
+ cmovs   eax, ecx
+ cmovs   edx, edi
  pop     esi
  pop     edi
  pop     ebx

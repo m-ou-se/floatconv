@@ -3,34 +3,32 @@ floatconv::soft::f32_to_i16:
  mov     edx, dword, ptr, [esp, +, 8]
  mov     eax, edx
  and     eax, 2147483647
- cmp     eax, 2139095040
- ja      <label>
- cmp     eax, 1191182335
- jbe     <label>
- xor     ecx, ecx
- test    edx, edx
- mov     eax, -32768
- setns   cl
- sub     eax, ecx
- pop     esi
- ret
-<label>:
- cmp     eax, 1065353215
- jbe     <label>
- mov     esi, edx
+ cmp     eax, 1065353216
+ jb      <label>
+ cmp     eax, 1191182336
+ jae     <label>
  mov     eax, edx
- mov     cl, 13
- shr     esi, 9
+ mov     cl, 14
+ shr     eax, 8
+ or      eax, 32768
+ movzx   esi, ax
+ mov     eax, edx
  shr     eax, 23
- and     esi, 16383
  sub     cl, al
- or      esi, 16384
  and     cl, 15
  shr     esi, cl
  mov     eax, esi
  neg     eax
  test    edx, edx
  cmovns  eax, esi
+ pop     esi
+ ret
+<label>:
+ cmp     eax, 2139095041
+ jae     <label>
+ shr     edx, 31
+ add     edx, 32767
+ mov     eax, edx
  pop     esi
  ret
 <label>:

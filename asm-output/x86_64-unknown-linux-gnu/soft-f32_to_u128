@@ -1,15 +1,10 @@
 floatconv::soft::f32_to_u128:
  xor     eax, eax
  mov     edx, 0
- cmp     edi, 2139095040
- ja      <label>
- mov     rax, -1
- mov     rdx, -1
- je      <label>
- xor     eax, eax
- mov     edx, 0
  cmp     edi, 1065353216
  jb      <label>
+ cmp     edi, 2139095040
+ jae     <label>
  mov     rdx, rdi
  or      rdx, -8388608
  shl     rdx, 40
@@ -23,5 +18,11 @@ floatconv::soft::f32_to_u128:
  test    cl, 64
  cmovne  rax, rdx
  cmovne  rdx, rsi
+ ret
+<label>:
+ sete    al
+ movzx   eax, al
+ neg     rax
+ mov     rdx, rax
 <label>:
  ret

@@ -3,29 +3,16 @@ floatconv::soft::f32_to_i128:
  and     ecx, 2147483647
  xor     eax, eax
  mov     edx, 0
- cmp     ecx, 2139095040
- ja      <label>
- xor     eax, eax
- cmp     ecx, 2130706431
- jbe     <label>
- test    edi, edi
- setns   al
- neg     rax
- movabs  rdx, -9223372036854775808
- sbb     rdx, 0
- ret
-<label>:
- mov     edx, 0
- cmp     ecx, 1065353215
- jbe     <label>
- mov     eax, edi
- and     eax, 8388607
- shl     rax, 39
- movabs  rsi, 4611686018427387904
- or      rsi, rax
+ cmp     ecx, 1065353216
+ jb      <label>
+ cmp     ecx, 2130706432
+ jae     <label>
+ mov     rsi, rdi
+ or      rsi, -8388608
+ shl     rsi, 40
  mov     eax, edi
  shr     eax, 23
- mov     cl, 125
+ mov     cl, 126
  sub     cl, al
  xor     edx, edx
  xor     r8d, r8d
@@ -40,5 +27,17 @@ floatconv::soft::f32_to_i128:
  test    edi, edi
  cmovns  rax, r8
  cmovns  rdx, rsi
+ ret
+<label>:
+ xor     eax, eax
+ mov     edx, 0
+ cmp     ecx, 2139095041
+ jae     <label>
+ shr     edi, 31
+ xor     eax, eax
+ add     rdi, -1
+ movabs  rdx, 9223372036854775807
+ adc     rdx, rax
+ mov     rax, rdi
 <label>:
  ret

@@ -1,22 +1,13 @@
 floatconv::soft::f32_to_u64:
- movw    r3, #65535
  mov     r2, r0
- movt    r3, #16255
- add     r1, r3, #1073741825
- cmp     r2, r1
  mov     r0, #0
+ cmp     r2, #1065353216
  mov     r1, #0
- bhi     <label>
- add     r1, r3, #536870912
- mvn     r0, #0
- cmp     r2, r1
- mvn     r1, #0
- bhi     <label>
- mov     r0, #0
- cmp     r2, r3
- mov     r1, #0
- bxls    lr
+ bxlo    lr
 <label>:
+ lsr     r0, r2, #23
+ cmp     r0, #191
+ bhs     <label>
  mov     r0, #-2147483648
  orr     r1, r0, r2, lsl, #8
  mov     r0, #62
@@ -28,5 +19,13 @@ floatconv::soft::f32_to_u64:
  lsrpl   r0, r1, r3
  lsr     r1, r1, r2
  movwpl  r1, #0
+ bx      lr
 <label>:
+ movw    r0, #0
+ movt    r0, #24448
+ add     r1, r0, #536870913
+ mov     r0, #0
+ cmp     r2, r1
+ mvnlo   r0, #0
+ mov     r1, r0
  bx      lr

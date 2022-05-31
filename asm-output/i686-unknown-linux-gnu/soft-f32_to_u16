@@ -1,12 +1,12 @@
 floatconv::soft::f32_to_u16:
  mov     edx, dword, ptr, [esp, +, 4]
- cmp     edx, 2139095040
- ja      <label>
- mov     ax, -1
+ cmp     edx, 1065353216
+ jae     <label>
+ xor     eax, eax
+ ret
+<label>:
  cmp     edx, 1199570944
  jae     <label>
- cmp     edx, 1065353216
- jb      <label>
  mov     eax, edx
  shr     edx, 23
  mov     cl, 14
@@ -16,8 +16,8 @@ floatconv::soft::f32_to_u16:
  and     cl, 15
  movzx   eax, ax
  shr     eax, cl
-<label>:
  ret
 <label>:
- xor     eax, eax
+ cmp     edx, 2139095041
+ sbb     eax, eax
  ret

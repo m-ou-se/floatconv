@@ -1,34 +1,33 @@
 floatconv::soft::f64_to_i32:
- movw    r12, #0
+ movs    r3, #0
  bic     r2, r1, #-2147483648
- rsbs    r3, r0, #0
- movt    r12, #32752
- sbcs.w  r3, r12, r2
+ movt    r3, #16368
+ cmp     r2, r3
  blo     <label>
- movw    r3, #65535
- movt    r3, #16863
+ movs    r3, #0
+ movt    r3, #16864
  cmp     r2, r3
- ittt    hi
- mvnhi   r0, #-2147483648
- eorhi.w r0, r0, r1, asr, #31
- bxhi    lr
-<label>:
- movw    r3, #65535
- movt    r3, #16367
- cmp     r2, r3
- bls     <label>
- lsrs    r0, r0, #22
- movs    r2, #1
- orr.w   r0, r0, r1, lsl, #10
- cmp.w   r1, #-1
- bfi     r0, r2, #30, #2
- mov.w   r2, #29
+ bhs     <label>
+ movs    r2, #30
+ lsrs    r0, r0, #21
  sub.w   r2, r2, r1, lsr, #20
+ orr.w   r0, r0, r1, lsl, #11
  and     r2, r2, #31
+ orr     r0, r0, #-2147483648
+ cmp     r1, #0
  lsr.w   r0, r0, r2
- it      le
- rsble   r0, r0, #0
+ it      mi
+ rsbmi   r0, r0, #0
  bx      lr
+<label>:
+ movs    r3, #0
+ subs    r0, #1
+ movt    r3, #32752
+ sbcs.w  r0, r2, r3
+ ittt    lo
+ mvnlo   r0, #-2147483648
+ eorlo.w r0, r0, r1, asr, #31
+ bxlo    lr
 <label>:
  movs    r0, #0
  bx      lr

@@ -1,30 +1,30 @@
 floatconv::soft::f64_to_u128:
- mov     x8, #9218868437227405312
- cmp     x0, x8
- b.hi    <label>
  lsr     x8, x0, #52
- cmp     x8, #1151
- b.lo    <label>
- mov     x0, #-1
- mov     x1, #-1
+ cmp     x8, #1023
+ b.hs    <label>
+ mov     x0, xzr
+ mov     x1, xzr
  ret
 <label>:
- cmp     x8, #1023
- b.lo    <label>
+ cmp     x8, #1151
+ b.hs    <label>
  mov     w9, #126
  sub     w8, w9, w8
  lsl     x9, x0, #11
  mvn     w10, w8
- and     w8, w8, #0x7f
  orr     x9, x9, #0x8000000000000000
- tst     x8, #0x40
- lsl     x11, x9, #1
- lsl     x10, x11, x10
- lsr     x9, x9, x8
- csel    x0, x9, x10, ne
- csel    x1, xzr, x9, ne
+ and     x11, x8, #0x7f
+ lsr     x8, x9, x8
+ lsl     x9, x9, #1
+ lsl     x9, x9, x10
+ tst     x11, #0x40
+ csel    x0, x8, x9, ne
+ csel    x1, xzr, x8, ne
  ret
 <label>:
- mov     x0, xzr
- mov     x1, xzr
+ mov     x8, #1
+ movk    x8, #32752, lsl, #48
+ cmp     x0, x8
+ csetm   x0, lo
+ mov     x1, x0
  ret

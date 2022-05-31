@@ -1,27 +1,29 @@
 floatconv::soft::f64_to_i16:
+ ubfx    x8, x0, #52, #11
+ cmp     x8, #1023
+ b.lo    <label>
  and     x8, x0, #0x7fffffffffffffff
- mov     x9, #9218868437227405312
- cmp     x8, x9
- b.hi    <label>
  lsr     x9, x8, #53
- cmp     x9, #518
- b.ls    <label>
- asr     x8, x0, #63
- eor     w0, w8, #0x7fff
- ret
-<label>:
- lsr     x8, x8, #52
- cmp     x8, #1022
- b.ls    <label>
+ cmp     x9, #519
+ b.hs    <label>
  lsr     x8, x0, #52
- mov     w9, #13
+ mov     w9, #14
  sub     w8, w9, w8
- ubfx    x9, x0, #38, #14
+ lsr     x9, x0, #37
  and     w8, w8, #0xf
- orr     w9, w9, #0x4000
+ orr     w9, w9, #0x8000
+ and     w9, w9, #0xffff
  cmp     x0, #0
  lsr     w8, w9, w8
  cneg    w0, w8, lt
+ ret
+<label>:
+ mov     x9, #1
+ movk    x9, #32752, lsl, #48
+ cmp     x8, x9
+ b.hs    <label>
+ asr     x8, x0, #63
+ eor     w0, w8, #0x7fff
  ret
 <label>:
  mov     w0, wzr

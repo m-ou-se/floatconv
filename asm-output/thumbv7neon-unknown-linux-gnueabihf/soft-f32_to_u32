@@ -1,26 +1,22 @@
 floatconv::soft::f32_to_u32:
- cmp.w   r0, #2139095040
- itt     hi
- movhi   r0, #0
- bxhi    lr
+ cmp.w   r0, #1065353216
+ itt     lo
+ movlo   r0, #0
+ bxlo    lr
 <label>:
- movw    r1, #65535
- movt    r1, #16255
- add.w   r2, r1, #268435456
- cmp     r0, r2
- itt     hi
- movhi.w r0, #-1
- bxhi    lr
-<label>:
- cmp     r0, r1
- itt     ls
- movls   r0, #0
- bxls    lr
-<label>:
- mov.w   r1, #-2147483648
+ mov     r1, r0
+ cmp.w   r0, #1333788672
+ bhs     <label>
+ mov.w   r0, #-2147483648
  movs    r2, #30
- orr.w   r1, r1, r0, lsl, #8
- sub.w   r0, r2, r0, lsr, #23
- and     r0, r0, #31
- lsr.w   r0, r1, r0
+ orr.w   r0, r0, r1, lsl, #8
+ sub.w   r1, r2, r1, lsr, #23
+ and     r1, r1, #31
+ lsrs    r0, r1
+ bx      lr
+<label>:
+ movs    r0, #0
+ cmp.w   r1, #2139095040
+ it      ls
+ movls.w r0, #-1
  bx      lr

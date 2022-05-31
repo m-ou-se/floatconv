@@ -1,11 +1,11 @@
 floatconv::soft::f32_to_u16:
- cmp     edi, 2139095040
- ja      <label>
- mov     ax, -1
+ cmp     edi, 1065353216
+ jae     <label>
+ xor     eax, eax
+ ret
+<label>:
  cmp     edi, 1199570944
  jae     <label>
- cmp     edi, 1065353216
- jb      <label>
  mov     eax, edi
  shr     eax, 8
  or      eax, 32768
@@ -15,8 +15,8 @@ floatconv::soft::f32_to_u16:
  sub     cl, dil
  and     cl, 15
  shr     eax, cl
-<label>:
  ret
 <label>:
- xor     eax, eax
+ cmp     edi, 2139095041
+ sbb     eax, eax
  ret

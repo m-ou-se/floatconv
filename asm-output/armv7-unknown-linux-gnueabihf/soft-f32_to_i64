@@ -1,28 +1,16 @@
 floatconv::soft::f32_to_i64:
- movw    r12, #65535
  bic     r3, r0, #-2147483648
- movt    r12, #16255
- add     r1, r12, #1073741825
- cmp     r3, r1
  mov     r2, #0
+ cmp     r3, #1065353216
  mov     r1, #0
- bhi     <label>
- lsr     r1, r3, #24
- cmp     r1, #94
- mvnhi   r1, #-2147483648
- eorhi   r1, r1, r0, asr, #31
- mvnhi   r0, r0, asr, #31
- bxhi    lr
-<label>:
- mov     r2, #0
- cmp     r3, r12
- mov     r1, #0
- bls     <label>
+ blo     <label>
+ cmp     r3, #1593835520
+ bhs     <label>
  push    {r11, lr}
- mov     r2, #61
- mov     r1, #1073741824
+ mov     r2, #62
+ mov     r1, #-2147483648
  sub     r2, r2, r0, lsr, #23
- bfi     r1, r0, #7, #23
+ orr     r1, r1, r0, lsl, #8
  and     r2, r2, #63
  subs    r12, r2, #32
  lsr     lr, r1, r2
@@ -32,10 +20,22 @@ floatconv::soft::f32_to_i64:
  lsrpl   r3, r1, r12
  rsbs    r2, r3, #0
  rsc     r1, lr, #0
- cmn     r0, #1
- movgt   r2, r3
- movgt   r1, lr
+ cmp     r0, #0
+ movpl   r2, r3
+ movpl   r1, lr
  pop     {r11, lr}
+ mov     r0, r2
+ bx      lr
+<label>:
+ movw    r1, #1
+ mov     r2, #0
+ movt    r1, #32640
+ cmp     r3, r1
+ mov     r1, #0
+ mvnlo   r1, #-2147483648
+ eorlo   r1, r1, r0, asr, #31
+ mvnlo   r0, r0, asr, #31
+ bxlo    lr
 <label>:
  mov     r0, r2
  bx      lr

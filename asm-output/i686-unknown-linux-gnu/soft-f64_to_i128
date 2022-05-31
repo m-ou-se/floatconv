@@ -4,108 +4,104 @@ floatconv::soft::f64_to_i128:
  push    edi
  push    esi
  sub     esp, 8
- mov     esi, dword, ptr, [esp, +, 36]
- mov     edi, dword, ptr, [esp, +, 32]
+ mov     ebp, dword, ptr, [esp, +, 36]
  mov     eax, dword, ptr, [esp, +, 28]
- mov     edx, esi
- mov     ecx, edi
+ mov     edx, ebp
  and     edx, 2147483647
- neg     ecx
- mov     ecx, 2146435072
- sbb     ecx, edx
+ mov     ecx, edx
+ shr     ecx, 20
+ cmp     ecx, 1023
  jb      <label>
+ mov     ebx, dword, ptr, [esp, +, 32]
  mov     ecx, edx
  shr     ecx, 21
- cmp     ecx, 574
- jbe     <label>
- xor     ecx, ecx
- test    esi, esi
- mov     edx, 0
- mov     ebx, -2147483648
- setns   cl
- xor     esi, esi
- neg     ecx
- sbb     edx, edx
- sbb     esi, esi
- sbb     ebx, 0
- jmp     <label>
-<label>:
- shr     edx, 20
- cmp     edx, 1022
- jbe     <label>
- mov     ebp, esi
- mov     eax, esi
- mov     dl, 125
- xor     ebx, ebx
- shld    ebp, edi, 10
+ cmp     ecx, 575
+ jae     <label>
+ mov     eax, ebp
+ shld    ebp, ebx, 11
+ mov     dl, 126
+ shl     ebx, 11
+ xor     edi, edi
  shr     eax, 20
- shl     edi, 10
- and     ebp, 1073741823
+ or      ebp, -2147483648
  sub     dl, al
- mov     eax, edi
- or      ebp, 1073741824
- mov     ecx, edx
+ mov     eax, ebx
  mov     esi, ebp
+ mov     ecx, edx
  shrd    eax, ebp, cl
  shr     esi, cl
  test    dl, 32
  cmovne  eax, esi
- cmovne  esi, ebx
+ cmovne  esi, edi
  and     dl, 127
  mov     ch, dl
  mov     cl, dl
  mov     dword, ptr, [esp], eax
  mov     eax, ebp
  sub     ch, 64
- cmovae  esi, ebx
+ cmovae  esi, edi
  add     cl, -64
  mov     dword, ptr, [esp, +, 4], esi
- mov     esi, edi
+ mov     esi, ebx
  shr     eax, cl
  shrd    esi, ebp, cl
  test    cl, 32
  cmovne  esi, eax
- cmovne  eax, ebx
+ cmovne  eax, edi
  neg     ch
  mov     cl, ch
- shld    ebp, edi, cl
- shl     edi, cl
+ shld    ebp, ebx, cl
+ shl     ebx, cl
  test    ch, 32
- cmovne  ebp, edi
- cmovne  edi, ebx
+ cmovne  ebp, ebx
+ cmovne  ebx, edi
  cmp     dl, 64
  cmovae  ebp, eax
  mov     eax, dword, ptr, [esp]
- cmovae  edi, esi
+ cmovae  ebx, esi
  mov     esi, 0
- cmovae  eax, ebx
+ cmovae  eax, edi
  test    dl, dl
  mov     edx, 0
- cmove   edi, ebx
- cmove   ebp, ebx
+ cmove   ebx, edi
+ cmove   ebp, edi
  mov     dword, ptr, [esp], eax
- mov     ecx, edi
+ mov     ecx, ebx
  neg     ecx
  sbb     edx, ebp
  sbb     esi, eax
  mov     eax, dword, ptr, [esp, +, 28]
- sbb     ebx, dword, ptr, [esp, +, 4]
+ sbb     edi, dword, ptr, [esp, +, 4]
  cmp     dword, ptr, [esp, +, 36], 0
  cmovns  esi, dword, ptr, [esp]
- cmovns  ebx, dword, ptr, [esp, +, 4]
- cmovns  ecx, edi
+ cmovns  edi, dword, ptr, [esp, +, 4]
+ cmovns  ecx, ebx
  cmovns  edx, ebp
+ jmp     <label>
+<label>:
+ cmp     ebx, 1
+ sbb     edx, 2146435072
+ jae     <label>
+ shr     ebp, 31
+ xor     edi, edi
+ mov     edx, 0
+ mov     esi, 0
+ add     ebp, -1
+ adc     edx, -1
+ mov     ecx, ebp
+ adc     esi, -1
+ adc     edi, 2147483647
  jmp     <label>
 <label>:
  xor     ecx, ecx
  xor     edx, edx
  xor     esi, esi
- xor     ebx, ebx
+ xor     edi, edi
 <label>:
  mov     dword, ptr, [eax], ecx
  mov     dword, ptr, [eax, +, 4], edx
  mov     dword, ptr, [eax, +, 8], esi
- mov     dword, ptr, [eax, +, 12], ebx
+ mov     dword, ptr, [eax, +, 12], edi
  add     esp, 8
  pop     esi
  pop     edi

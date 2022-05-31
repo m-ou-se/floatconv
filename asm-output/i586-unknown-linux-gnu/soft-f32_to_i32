@@ -4,30 +4,29 @@ floatconv::soft::f32_to_i32:
  mov     ecx, edx
  and     ecx, 2147483647
  xor     eax, eax
- cmp     ecx, 2139095040
- ja      <label>
- cmp     ecx, 1325400063
- jbe     <label>
- shr     edx, 31
- add     edx, 2147483647
+ cmp     ecx, 1065353216
+ jb      <label>
+ cmp     ecx, 1325400064
+ jae     <label>
  mov     eax, edx
- pop     ebx
- ret
-<label>:
- cmp     ecx, 1065353215
- jbe     <label>
- mov     eax, edx
- shl     eax, 7
- and     eax, 1073741696
- or      eax, 1073741824
+ shl     eax, 8
+ or      eax, -2147483648
  mov     ebx, edx
  shr     ebx, 23
- mov     cl, 29
+ mov     cl, 30
  sub     cl, bl
  shr     eax, cl
  test    edx, edx
  jns     <label>
  neg     eax
+ pop     ebx
+ ret
+<label>:
+ cmp     ecx, 2139095041
+ jae     <label>
+ shr     edx, 31
+ add     edx, 2147483647
+ mov     eax, edx
 <label>:
  pop     ebx
  ret

@@ -1,12 +1,12 @@
 floatconv::soft::f32_to_u8:
  mov     edx, dword, ptr, [esp, +, 4]
- cmp     edx, 2139095040
- ja      <label>
- mov     al, -1
+ cmp     edx, 1065353216
+ jae     <label>
+ xor     eax, eax
+ ret
+<label>:
  cmp     edx, 1132462080
  jae     <label>
- cmp     edx, 1065353216
- jb      <label>
  mov     eax, edx
  shr     eax, 16
  or      al, -128
@@ -15,8 +15,8 @@ floatconv::soft::f32_to_u8:
  sub     cl, dl
  and     cl, 7
  shr     al, cl
-<label>:
  ret
 <label>:
- xor     eax, eax
+ cmp     edx, 2139095041
+ sbb     eax, eax
  ret

@@ -1,24 +1,21 @@
 floatconv::soft::f32_to_u128:
- mov     r1, #1065353216
- orr     r1, r1, #1073741824
- cmp     r0, r1
- bhi     <label>
- cmp     r0, r1
- bne     <label>
- mvn     r0, #0
- mvn     r1, #0
- mvn     r2, #0
- mvn     r3, #0
+ cmp     r0, #1065353216
+ bhs     <label>
+ mov     r0, #0
+ mov     r1, #0
+ mov     r2, #0
+ mov     r3, #0
  bx      lr
 <label>:
- sub     r1, r1, #1073741825
- cmp     r0, r1
- bls     <label>
+ mov     r1, r0
+ lsr     r0, r0, #23
+ cmp     r0, #255
+ bhs     <label>
  push    {r4, r5, r6, lr}
- mov     r1, #-2147483648
- orr     lr, r1, r0, lsl, #8
- mov     r1, #126
- sub     r0, r1, r0, lsr, #23
+ mov     r0, #-2147483648
+ orr     lr, r0, r1, lsl, #8
+ mov     r0, #126
+ sub     r0, r0, r1, lsr, #23
  and     r12, r0, #127
  rsb     r0, r12, #64
  sub     r1, r12, #64
@@ -55,8 +52,12 @@ floatconv::soft::f32_to_u128:
  moveq   r0, r12
  pop     {r4, r5, r6, pc}
 <label>:
+ mov     r2, #1065353216
  mov     r0, #0
- mov     r1, #0
- mov     r2, #0
- mov     r3, #0
+ orr     r2, r2, #1073741824
+ cmp     r1, r2
+ mvneq   r0, #0
+ mov     r1, r0
+ mov     r2, r0
+ mov     r3, r0
  bx      lr

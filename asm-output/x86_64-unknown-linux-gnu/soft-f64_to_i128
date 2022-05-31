@@ -1,37 +1,24 @@
 floatconv::soft::f64_to_i128:
- movabs  rcx, 9223372036854775807
- and     rcx, rdi
+ movabs  r8, 9223372036854775807
+ mov     rcx, rdi
+ and     rcx, r8
+ mov     rsi, rcx
+ shr     rsi, 52
  xor     eax, eax
- movabs  rsi, 9218868437227405312
  mov     edx, 0
- cmp     rcx, rsi
- ja      <label>
+ cmp     esi, 1023
+ jb      <label>
  mov     rax, rcx
  shr     rax, 53
- cmp     eax, 574
- jbe     <label>
- xor     eax, eax
- test    rdi, rdi
- setns   al
- neg     rax
- movabs  rdx, -9223372036854775808
- sbb     rdx, 0
- ret
-<label>:
- shr     rcx, 52
- xor     eax, eax
- mov     edx, 0
- cmp     ecx, 1022
- jbe     <label>
+ cmp     eax, 575
+ jae     <label>
  mov     rax, rdi
- shl     rax, 10
- movabs  rcx, 4611686018427386880
- and     rcx, rax
- movabs  rsi, 4611686018427387904
- or      rsi, rcx
+ shl     rax, 11
+ movabs  rsi, -9223372036854775808
+ or      rsi, rax
  mov     rax, rdi
  shr     rax, 52
- mov     cl, 125
+ mov     cl, 126
  sub     cl, al
  xor     edx, edx
  xor     r8d, r8d
@@ -46,5 +33,17 @@ floatconv::soft::f64_to_i128:
  test    rdi, rdi
  cmovns  rax, r8
  cmovns  rdx, rsi
+ ret
+<label>:
+ xor     eax, eax
+ movabs  rsi, 9218868437227405313
+ mov     edx, 0
+ cmp     rcx, rsi
+ jae     <label>
+ shr     rdi, 63
+ xor     edx, edx
+ add     rdi, -1
+ adc     rdx, r8
+ mov     rax, rdi
 <label>:
  ret

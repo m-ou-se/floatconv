@@ -1,22 +1,22 @@
 floatconv::soft::f64_to_u8:
- movabs  rax, 9218868437227405312
- cmp     rdi, rax
- ja      <label>
  mov     rdx, rdi
  shr     rdx, 52
- mov     al, -1
- cmp     edx, 1031
- jae     <label>
  cmp     edx, 1023
- jb      <label>
- shr     rdi, 45
- or      dil, -128
- mov     cl, 6
- sub     cl, dl
- shr     dil, cl
- mov     eax, edi
-<label>:
+ jae     <label>
+ xor     eax, eax
  ret
 <label>:
- xor     eax, eax
+ mov     rax, rdi
+ cmp     edx, 1031
+ jae     <label>
+ shr     rax, 45
+ or      al, -128
+ mov     cl, 6
+ sub     cl, dl
+ shr     al, cl
+ ret
+<label>:
+ movabs  rcx, 9218868437227405313
+ cmp     rax, rcx
+ sbb     eax, eax
  ret

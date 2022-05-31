@@ -1,87 +1,88 @@
 floatconv::soft::f64_to_i128:
- push    {r4, r5, r6, r7, r8, r9, r10, lr}
  mov     r3, #267386880
  bic     r2, r1, #-2147483648
- orr     r3, r3, #1879048192
- rsbs    r6, r0, #0
- sbcs    r3, r3, r2
- blo     <label>
- ldr     r3, <label>
+ orr     r3, r3, #805306368
  cmp     r2, r3
- bls     <label>
+ bhs     <label>
+<label>:
+ mov     r0, #0
+ mov     r12, #0
+ mov     r2, #0
+ mov     r3, #0
+ b       <label>
+<label>:
+ mov     r3, #132120576
+ orr     r3, r3, #1073741824
+ cmp     r2, r3
+ bhs     <label>
+ push    {r4, r5, r6, r7, r8, r9, r10, lr}
+ mov     r2, #126
+ lsl     r4, r0, #11
+ sub     r2, r2, r1, lsr, #20
+ lsl     r3, r1, #11
+ and     lr, r2, #127
+ orr     r0, r3, r0, lsr, #21
+ orr     r3, r0, #-2147483648
+ rsb     r6, lr, #32
+ lsr     r2, r4, lr
+ subs    r9, lr, #32
+ orr     r2, r2, r3, lsl, r6
+ sub     r12, lr, #64
+ lsrpl   r2, r3, r9
+ mov     r8, #0
+ cmp     lr, #64
+ rsb     r5, lr, #96
+ movhs   r2, r8
+ subs    r10, lr, #96
+ rsb     r7, lr, #64
+ lsr     r0, r4, r12
+ orr     r5, r0, r3, lsl, r5
+ lsr     r12, r3, r12
+ lsrpl   r5, r3, r10
+ lsl     r0, r4, r7
+ cmp     r6, #0
+ movpl   r0, #0
+ cmp     lr, #64
+ movhs   r0, r5
+ rsb     r5, r7, #32
+ cmp     lr, #0
+ lsr     r5, r4, r5
+ moveq   r0, lr
+ orr     r5, r5, r3, lsl, r7
+ cmp     r6, #0
+ lslpl   r5, r4, r6
+ cmp     r10, #0
+ movpl   r12, #0
+ cmp     lr, #64
+ movlo   r12, r5
+ cmp     lr, #0
+ moveq   r12, lr
+ lsr     r3, r3, lr
+ cmp     r9, #0
+ movpl   r3, #0
+ cmp     lr, #64
+ movhs   r3, r8
+ cmn     r1, #1
+ pop     {r4, r5, r6, r7, r8, r9, r10, lr}
+ ble     <label>
+<label>:
+ mov     r1, r12
+ bx      lr
+<label>:
+ mov     r3, #267386880
+ subs    r0, r0, #1
+ orr     r3, r3, #1879048192
+ sbcs    r0, r2, r3
+ bhs     <label>
  mvn     r0, #-2147483648
  eor     r3, r0, r1, asr, #31
  mvn     r0, r1, asr, #31
  mov     r2, r0
  mov     r1, r0
- pop     {r4, r5, r6, r7, r8, r9, r10, pc}
+ bx      lr
 <label>:
- ldr     r3, <label>
- cmp     r2, r3
- bls     <label>
- mov     r2, #125
- lsl     r5, r0, #10
- sub     r2, r2, r1, lsr, #20
- lsl     r3, r1, #10
- orr     r0, r3, r0, lsr, #22
- and     r2, r2, #127
- bic     r0, r0, #-1073741824
- rsb     r9, r2, #32
- orr     r3, r0, #1073741824
- lsr     r4, r5, r2
- subs    r8, r2, #32
- rsb     r7, r2, #64
- orr     lr, r4, r3, lsl, r9
- rsb     r4, r7, #32
- lsrpl   lr, r3, r8
- mov     r12, #0
- cmp     r2, #64
- sub     r6, r2, #64
- movhs   lr, r12
- lsr     r4, r5, r4
- orr     r0, r4, r3, lsl, r7
- cmp     r9, #0
- lslpl   r0, r5, r9
- lsr     r4, r3, r6
- subs    r10, r2, #96
- movpl   r4, #0
- cmp     r2, #64
- movlo   r4, r0
- lsr     r0, r5, r6
- rsb     r6, r2, #96
- cmp     r2, #0
- moveq   r4, r2
- cmp     r10, #0
- orr     r0, r0, r3, lsl, r6
- lsl     r5, r5, r7
- lsrpl   r0, r3, r10
- cmp     r9, #0
- movpl   r5, #0
- cmp     r2, #64
- movhs   r5, r0
- cmp     r2, #0
- moveq   r5, r2
- lsr     r6, r3, r2
- cmp     r8, #0
- movpl   r6, #0
- cmp     r2, #64
- movhs   r6, r12
- rsbs    r0, r5, #0
- rscs    r12, r4, #0
- rscs    r2, lr, #0
- rsc     r3, r6, #0
- cmn     r1, #1
- movgt   r12, r4
- movgt   r0, r5
- movgt   r2, lr
- movgt   r3, r6
- mov     r1, r12
- pop     {r4, r5, r6, r7, r8, r9, r10, pc}
-<label>:
- mov     r0, #0
- mov     r1, #0
- mov     r2, #0
- mov     r3, #0
- pop     {r4, r5, r6, r7, r8, r9, r10, pc}
-<label>:
-<label>:
+ rsbs    r0, r0, #0
+ rscs    r1, r12, #0
+ rscs    r2, r2, #0
+ rsc     r3, r3, #0
+ bx      lr

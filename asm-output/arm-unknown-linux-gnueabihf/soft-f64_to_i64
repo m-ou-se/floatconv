@@ -1,53 +1,49 @@
 floatconv::soft::f64_to_i64:
- push    {r4, lr}
- mov     lr, #267386880
+ push    {r11, lr}
+ mov     r3, #267386880
  bic     r2, r1, #-2147483648
- orr     lr, lr, #1879048192
- rsbs    r3, r0, #0
- sbcs    r3, lr, r2
- mov     r12, #0
+ orr     r3, r3, #805306368
+ mov     r12, r0
+ cmp     r2, r3
+ mov     r0, #0
  mov     r3, #0
  blo     <label>
- ldr     r3, <label>
- cmp     r2, r3
- bls     <label>
+ mov     r0, #65011712
+ orr     r0, r0, #1073741824
+ cmp     r2, r0
+ bhs     <label>
+ mov     r0, #62
+ lsl     r3, r1, #11
+ sub     r0, r0, r1, lsr, #20
+ lsl     r2, r12, #11
+ and     r0, r0, #63
+ orr     r3, r3, r12, lsr, #21
+ orr     r12, r3, #-2147483648
+ subs    r3, r0, #32
+ lsr     lr, r2, r0
+ rsb     r2, r0, #32
+ orr     lr, lr, r12, lsl, r2
+ lsr     r2, r12, r0
+ lsrpl   lr, r12, r3
+ movpl   r2, #0
+ rsbs    r0, lr, #0
+ rsc     r3, r2, #0
+ cmp     r1, #0
+ movpl   r3, r2
+ movpl   r0, lr
+ mov     r1, r3
+ pop     {r11, pc}
+<label>:
+ mov     lr, #267386880
+ subs    r3, r12, #1
+ orr     lr, lr, #1879048192
+ mov     r0, #0
+ sbcs    r2, r2, lr
+ mov     r3, #0
+ bhs     <label>
  mvn     r0, #-2147483648
  eor     r3, r0, r1, asr, #31
- mvn     r12, r1, asr, #31
+ mvn     r0, r1, asr, #31
 <label>:
- mov     r0, r12
  mov     r1, r3
- pop     {r4, pc}
-<label>:
- ldr     r3, <label>
- mov     r12, #0
- cmp     r2, r3
- mov     r3, #0
- bls     <label>
- mov     r2, #61
- lsl     r3, r0, #10
- sub     r2, r2, r1, lsr, #20
- and     r4, r2, #63
- rsb     lr, r4, #32
- lsr     r12, r3, r4
- lsl     r3, r1, #10
- orr     r0, r3, r0, lsr, #22
- mov     r3, #-2147483648
- sub     r3, r3, #1073741825
- and     r0, r0, r3
- subs    r3, r4, #32
- orr     r0, r0, #1073741824
- orr     r2, r12, r0, lsl, lr
- lsrpl   r2, r0, r3
- lsr     r0, r0, r4
- movpl   r0, #0
- rsbs    r12, r2, #0
- rsc     r3, r0, #0
- cmn     r1, #1
- movgt   r12, r2
- movgt   r3, r0
- mov     r0, r12
- mov     r1, r3
- pop     {r4, pc}
-<label>:
-<label>:
+ pop     {r11, pc}

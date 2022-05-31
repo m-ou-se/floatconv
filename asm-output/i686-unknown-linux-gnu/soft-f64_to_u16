@@ -1,26 +1,24 @@
 floatconv::soft::f64_to_u16:
- mov     eax, dword, ptr, [esp, +, 4]
- mov     ecx, dword, ptr, [esp, +, 8]
- neg     eax
- mov     eax, 2146435072
- sbb     eax, ecx
- jb      <label>
- mov     edx, ecx
- mov     ax, -1
+ mov     eax, dword, ptr, [esp, +, 8]
+ mov     edx, eax
  shr     edx, 20
- cmp     edx, 1039
- jae     <label>
  cmp     edx, 1023
- jb      <label>
- shr     ecx, 5
- or      ecx, 32768
- movzx   eax, cx
- mov     cl, 14
- sub     cl, dl
- and     cl, 15
- shr     eax, cl
-<label>:
+ jae     <label>
+ xor     eax, eax
  ret
 <label>:
- xor     eax, eax
+ cmp     edx, 1039
+ jae     <label>
+ shr     eax, 5
+ mov     cl, 14
+ or      eax, 32768
+ sub     cl, dl
+ movzx   eax, ax
+ and     cl, 15
+ shr     eax, cl
+ ret
+<label>:
+ cmp     dword, ptr, [esp, +, 4], 1
+ sbb     eax, 2146435072
+ sbb     eax, eax
  ret

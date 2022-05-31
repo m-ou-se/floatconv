@@ -1,70 +1,68 @@
 floatconv::soft::f64_to_i64:
+ push    ebx
  push    edi
  push    esi
- mov     esi, dword, ptr, [esp, +, 16]
- mov     edi, dword, ptr, [esp, +, 12]
+ mov     esi, dword, ptr, [esp, +, 20]
  mov     ecx, esi
  and     ecx, 2147483647
+ mov     edx, ecx
+ shr     edx, 20
  xor     eax, eax
- mov     edx, edi
- neg     edx
- mov     edx, 2146435072
- sbb     edx, ecx
+ cmp     edx, 1023
  mov     edx, 0
  jb      <label>
+ mov     edx, dword, ptr, [esp, +, 16]
+ mov     edi, 2147483647
+ mov     ebx, -1
  mov     eax, ecx
  shr     eax, 21
- cmp     eax, 542
- jbe     <label>
- mov     edx, 2147483647
- mov     eax, -1
- mov     ecx, -1
- add     ecx, 1
- mov     edi, 2147483647
+ cmp     eax, 543
+ jae     <label>
+ mov     eax, esi
+ shld    eax, edx, 11
+ shl     edx, 11
+ add     ebx, 1
  adc     edi, 0
- test    esi, esi
- jns     <label>
- mov     eax, ecx
- mov     edx, edi
-<label>:
- pop     esi
- pop     edi
- ret
-<label>:
- shr     ecx, 20
- xor     eax, eax
- cmp     ecx, 1022
- mov     edx, 0
- jbe     <label>
- mov     edx, esi
- shld    edx, edi, 10
- shl     edi, 10
- and     edx, 1073741823
- add     edi, -1024
- adc     edx, 1073741823
- add     edi, 1024
- adc     edx, 0
+ or      edi, eax
+ or      ebx, edx
  mov     eax, esi
  shr     eax, 20
- mov     cl, 61
+ mov     cl, 62
  sub     cl, al
- shrd    edi, edx, cl
- shr     edx, cl
- xor     eax, eax
+ shrd    ebx, edi, cl
+ shr     edi, cl
+ xor     edx, edx
  test    cl, 32
  je      <label>
- mov     edi, edx
- xor     edx, edx
+ mov     ebx, edi
+ xor     edi, edi
 <label>:
- mov     ecx, edi
- neg     ecx
- sbb     eax, edx
+ mov     eax, ebx
+ neg     eax
+ sbb     edx, edi
  test    esi, esi
  jns     <label>
- mov     edi, ecx
- mov     edx, eax
 <label>:
- mov     eax, edi
  pop     esi
  pop     edi
+ pop     ebx
+ ret
+<label>:
+ xor     eax, eax
+ cmp     edx, 1
+ sbb     ecx, 2146435072
+ mov     edx, 0
+ jae     <label>
+ add     ebx, 1
+ adc     edi, 0
+ test    esi, esi
+ js      <label>
+ mov     ebx, -1
+ mov     edi, 2147483647
+<label>:
+ mov     eax, ebx
+ mov     edx, edi
+ pop     esi
+ pop     edi
+ pop     ebx
  ret

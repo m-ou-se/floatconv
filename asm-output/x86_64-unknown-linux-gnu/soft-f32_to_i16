@@ -1,26 +1,17 @@
 floatconv::soft::f32_to_i16:
  mov     eax, edi
  and     eax, 2147483647
- cmp     eax, 2139095040
- ja      <label>
- cmp     eax, 1191182335
- jbe     <label>
- xor     ecx, ecx
- test    edi, edi
- setns   cl
- mov     eax, -32768
- sub     eax, ecx
- ret
-<label>:
- cmp     eax, 1065353215
- jbe     <label>
- mov     edx, edi
- shr     edx, 9
- and     edx, 16383
- or      edx, 16384
+ cmp     eax, 1065353216
+ jb      <label>
+ cmp     eax, 1191182336
+ jae     <label>
+ mov     eax, edi
+ shr     eax, 8
+ or      eax, 32768
+ movzx   edx, ax
  mov     eax, edi
  shr     eax, 23
- mov     cl, 13
+ mov     cl, 14
  sub     cl, al
  and     cl, 15
  shr     edx, cl
@@ -28,6 +19,13 @@ floatconv::soft::f32_to_i16:
  neg     eax
  test    edi, edi
  cmovns  eax, edx
+ ret
+<label>:
+ cmp     eax, 2139095041
+ jae     <label>
+ shr     edi, 31
+ add     edi, 32767
+ mov     eax, edi
  ret
 <label>:
  xor     eax, eax

@@ -3,56 +3,40 @@ floatconv::soft::f32_to_i128:
  push    ebx
  push    edi
  push    esi
- sub     esp, 8
- mov     edx, dword, ptr, [esp, +, 32]
+ push    eax
  mov     edi, dword, ptr, [esp, +, 28]
- mov     eax, edx
- and     eax, 2147483647
- cmp     eax, 2139095040
- ja      <label>
- cmp     eax, 2130706431
- jbe     <label>
- xor     ecx, ecx
- test    edx, edx
- mov     edx, 0
- mov     esi, -2147483648
- setns   cl
- xor     ebp, ebp
- neg     ecx
- sbb     edx, edx
- sbb     ebp, ebp
- sbb     esi, 0
- jmp     <label>
-<label>:
- cmp     eax, 1065353215
- jbe     <label>
- mov     ebx, edx
- mov     eax, edx
- mov     dl, 125
+ mov     eax, dword, ptr, [esp, +, 24]
+ mov     ecx, edi
+ and     ecx, 2147483647
+ cmp     ecx, 1065353216
+ jb      <label>
+ cmp     ecx, 2130706432
+ jae     <label>
+ mov     eax, edi
+ mov     ebx, edi
+ mov     dl, 126
  xor     esi, esi
- shl     ebx, 7
+ shl     ebx, 8
  shr     eax, 23
- and     ebx, 1073741696
+ or      ebx, -2147483648
  sub     dl, al
  xor     eax, eax
- or      ebx, 1073741824
  mov     ecx, edx
+ mov     edi, ebx
  mov     ebp, ebx
  shrd    eax, ebx, cl
- shr     ebp, cl
+ shr     edi, cl
  test    dl, 32
- cmovne  eax, ebp
- cmovne  ebp, esi
+ cmovne  eax, edi
+ cmovne  edi, esi
  and     dl, 127
  mov     ch, dl
  mov     cl, dl
  mov     dword, ptr, [esp], eax
  sub     ch, 64
- cmovae  ebp, esi
+ cmovae  edi, esi
  add     cl, -64
  xor     eax, eax
- mov     dword, ptr, [esp, +, 4], ebp
- mov     ebp, ebx
  shrd    eax, ebx, cl
  shr     ebp, cl
  test    cl, 32
@@ -78,12 +62,26 @@ floatconv::soft::f32_to_i128:
  neg     ecx
  sbb     edx, ebx
  sbb     ebp, dword, ptr, [esp]
- sbb     esi, dword, ptr, [esp, +, 4]
- cmp     dword, ptr, [esp, +, 32], 0
- cmovns  ebp, dword, ptr, [esp]
- cmovns  esi, dword, ptr, [esp, +, 4]
+ sbb     esi, edi
+ cmp     dword, ptr, [esp, +, 28], 0
  cmovns  ecx, eax
+ cmovns  ebp, dword, ptr, [esp]
+ mov     eax, dword, ptr, [esp, +, 24]
  cmovns  edx, ebx
+ cmovns  esi, edi
+ jmp     <label>
+<label>:
+ cmp     ecx, 2139095041
+ jae     <label>
+ shr     edi, 31
+ xor     esi, esi
+ mov     edx, 0
+ mov     ebp, 0
+ add     edi, -1
+ adc     edx, -1
+ mov     ecx, edi
+ adc     ebp, -1
+ adc     esi, 2147483647
  jmp     <label>
 <label>:
  xor     ecx, ecx
@@ -91,12 +89,11 @@ floatconv::soft::f32_to_i128:
  xor     ebp, ebp
  xor     esi, esi
 <label>:
- mov     dword, ptr, [edi], ecx
- mov     dword, ptr, [edi, +, 4], edx
- mov     dword, ptr, [edi, +, 8], ebp
- mov     dword, ptr, [edi, +, 12], esi
- mov     eax, edi
- add     esp, 8
+ mov     dword, ptr, [eax], ecx
+ mov     dword, ptr, [eax, +, 4], edx
+ mov     dword, ptr, [eax, +, 8], ebp
+ mov     dword, ptr, [eax, +, 12], esi
+ add     esp, 4
  pop     esi
  pop     edi
  pop     ebx

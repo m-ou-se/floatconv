@@ -1,24 +1,25 @@
 floatconv::soft::f32_to_u8:
- movw    r2, #65535
  mov     r1, #0
- movt    r2, #16255
- add     r3, r2, #1073741825
- cmp     r0, r3
- bhi     <label>
- add     r3, r2, #67108864
- mov     r1, #255
- cmp     r0, r3
- bhi     <label>
- cmp     r0, r2
- mov     r1, #0
- bls     <label>
+ cmp     r0, #1065353216
+ blo     <label>
+ lsr     r1, r0, #23
+ cmp     r1, #135
+ bhs     <label>
  mov     r1, #6
  mov     r2, #128
  sub     r1, r1, r0, lsr, #23
  orr     r0, r2, r0, lsr, #16
  and     r1, r1, #7
  uxtb    r0, r0
- lsr     r1, r0, r1
+ lsr     r0, r0, r1
+ bx      lr
+<label>:
+ movw    r1, #0
+ movt    r1, #17280
+ add     r2, r1, #1006632961
+ mov     r1, #0
+ cmp     r0, r2
+ mvnlo   r1, #0
 <label>:
  mov     r0, r1
  bx      lr
