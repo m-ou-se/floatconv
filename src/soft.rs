@@ -38,7 +38,7 @@ pub fn u64_to_f32(x: u64) -> u32 {
     let y = x.wrapping_shl(n);
     let a = (y >> 40) as u32; // Significant bits, with bit 24 still in tact.
     let b = (y >> 8 | y & 0xFFFF) as u32; // Insignificant bits, only relevant for rounding.
-    let m = a + (b - (b >> 31 & !a) >> 31); // Add one when we need to round up. Break ties to even.
+    let m = a + ((b - (b >> 31 & !a)) >> 31); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 189 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -49,7 +49,7 @@ pub fn u128_to_f32(x: u128) -> u32 {
     let y = x.wrapping_shl(n);
     let a = (y >> 104) as u32; // Significant bits, with bit 24 still in tact.
     let b = (y >> 72) as u32 | (y << 32 >> 32 != 0) as u32; // Insignificant bits, only relevant for rounding.
-    let m = a + (b - (b >> 31 & !a) >> 31); // Add one when we need to round up. Break ties to even.
+    let m = a + ((b - (b >> 31 & !a)) >> 31); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 253 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -79,7 +79,7 @@ pub fn u64_to_f64(x: u64) -> u64 {
     let n = x.leading_zeros();
     let a = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
     let b = (x << n << 53) as u64; // Insignificant bits, only relevant for rounding.
-    let m = a + (b - (b >> 63 & !a) >> 63); // Add one when we need to round up. Break ties to even.
+    let m = a + ((b - (b >> 63 & !a)) >> 63); // Add one when we need to round up. Break ties to even.
     let e = 1085 - n as u64; // Exponent plus 1023, minus one.
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -90,7 +90,7 @@ pub fn u128_to_f64(x: u128) -> u64 {
     let y = x.wrapping_shl(n);
     let a = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
     let b = (y >> 11 | y & 0xFFFF_FFFF) as u64; // Insignificant bits, only relevant for rounding.
-    let m = a + (b - (b >> 63 & !a) >> 63); // Add one when we need to round up. Break ties to even.
+    let m = a + ((b - (b >> 63 & !a)) >> 63); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 1149 - n as u64 }; // Exponent plus 1023, minus one, except for zero.
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
