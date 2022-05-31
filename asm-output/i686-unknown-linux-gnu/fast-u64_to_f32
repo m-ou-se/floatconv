@@ -1,0 +1,34 @@
+floatconv::fast::u64_to_f32:
+ sub     esp, 36
+ mov     eax, dword, ptr, [esp, +, 44]
+ mov     ecx, dword, ptr, [esp, +, 40]
+ test    eax, eax
+ js      <label>
+ movd    xmm0, ecx
+ movd    xmm1, eax
+ punpckldq xmm0, xmm1
+ movq    qword, ptr, [esp, +, 16], xmm0
+ fild    qword, ptr, [esp, +, 16]
+ fstp    dword, ptr, [esp, +, 8]
+ movss   xmm0, dword, ptr, [esp, +, 8]
+ movss   dword, ptr, [esp, +, 4], xmm0
+ fld     dword, ptr, [esp, +, 4]
+ add     esp, 36
+ ret
+<label>:
+ mov     edx, eax
+ shr     eax
+ shld    edx, ecx, 31
+ movd    xmm1, eax
+ or      edx, ecx
+ movd    xmm0, edx
+ punpckldq xmm0, xmm1
+ movq    qword, ptr, [esp, +, 24], xmm0
+ fild    qword, ptr, [esp, +, 24]
+ fstp    dword, ptr, [esp, +, 12]
+ movss   xmm0, dword, ptr, [esp, +, 12]
+ addss   xmm0, xmm0
+ movss   dword, ptr, [esp, +, 4], xmm0
+ fld     dword, ptr, [esp, +, 4]
+ add     esp, 36
+ ret

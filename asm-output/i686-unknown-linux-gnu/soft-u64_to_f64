@@ -1,0 +1,52 @@
+floatconv::soft::u64_to_f64:
+ push    ebx
+ push    edi
+ push    esi
+ mov     eax, dword, ptr, [esp, +, 16]
+ mov     edx, dword, ptr, [esp, +, 20]
+ mov     ecx, eax
+ or      ecx, edx
+ je      <label>
+ bsr     ecx, eax
+ bsr     esi, edx
+ xor     ecx, 31
+ xor     esi, 31
+ add     ecx, 32
+ test    edx, edx
+ cmovne  ecx, esi
+ xor     esi, esi
+ shld    edx, eax, cl
+ shl     eax, cl
+ test    cl, 32
+ cmovne  edx, eax
+ cmove   esi, eax
+ mov     edi, edx
+ mov     ebx, esi
+ mov     eax, esi
+ shr     esi, 10
+ shr     edx, 11
+ shl     edi, 21
+ shr     ebx, 11
+ shl     eax, 21
+ or      edi, ebx
+ not     ebx
+ and     ebx, esi
+ and     ebx, 1
+ neg     ebx
+ sbb     eax, 0
+ shl     ecx, 20
+ shr     eax, 31
+ sub     edx, ecx
+ add     eax, edi
+ adc     edx, 1137704960
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret
+<label>:
+ xor     eax, eax
+ xor     edx, edx
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret

@@ -1,3 +1,0 @@
-floatconv::fast::i32_to_f32_round:
- scvtf   s0, w0
- ret

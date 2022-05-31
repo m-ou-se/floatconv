@@ -1,0 +1,33 @@
+floatconv::soft::u64_to_f32:
+ test    rdi, rdi
+ je      <label>
+ bsr     rcx, rdi
+ xor     rcx, 63
+ jmp     <label>
+<label>:
+ mov     ecx, 64
+<label>:
+ mov     rax, rdi
+ shl     rax, cl
+ mov     rdx, rax
+ movzx   r8d, ax
+ mov     r9, rax
+ shr     r9, 40
+ shr     rdx, 8
+ or      edx, r8d
+ mov     eax, edx
+ shr     eax, 31
+ mov     esi, r9d
+ not     esi
+ and     esi, eax
+ sub     edx, esi
+ shr     edx, 31
+ shl     ecx, 23
+ mov     esi, 1585446912
+ sub     esi, ecx
+ xor     eax, eax
+ test    rdi, rdi
+ cmovne  eax, esi
+ add     eax, r9d
+ add     eax, edx
+ ret

@@ -22,40 +22,34 @@ pub fn u16_to_f32(x: u16) -> u32 {
 }
 
 #[cfg_attr(not(noinline), inline)]
-fn u32_to_f32(x: u32, round: bool) -> u32 {
+pub fn u32_to_f32(x: u32) -> u32 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
     let mut m = x << n >> 8; // Significant bits, with bit 24 still in tact.
-    if round {
-        let b = x << n << 24; // Insignificant bits, only relevant for rounding.
-        m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
-    }
+    let b = x << n << 24; // Insignificant bits, only relevant for rounding.
+    m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
     let e = 157 - n as u32; // Exponent plus 127, minus one.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
 #[cfg_attr(not(noinline), inline)]
-fn u64_to_f32(x: u64, round: bool) -> u32 {
+pub fn u64_to_f32(x: u64) -> u32 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
     let mut m = (y >> 40) as u32; // Significant bits, with bit 24 still in tact.
-    if round {
-        let b = (y >> 8 | y & 0xFFFF) as u32; // Insignificant bits, only relevant for rounding.
-        m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
-    }
+    let b = (y >> 8 | y & 0xFFFF) as u32; // Insignificant bits, only relevant for rounding.
+    m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 189 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
 #[cfg_attr(not(noinline), inline)]
-fn u128_to_f32(x: u128, round: bool) -> u32 {
+pub fn u128_to_f32(x: u128) -> u32 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
     let mut m = (y >> 104) as u32; // Significant bits, with bit 24 still in tact.
-    if round {
-        let b = (y >> 72) as u32 | (y << 32 >> 32 != 0) as u32; // Insignificant bits, only relevant for rounding.
-        m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
-    }
+    let b = (y >> 72) as u32 | (y << 32 >> 32 != 0) as u32; // Insignificant bits, only relevant for rounding.
+    m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 253 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -80,27 +74,23 @@ pub fn u32_to_f64(x: u32) -> u64 {
 }
 
 #[cfg_attr(not(noinline), inline)]
-fn u64_to_f64(x: u64, round: bool) -> u64 {
+pub fn u64_to_f64(x: u64) -> u64 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
     let mut m = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
-    if round {
-        let b = (x << n << 53) as u64; // Insignificant bits, only relevant for rounding.
-        m += b - (b >> 63 & !m) >> 63; // Add one when we need to round up. Break ties to even.
-    }
+    let b = (x << n << 53) as u64; // Insignificant bits, only relevant for rounding.
+    m += b - (b >> 63 & !m) >> 63; // Add one when we need to round up. Break ties to even.
     let e = 1085 - n as u64; // Exponent plus 1023, minus one.
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
 #[cfg_attr(not(noinline), inline)]
-fn u128_to_f64(x: u128, round: bool) -> u64 {
+pub fn u128_to_f64(x: u128) -> u64 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
     let mut m = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
-    if round {
-        let b = (y >> 11 | y & 0xFFFF_FFFF) as u64; // Insignificant bits, only relevant for rounding.
-        m += b - (b >> 63 & !m) >> 63; // Add one when we need to round up. Break ties to even.
-    }
+    let b = (y >> 11 | y & 0xFFFF_FFFF) as u64; // Insignificant bits, only relevant for rounding.
+    m += b - (b >> 63 & !m) >> 63; // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 1149 - n as u64 }; // Exponent plus 1023, minus one, except for zero.
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -117,41 +107,17 @@ macro_rules! impl_signed {
     };
 }
 
-macro_rules! impl_round {
-    ($name_round:tt $name_truncate:tt $from:tt $return:tt $name:tt) => {
-        #[cfg_attr(not(noinline), inline)]
-        pub fn $name_round(x: $from) -> $return {
-            $name(x, true)
-        }
-        #[cfg_attr(not(noinline), inline)]
-        pub fn $name_truncate(x: $from) -> $return {
-            $name(x, false)
-        }
-    };
-}
-
-impl_round!(u32_to_f32_round u32_to_f32_truncate u32 u32 u32_to_f32);
-impl_round!(u64_to_f32_round u64_to_f32_truncate u64 u32 u64_to_f32);
-impl_round!(u128_to_f32_round u128_to_f32_truncate u128 u32 u128_to_f32);
-impl_round!(u64_to_f64_round u64_to_f64_truncate u64 u64 u64_to_f64);
-impl_round!(u128_to_f64_round u128_to_f64_truncate u128 u64 u128_to_f64);
-
 impl_signed!(i8_to_f32 i8 u8_to_f32 u32);
 impl_signed!(i16_to_f32 i16 u16_to_f32 u32);
-impl_signed!(i32_to_f32_round i32 u32_to_f32_round u32);
-impl_signed!(i32_to_f32_truncate i32 u32_to_f32_truncate u32);
-impl_signed!(i64_to_f32_round i64 u64_to_f32_round u32);
-impl_signed!(i64_to_f32_truncate i64 u64_to_f32_truncate u32);
-impl_signed!(i128_to_f32_round i128 u128_to_f32_round u32);
-impl_signed!(i128_to_f32_truncate i128 u128_to_f32_truncate u32);
+impl_signed!(i32_to_f32 i32 u32_to_f32 u32);
+impl_signed!(i64_to_f32 i64 u64_to_f32 u32);
+impl_signed!(i128_to_f32 i128 u128_to_f32 u32);
 
 impl_signed!(i8_to_f64 i8 u8_to_f64 u64);
 impl_signed!(i16_to_f64 i16 u16_to_f64 u64);
 impl_signed!(i32_to_f64 i32 u32_to_f64 u64);
-impl_signed!(i64_to_f64_round i64 u64_to_f64_round u64);
-impl_signed!(i64_to_f64_truncate i64 u64_to_f64_truncate u64);
-impl_signed!(i128_to_f64_round i128 u128_to_f64_round u64);
-impl_signed!(i128_to_f64_truncate i128 u128_to_f64_truncate u64);
+impl_signed!(i64_to_f64 i64 u64_to_f64 u64);
+impl_signed!(i128_to_f64 i128 u128_to_f64 u64);
 
 macro_rules! impl_to_int {
     ($f:tt $s:tt $e:tt $n:tt $t:tt $u:tt $signed:tt) => {

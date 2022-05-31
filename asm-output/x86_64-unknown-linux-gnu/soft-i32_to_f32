@@ -1,0 +1,32 @@
+floatconv::soft::i32_to_f32:
+ mov     r8d, edi
+ and     r8d, -2147483648
+ mov     eax, edi
+ neg     eax
+ cmovl   eax, edi
+ test    eax, eax
+ je      <label>
+ bsr     ecx, eax
+ xor     ecx, 31
+ shl     eax, cl
+ mov     esi, eax
+ shr     esi, 8
+ mov     edi, eax
+ shl     edi, 24
+ shr     eax, 7
+ mov     edx, esi
+ not     edx
+ and     edx, eax
+ and     edx, 1
+ sub     edi, edx
+ shr     edi, 31
+ shl     ecx, 23
+ sub     esi, ecx
+ lea     eax, [rdi, +, rsi]
+ add     eax, 1317011456
+ or      eax, r8d
+ ret
+<label>:
+ xor     eax, eax
+ or      eax, r8d
+ ret

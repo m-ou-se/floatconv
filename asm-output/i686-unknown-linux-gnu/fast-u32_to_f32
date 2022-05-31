@@ -1,0 +1,16 @@
+floatconv::fast::u32_to_f32:
+ push    eax
+ call    <label>$pb
+<label>$pb:
+ pop     eax
+ movss   xmm1, dword, ptr, [esp, +, 8]
+ add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ movsd   xmm0, qword, ptr, [eax, +, <label>@GOTOFF]
+ orpd    xmm1, xmm0
+ subsd   xmm1, xmm0
+ xorps   xmm0, xmm0
+ cvtsd2ss xmm0, xmm1
+ movss   dword, ptr, [esp], xmm0
+ fld     dword, ptr, [esp]
+ pop     eax
+ ret

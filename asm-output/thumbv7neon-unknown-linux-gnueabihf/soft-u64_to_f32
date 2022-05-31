@@ -1,0 +1,33 @@
+floatconv::soft::u64_to_f32:
+ push    {r4, lr}
+ clz     r2, r0
+ cmp     r1, #0
+ add.w   lr, r2, #32
+ it      ne
+ clzne   lr, r1
+ and     r4, lr, #63
+ rsb.w   r2, r4, #32
+ subs.w  r3, r4, #32
+ lsl.w   r12, r1, r4
+ lsr.w   r2, r0, r2
+ orr.w   r2, r2, r12
+ it      pl
+ lslpl.w r2, r0, r3
+ lsl.w   r3, r0, r4
+ it      pl
+ movpl   r3, #0
+ lsrs    r4, r3, #8
+ orr.w   r4, r4, r2, lsl, #24
+ uxth    r3, r3
+ orrs    r3, r4
+ orrs    r0, r1
+ lsr.w   r4, r3, #31
+ bic.w   r4, r4, r2, lsr, #8
+ sub.w   r3, r3, r4
+ lsr.w   r4, r2, #8
+ sub.w   r4, r4, lr, lsl, #23
+ add.w   r4, r4, #1585446912
+ it      eq
+ lsreq   r4, r2, #8
+ add.w   r0, r4, r3, lsr, #31
+ pop     {r4, pc}

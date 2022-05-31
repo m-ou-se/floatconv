@@ -1,0 +1,13 @@
+floatconv::fast::u64_to_f32:
+ test    rdi, rdi
+ js      <label>
+ cvtsi2ss xmm0, rdi
+ ret
+<label>:
+ mov     rax, rdi
+ shr     rax
+ and     edi, 1
+ or      rdi, rax
+ cvtsi2ss xmm0, rdi
+ addss   xmm0, xmm0
+ ret

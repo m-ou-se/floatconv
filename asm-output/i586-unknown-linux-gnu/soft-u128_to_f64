@@ -1,0 +1,177 @@
+floatconv::soft::u128_to_f64:
+ push    ebp
+ push    ebx
+ push    edi
+ push    esi
+ sub     esp, 16
+ mov     esi, dword, ptr, [esp, +, 36]
+ mov     edx, dword, ptr, [esp, +, 44]
+ mov     edi, dword, ptr, [esp, +, 48]
+ test    edi, edi
+ jne     <label>
+ bsr     ebx, edx
+ xor     ebx, 31
+ add     ebx, 32
+ mov     ebp, dword, ptr, [esp, +, 40]
+ bsr     ecx, esi
+ mov     eax, 63
+ jne     <label>
+ jmp     <label>
+<label>:
+ bsr     ebx, edi
+ xor     ebx, 31
+ mov     ebp, dword, ptr, [esp, +, 40]
+ bsr     ecx, esi
+ mov     eax, 63
+ je      <label>
+<label>:
+ mov     eax, ecx
+<label>:
+ test    ebp, ebp
+ jne     <label>
+ xor     eax, 31
+ add     eax, 32
+ mov     ecx, edx
+ or      ecx, edi
+ je      <label>
+ jmp     <label>
+<label>:
+ bsr     eax, ebp
+ xor     eax, 31
+ mov     ecx, edx
+ or      ecx, edi
+ jne     <label>
+<label>:
+ add     eax, 64
+ mov     ebx, eax
+<label>:
+ mov     eax, edx
+ mov     ecx, ebx
+ shl     eax, cl
+ mov     edx, esi
+ shl     edx, cl
+ mov     edi, ebp
+ shld    edi, esi, cl
+ test    bl, 32
+ mov     dword, ptr, [esp, +, 4], eax
+ jne     <label>
+ mov     dword, ptr, [esp], eax
+ jmp     <label>
+<label>:
+ mov     edi, edx
+ mov     dword, ptr, [esp], 0
+ xor     edx, edx
+<label>:
+ mov     ch, bl
+ and     ch, 127
+ mov     al, ch
+ sub     al, 64
+ jb      <label>
+ xor     edx, edx
+<label>:
+ mov     dword, ptr, [esp, +, 12], edx
+ neg     al
+ mov     edx, ebp
+ mov     cl, al
+ shr     ebp, cl
+ shrd    esi, edx, cl
+ test    al, 32
+ mov     edx, ebp
+ jne     <label>
+ mov     edx, esi
+<label>:
+ mov     dword, ptr, [esp, +, 8], edx
+ mov     ah, ch
+ add     ah, -64
+ mov     edx, dword, ptr, [esp, +, 36]
+ mov     cl, ah
+ shl     edx, cl
+ test    ah, 32
+ mov     esi, 0
+ jne     <label>
+ mov     esi, edx
+<label>:
+ cmp     ch, 64
+ jb      <label>
+ xor     edi, edi
+ mov     dword, ptr, [esp, +, 8], esi
+ test    al, 32
+ mov     dword, ptr, [esp], 0
+ je      <label>
+ jmp     <label>
+<label>:
+ mov     esi, dword, ptr, [esp]
+ or      esi, dword, ptr, [esp, +, 8]
+ mov     dword, ptr, [esp, +, 8], esi
+ test    al, 32
+ mov     dword, ptr, [esp], 0
+ jne     <label>
+<label>:
+ mov     dword, ptr, [esp], ebp
+<label>:
+ mov     ebp, dword, ptr, [esp, +, 48]
+ mov     cl, bl
+ mov     esi, dword, ptr, [esp, +, 44]
+ shld    ebp, esi, cl
+ test    bl, 32
+ jne     <label>
+ mov     dword, ptr, [esp, +, 4], ebp
+<label>:
+ mov     ebp, dword, ptr, [esp, +, 40]
+ mov     cl, ah
+ mov     esi, dword, ptr, [esp, +, 36]
+ shld    ebp, esi, cl
+ test    ah, 32
+ jne     <label>
+ mov     edx, ebp
+<label>:
+ cmp     ch, 64
+ mov     eax, dword, ptr, [esp, +, 4]
+ jae     <label>
+ or      eax, dword, ptr, [esp]
+ mov     edx, eax
+<label>:
+ mov     esi, dword, ptr, [esp, +, 48]
+ mov     dword, ptr, [esp, +, 4], ebx
+ test    ch, ch
+ mov     ecx, dword, ptr, [esp, +, 44]
+ je      <label>
+ mov     esi, edx
+ mov     ecx, dword, ptr, [esp, +, 8]
+<label>:
+ mov     ebx, esi
+ shld    esi, ecx, 21
+ shld    ecx, edi, 21
+ mov     eax, dword, ptr, [esp, +, 12]
+ shld    edi, eax, 21
+ or      edi, eax
+ mov     ebp, ecx
+ shr     ebp, 31
+ mov     eax, esi
+ not     eax
+ and     eax, ebp
+ shr     ebx, 11
+ cmp     edi, eax
+ sbb     ecx, 0
+ mov     edi, dword, ptr, [esp, +, 40]
+ or      edi, dword, ptr, [esp, +, 48]
+ mov     eax, dword, ptr, [esp, +, 36]
+ or      eax, dword, ptr, [esp, +, 44]
+ shr     ecx, 31
+ or      eax, edi
+ mov     edx, 0
+ je      <label>
+ mov     eax, dword, ptr, [esp, +, 4]
+ shl     eax, 20
+ mov     edx, 1204813824
+ sub     edx, eax
+<label>:
+ add     esi, ecx
+ adc     edx, ebx
+ mov     eax, esi
+ add     esp, 16
+ pop     esi
+ pop     edi
+ pop     ebx
+ pop     ebp
+ ret

@@ -1,0 +1,3 @@
+floatconv::fast::u64_to_f64:
+ ucvtf   d0, x0
+ ret

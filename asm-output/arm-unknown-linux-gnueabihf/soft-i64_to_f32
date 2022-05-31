@@ -1,0 +1,36 @@
+floatconv::soft::i64_to_f32:
+ push    {r4, lr}
+ rsbs    r2, r0, #0
+ rsc     lr, r1, #0
+ cmp     r1, #0
+ movpl   r2, r0
+ clz     r0, r2
+ movpl   lr, r1
+ add     r12, r0, #32
+ cmp     lr, #0
+ and     r1, r1, #-2147483648
+ clzne   r12, lr
+ and     r0, r12, #63
+ rsb     r3, r0, #32
+ subs    r4, r0, #32
+ lsr     r3, r2, r3
+ orr     r3, r3, lr, lsl, r0
+ lsl     r0, r2, r0
+ movpl   r0, #0
+ lslpl   r3, r2, r4
+ lsr     r4, r0, #8
+ uxth    r0, r0
+ orr     r4, r4, r3, lsl, #24
+ orrs    r2, r2, lr
+ orr     r0, r4, r0
+ lsr     r4, r0, #31
+ bic     r4, r4, r3, lsr, #8
+ sub     r0, r0, r4
+ lsr     r4, r3, #8
+ sub     r4, r4, r12, lsl, #23
+ add     r4, r4, #511705088
+ add     r4, r4, #1073741824
+ lsreq   r4, r3, #8
+ add     r0, r4, r0, lsr, #31
+ orr     r0, r0, r1
+ pop     {r4, pc}

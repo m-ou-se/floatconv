@@ -1,0 +1,41 @@
+floatconv::soft::i128_to_f64:
+ negs    x9, x0
+ ngcs    x11, x1
+ cmp     x1, #0
+ csel    x9, x9, x0, lt
+ csel    x11, x11, x1, lt
+ clz     x12, x9
+ clz     x13, x11
+ cmp     x11, #0
+ add     x12, x12, #64
+ csel    x12, x13, x12, ne
+ mov     x10, #5174635971848699904
+ and     x13, x12, #0x7f
+ orr     x14, x9, x11
+ tst     x12, #0x7f
+ lsl     x15, x9, x12
+ lsl     x11, x11, x12
+ sub     x10, x10, x12, lsl, #52
+ neg     x12, x13
+ lsr     x12, x9, x12
+ lsl     x9, x9, x13
+ sub     x13, x13, #64
+ csel    x12, xzr, x12, eq
+ cmp     x13, #0
+ orr     x11, x12, x11
+ csel    x13, xzr, x15, ge
+ csel    x9, x9, x11, ge
+ and     x11, x13, #0xffffffff
+ extr    x12, x9, x13, #11
+ lsr     x9, x9, #11
+ cmp     x14, #0
+ orr     x11, x12, x11
+ mvn     x12, x9
+ csel    x10, xzr, x10, eq
+ and     x12, x12, x11, lsr, #63
+ sub     x11, x11, x12
+ add     x9, x10, x9
+ and     x8, x1, #0x8000000000000000
+ add     x9, x9, x11, lsr, #63
+ orr     x0, x9, x8
+ ret

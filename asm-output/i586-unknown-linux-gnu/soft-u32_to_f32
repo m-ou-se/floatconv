@@ -1,0 +1,31 @@
+floatconv::soft::u32_to_f32:
+ push    edi
+ push    esi
+ mov     eax, dword, ptr, [esp, +, 12]
+ test    eax, eax
+ je      <label>
+ bsr     ecx, eax
+ xor     ecx, 31
+ shl     eax, cl
+ mov     edx, eax
+ shr     edx, 8
+ mov     esi, eax
+ shl     esi, 24
+ shr     eax, 7
+ mov     edi, edx
+ not     edi
+ and     edi, eax
+ and     edi, 1
+ sub     esi, edi
+ shr     esi, 31
+ shl     ecx, 23
+ sub     edx, ecx
+ lea     eax, [esi, +, edx, +, 1317011456]
+ pop     esi
+ pop     edi
+ ret
+<label>:
+ xor     eax, eax
+ pop     esi
+ pop     edi
+ ret

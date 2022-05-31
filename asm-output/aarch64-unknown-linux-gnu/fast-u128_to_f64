@@ -1,0 +1,37 @@
+floatconv::fast::u128_to_f64:
+ lsr     x8, x1, #40
+ cbnz    x8, <label>
+ mov     x8, #4841369599423283200
+ mov     x9, #-4382002437431492608
+ extr    x10, x1, x0, #52
+ mov     x11, #5075556780046548992
+ bfxil   x8, x0, #0, #52
+ mov     x12, #-4147815256808226816
+ fmov    d0, x9
+ orr     x9, x10, x11
+ fmov    d1, x8
+ fmov    d2, x12
+ fadd    d1, d1, d0
+ fmov    d0, x9
+ fadd    d0, d0, d2
+ fadd    d0, d1, d0
+ ret
+<label>:
+ extr    x8, x1, x0, #24
+ mov     x9, #-4273916046374600704
+ and     x10, x0, #0xffffff
+ and     x8, x8, #0xfffffffffffff
+ fmov    d0, x9
+ mov     x9, #4949455990480175104
+ orr     x8, x10, x8
+ mov     x10, #5183643171103440896
+ orr     x8, x8, x9
+ mov     x9, #-4039728865751334912
+ bfxil   x10, x1, #12, #52
+ fmov    d2, x8
+ fmov    d1, x9
+ fadd    d0, d2, d0
+ fmov    d2, x10
+ fadd    d1, d2, d1
+ fadd    d0, d1, d0
+ ret

@@ -1,7 +1,0 @@
-floatconv::fast::i32_to_f32_round:
- push    eax
- cvtsi2ss xmm0, dword, ptr, [esp, +, 8]
- movss   dword, ptr, [esp], xmm0
- fld     dword, ptr, [esp]
- pop     eax
- ret

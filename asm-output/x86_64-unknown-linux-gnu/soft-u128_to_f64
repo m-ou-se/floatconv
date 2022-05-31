@@ -1,0 +1,39 @@
+floatconv::soft::u128_to_f64:
+ bsr     rax, rdi
+ mov     edx, 127
+ cmovne  rdx, rax
+ xor     rdx, 63
+ add     rdx, 64
+ bsr     rcx, rsi
+ xor     rcx, 63
+ test    rsi, rsi
+ cmove   rcx, rdx
+ mov     rax, rsi
+ shld    rax, rdi, cl
+ mov     rdx, rdi
+ shl     rdx, cl
+ xor     r8d, r8d
+ test    cl, 64
+ cmovne  rax, rdx
+ cmovne  rdx, r8
+ mov     r9, rax
+ shr     r9, 11
+ shl     rax, 53
+ mov     r10d, edx
+ shr     rdx, 11
+ or      rdx, rax
+ or      r10, rdx
+ shr     rax, 63
+ mov     edx, r9d
+ not     edx
+ and     eax, edx
+ sub     r10, rax
+ shr     r10, 63
+ shl     rcx, 52
+ movabs  rax, 5174635971848699904
+ sub     rax, rcx
+ or      rdi, rsi
+ cmove   rax, r8
+ add     rax, r9
+ add     rax, r10
+ ret

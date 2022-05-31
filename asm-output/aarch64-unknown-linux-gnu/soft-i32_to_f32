@@ -1,0 +1,20 @@
+floatconv::soft::i32_to_f32:
+ cmp     w0, #0
+ cneg    w9, w0, mi
+ and     w8, w0, #0x80000000
+ cbz     w9, <label>
+ clz     w10, w9
+ lsl     w9, w9, w10
+ lsr     w11, w9, #8
+ mvn     w13, w11
+ lsl     w12, w9, #24
+ and     w9, w13, w9, lsr, #7
+ and     w9, w9, #0x1
+ sub     w10, w11, w10, lsl, #23
+ sub     w9, w12, w9
+ add     w9, w10, w9, lsr, #31
+ mov     w10, #1317011456
+ add     w9, w9, w10
+<label>:
+ orr     w0, w9, w8
+ ret

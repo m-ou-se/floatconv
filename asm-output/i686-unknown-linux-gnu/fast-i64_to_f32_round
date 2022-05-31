@@ -1,7 +1,0 @@
-floatconv::fast::i64_to_f32_round:
- push    eax
- fild    qword, ptr, [esp, +, 8]
- fstp    dword, ptr, [esp]
- fld     dword, ptr, [esp]
- pop     eax
- ret

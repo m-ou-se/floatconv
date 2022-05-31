@@ -13,7 +13,7 @@ macro_rules! impl_signed {
 
 #[cfg(all(target_arch = "x86", not(target_feature = "sse2")))]
 #[inline]
-pub fn u32_to_f32_round(x: u32) -> f32 {
+pub fn u32_to_f32(x: u32) -> f32 {
     if x >> 31 == 0 {
         x as i32 as f32
     } else {
@@ -24,7 +24,7 @@ pub fn u32_to_f32_round(x: u32) -> f32 {
 
 #[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 #[inline]
-pub fn u64_to_f32_round(x: u64) -> f32 {
+pub fn u64_to_f32(x: u64) -> f32 {
     if x >> 63 == 0 {
         x as i64 as f32
     } else {
@@ -35,7 +35,7 @@ pub fn u64_to_f32_round(x: u64) -> f32 {
 
 #[cfg(all(target_arch = "x86", target_feature = "sse2"))]
 #[inline]
-pub fn u64_to_f64_round(x: u64) -> f64 {
+pub fn u64_to_f64(x: u64) -> f64 {
     const A: f64 = (1u128 << 52) as f64;
     const B: f64 = (1u128 << 84) as f64;
     let l = f64::from_bits(A.to_bits() | x << 32 >> 32) - A;
@@ -50,7 +50,7 @@ pub fn u64_to_f64_round(x: u64) -> f64 {
 ))]
 group! {
     #[inline]
-    pub fn u128_to_f64_round(x: u128) -> f64 {
+    pub fn u128_to_f64(x: u128) -> f64 {
         const A: f64 = (1u128 << 52) as f64;
         const B: f64 = (1u128 << 104) as f64;
         const C: f64 = (1u128 << 76) as f64;
@@ -65,5 +65,5 @@ group! {
             l + h
         }
     }
-    impl_signed!(i128_to_f64_round i128 128 u128_to_f64_round);
+    impl_signed!(i128_to_f64 i128 128 u128_to_f64);
 }

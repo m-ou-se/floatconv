@@ -1,3 +1,0 @@
-floatconv::fast::u64_to_f32_round:
- ucvtf   s0, x0
- ret

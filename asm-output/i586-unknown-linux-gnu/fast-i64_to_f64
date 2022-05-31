@@ -1,0 +1,3 @@
+floatconv::fast::i64_to_f64:
+ fild    qword, ptr, [esp, +, 4]
+ ret

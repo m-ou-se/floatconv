@@ -1,0 +1,4 @@
+floatconv::fast::u32_to_f32:
+ mov     eax, edi
+ cvtsi2ss xmm0, rax
+ ret

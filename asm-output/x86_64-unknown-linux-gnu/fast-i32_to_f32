@@ -1,0 +1,3 @@
+floatconv::fast::i32_to_f32:
+ cvtsi2ss xmm0, edi
+ ret

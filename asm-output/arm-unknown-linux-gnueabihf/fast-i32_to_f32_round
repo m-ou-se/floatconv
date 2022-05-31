@@ -1,4 +1,0 @@
-floatconv::fast::i32_to_f32_round:
- vmov    s0, r0
- vcvt.f32.s32 s0, s0
- bx      lr
