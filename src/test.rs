@@ -78,6 +78,21 @@ fn test_all_from_f32() {
         let a = soft::f32_to_u128(i);
         let b = f as u128;
         assert_eq!(a, b, "{:?} -> u128", f);
+        let a = soft::f32_to_i8(i);
+        let b = f as i8;
+        assert_eq!(a, b, "{:?} -> i8", f);
+        let a = soft::f32_to_i16(i);
+        let b = f as i16;
+        assert_eq!(a, b, "{:?} -> i16", f);
+        let a = soft::f32_to_i32(i);
+        let b = f as i32;
+        assert_eq!(a, b, "{:?} -> i32", f);
+        let a = soft::f32_to_i64(i);
+        let b = f as i64;
+        assert_eq!(a, b, "{:?} -> i64", f);
+        let a = soft::f32_to_i128(i);
+        let b = f as i128;
+        assert_eq!(a, b, "{:?} -> i128", f);
     }
 }
 
@@ -121,6 +136,8 @@ fn test_u32() {
         assert_eq!(fast::u32_to_f64(i), i as f64);
         assert_eq!(soft::u32_to_f32(i), (i as f32).to_bits());
         assert_eq!(fast::u32_to_f32(i), i as f32);
+        assert_eq!(soft::f32_to_u32((i as f32).to_bits()), i as f32 as u32);
+        assert_eq!(soft::f64_to_u32((i as f64).to_bits()), i as f64 as u32);
     }
 }
 
@@ -177,9 +194,10 @@ fn test_u64() {
     {
         assert_eq!(soft::u64_to_f32(i), (i as f32).to_bits());
         assert_eq!(fast::u64_to_f32(i), i as f32);
-        let f = i as f64;
-        assert_eq!(soft::u64_to_f64(i), f.to_bits());
-        assert_eq!(fast::u64_to_f64(i), f);
+        assert_eq!(soft::u64_to_f64(i), (i as f64).to_bits());
+        assert_eq!(fast::u64_to_f64(i), i as f64);
+        assert_eq!(soft::f32_to_u64((i as f32).to_bits()), i as f32 as u64);
+        assert_eq!(soft::f64_to_u64((i as f64).to_bits()), i as f64 as u64);
     }
 }
 
@@ -257,9 +275,10 @@ fn test_u128() {
     {
         assert_eq!(soft::u128_to_f32(i), (i as f32).to_bits());
         assert_eq!(fast::u128_to_f32(i), i as f32);
-        let f = i as f64;
-        assert_eq!(soft::u128_to_f64(i), f.to_bits());
-        assert_eq!(fast::u128_to_f64(i), f);
+        assert_eq!(soft::u128_to_f64(i), (i as f64).to_bits());
+        assert_eq!(fast::u128_to_f64(i), i as f64);
+        assert_eq!(soft::f32_to_u128((i as f32).to_bits()), i as f32 as u128);
+        assert_eq!(soft::f64_to_u128((i as f64).to_bits()), i as f64 as u128);
     }
 }
 
@@ -274,8 +293,12 @@ fn test_i32() {
         3,
         -3,
         1234,
+        i32::max_value() - 1,
         i32::max_value(),
+        i32::max_value() + 1,
+        i32::max_value() / 2 - 1,
         i32::max_value() / 2,
+        i32::max_value() / 2 + 1,
         123123123,
         321312312,
     ][..]
@@ -284,6 +307,8 @@ fn test_i32() {
         assert_eq!(fast::i32_to_f64(i), i as f64);
         assert_eq!(soft::i32_to_f32(i), (i as f32).to_bits());
         assert_eq!(fast::i32_to_f32(i), i as f32);
+        assert_eq!(soft::f32_to_i32((i as f32).to_bits()), i as f32 as i32);
+        assert_eq!(soft::f64_to_i32((i as f64).to_bits()), i as f64 as i32);
     }
 }
 
@@ -347,6 +372,8 @@ fn test_i64() {
         assert_eq!(fast::i64_to_f32(i), i as f32);
         assert_eq!(soft::i64_to_f64(i), (i as f64).to_bits());
         assert_eq!(fast::i64_to_f64(i), i as f64);
+        assert_eq!(soft::f32_to_i64((i as f32).to_bits()), i as f32 as i64);
+        assert_eq!(soft::f64_to_i64((i as f64).to_bits()), i as f64 as i64);
     }
 }
 
@@ -414,5 +441,7 @@ fn test_i128() {
         assert_eq!(fast::i128_to_f32(i), i as f32);
         assert_eq!(soft::i128_to_f64(i), (i as f64).to_bits());
         assert_eq!(fast::i128_to_f64(i), i as f64);
+        assert_eq!(soft::f32_to_i128((i as f32).to_bits()), i as f32 as i128);
+        assert_eq!(soft::f64_to_i128((i as f64).to_bits()), i as f64 as i128);
     }
 }
