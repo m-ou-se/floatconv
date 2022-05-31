@@ -12,8 +12,8 @@ floatconv::soft::f64_to_u32:
  mov     ebx, edx
  shr     ebx, 20
  mov     eax, -1
- cmp     ebx, 1054
- ja      <label>
+ cmp     ebx, 1055
+ jae     <label>
  cmp     ebx, 1023
  mov     eax, 0
  jb      <label>

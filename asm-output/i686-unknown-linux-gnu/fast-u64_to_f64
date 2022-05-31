@@ -6,7 +6,7 @@ floatconv::fast::u64_to_f64:
 <label>$pb:
  pop     eax
  add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
- pshufd  xmm0, xmm0, 36
+ pshufd  xmm0, xmm0, 0
  psrlq   xmm0, 32
  movsd   xmm0, xmm1
  orpd    xmm0, xmmword, ptr, [eax, +, <label>@GOTOFF]

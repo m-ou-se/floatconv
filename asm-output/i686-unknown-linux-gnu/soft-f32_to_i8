@@ -7,8 +7,10 @@ floatconv::soft::f32_to_i8:
  ja      <label>
  cmp     ecx, 1124073471
  jbe     <label>
- shr     eax, 31
- add     al, 127
+ test    eax, eax
+ mov     al, -128
+ setns   cl
+ sub     al, cl
  pop     ebx
  ret
 <label>:
@@ -31,7 +33,6 @@ floatconv::soft::f32_to_i8:
  cmovns  eax, ecx
  pop     ebx
  ret
-<label>:
 <label>:
  xor     eax, eax
  pop     ebx

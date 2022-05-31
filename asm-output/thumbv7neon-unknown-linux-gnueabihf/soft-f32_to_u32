@@ -3,6 +3,7 @@ floatconv::soft::f32_to_u32:
  itt     hi
  movhi   r0, #0
  bxhi    lr
+<label>:
  movw    r1, #65535
  movt    r1, #16255
  add.w   r2, r1, #268435456
@@ -10,10 +11,12 @@ floatconv::soft::f32_to_u32:
  itt     hi
  movhi.w r0, #-1
  bxhi    lr
+<label>:
  cmp     r0, r1
  itt     ls
  movls   r0, #0
  bxls    lr
+<label>:
  mov.w   r1, #-2147483648
  movs    r2, #30
  orr.w   r1, r1, r0, lsl, #8

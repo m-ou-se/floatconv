@@ -2,32 +2,31 @@ floatconv::soft::i32_to_f64:
  push    ebx
  push    edi
  push    esi
- mov     ecx, dword, ptr, [esp, +, 16]
- xor     eax, eax
- mov     esi, ecx
- mov     edi, ecx
- and     esi, -2147483648
- neg     edi
- cmovl   edi, ecx
- test    edi, edi
- je      <label>
- bsr     ebx, edi
- xor     edx, edx
+ mov     edx, dword, ptr, [esp, +, 16]
+ mov     eax, edx
+ neg     eax
+ cmovs   eax, edx
+ jae     <label>
+ bsr     ebx, eax
+ xor     esi, esi
+ xor     edi, edi
  xor     ebx, 31
  mov     ecx, ebx
  add     cl, 21
- shld    edx, edi, cl
- shl     edi, cl
+ shld    esi, eax, cl
+ shl     eax, cl
  test    cl, 32
- cmovne  edx, edi
- cmove   eax, edi
+ cmovne  esi, eax
+ cmovne  eax, edi
  shl     ebx, 20
- sub     edx, ebx
- add     edx, 1104150528
+ sub     esi, ebx
+ add     esi, 1104150528
  jmp     <label>
 <label>:
- xor     edx, edx
+ xor     eax, eax
+ xor     esi, esi
 <label>:
+ and     edx, -2147483648
  or      edx, esi
  pop     esi
  pop     edi

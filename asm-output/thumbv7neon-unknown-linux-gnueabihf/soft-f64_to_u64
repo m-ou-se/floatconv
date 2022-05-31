@@ -4,14 +4,15 @@ floatconv::soft::f64_to_u64:
  movt    r2, #32752
  sbcs    r2, r1
  blo     <label>
- movw    r3, #65535
+ movs    r3, #0
  mov.w   r2, #-2147483648
- movt    r3, #17391
+ movt    r3, #17392
  cmp     r1, r3
- ittt    hi
- ornhi   r1, r2, #-2147483648
- movhi.w r0, #-1
- bxhi    lr
+ ittt    hs
+ ornhs   r1, r2, #-2147483648
+ movhs.w r0, #-1
+ bxhs    lr
+<label>:
  movs    r3, #0
  movt    r3, #16368
  cmp     r1, r3

@@ -9,13 +9,9 @@ floatconv::soft::f32_to_i128:
  lsrs    r1, r0, #24
  cmp     r1, #126
  bls     <label>
- mvn     r3, #-2147483648
- mov.w   r0, #-1
- cmp.w   r12, #0
- it      mi
- movmi.w r3, #-2147483648
- it      mi
- movmi   r0, #0
+ mvn     r0, #-2147483648
+ eor.w   r3, r0, r12, asr, #31
+ mvn.w   r0, r12, asr, #31
  mov     r1, r0
  mov     r2, r0
  bx      lr
@@ -80,12 +76,12 @@ floatconv::soft::f32_to_i128:
  sbcs.w  r1, r0, r4
  sbcs.w  r2, r0, lr
  sbc.w   r3, r0, r6
- cmp.w   r12, #0
- itttt   pl
- movpl   r7, r5
- movpl   r1, r4
- movpl   r2, lr
- movpl   r3, r6
+ cmp.w   r12, #-1
+ itttt   gt
+ movgt   r7, r5
+ movgt   r1, r4
+ movgt   r2, lr
+ movgt   r3, r6
  mov     r0, r7
  pop     {r4, r5, r6, r7, pc}
 <label>:

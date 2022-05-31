@@ -3,19 +3,19 @@ floatconv::soft::f64_to_u16:
  cmp     x0, x8
  b.hi    <label>
  lsr     x8, x0, #52
- cmp     x8, #1038
- b.ls    <label>
+ cmp     x8, #1039
+ b.lo    <label>
  mov     w0, #65535
  ret
 <label>:
  cmp     x8, #1023
  b.lo    <label>
+ mov     w9, #14
+ sub     w8, w9, w8
  lsr     x9, x0, #37
- mov     w10, #14
- orr     w9, w9, #0x8000
- sub     w8, w10, w8
- and     w9, w9, #0xffff
  and     w8, w8, #0xf
+ orr     w9, w9, #0x8000
+ and     w9, w9, #0xffff
  lsr     w0, w9, w8
  ret
 <label>:

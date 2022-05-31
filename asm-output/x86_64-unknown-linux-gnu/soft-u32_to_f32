@@ -6,18 +6,17 @@ floatconv::soft::u32_to_f32:
  shl     edi, cl
  mov     eax, edi
  shr     eax, 8
+ shl     edi, 24
  mov     edx, edi
- shl     edx, 24
- shr     edi, 7
+ shr     edx, 31
  mov     esi, eax
  not     esi
- and     esi, edi
- and     esi, 1
- sub     edx, esi
- shr     edx, 31
+ and     esi, edx
+ sub     edi, esi
+ shr     edi, 31
  shl     ecx, 23
  sub     eax, ecx
- add     eax, edx
+ add     eax, edi
  add     eax, 1317011456
  ret
 <label>:

@@ -1,17 +1,17 @@
 floatconv::fast::f64_to_u64:
+ cvttsd2si rax, xmm0
+ mov     rcx, rax
+ sar     rcx, 63
+ movapd  xmm1, xmm0
+ subsd   xmm1, qword, ptr, [rip, +, <label>]
+ cvttsd2si rdx, xmm1
+ and     rdx, rcx
+ or      rdx, rax
+ xor     ecx, ecx
  xorpd   xmm1, xmm1
- movapd  xmm2, xmm0
- maxsd   xmm2, xmm1
- movsd   xmm1, qword, ptr, [rip, +, <label>]
- movapd  xmm3, xmm2
- subsd   xmm3, xmm1
- cvttsd2si rax, xmm3
- movabs  rcx, -9223372036854775808
- xor     rcx, rax
- cvttsd2si rdx, xmm2
- ucomisd xmm2, xmm1
- cmovae  rdx, rcx
+ ucomisd xmm0, xmm1
+ cmovae  rcx, rdx
  ucomisd xmm0, qword, ptr, [rip, +, <label>]
  mov     rax, -1
- cmovbe  rax, rdx
+ cmovbe  rax, rcx
  ret

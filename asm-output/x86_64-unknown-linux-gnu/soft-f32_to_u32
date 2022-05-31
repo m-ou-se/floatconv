@@ -3,8 +3,8 @@ floatconv::soft::f32_to_u32:
  cmp     edi, 2139095040
  ja      <label>
  mov     eax, -1
- cmp     edi, 1333788671
- ja      <label>
+ cmp     edi, 1333788672
+ jae     <label>
  mov     eax, 0
  cmp     edi, 1065353216
  jb      <label>

@@ -1,24 +1,30 @@
 floatconv::soft::i16_to_f32:
- mov     r2, #-2147483648
+ mov     r2, #255
  sxth    r1, r0
  cmp     r1, #0
- and     r0, r2, r0, lsl, #16
- mov     r2, #255
- rsbmi   r1, r1, #0
  orr     r2, r2, #65280
- tst     r1, r2
- moveq   r1, #0
- orreq   r0, r1, r0
- bxeq    lr
+ rsbmi   r1, r1, #0
+ tst     r0, r2
+ beq     <label>
+ push    {r11, lr}
+ mov     r12, #109051904
  uxth    r1, r1
  clz     r2, r1
+ orr     r12, r12, #1073741824
  sub     r2, r2, #16
+ orr     lr, r12, #-1191182336
+ uxth    r3, r2
+ mul     lr, r3, lr
  mov     r3, #8
- uxtah   r3, r3, r2
- uxth    r2, r2
- lsl     r2, r2, #23
- rsb     r1, r2, r1, lsl, r3
- add     r1, r1, #109051904
- add     r1, r1, #1073741824
- orr     r0, r1, r0
+ uxtah   r2, r3, r2
+ add     r1, lr, r1, lsl, r2
+ add     r1, r1, r12
+ pop     {r11, lr}
+ and     r0, r0, #32768
+ orr     r0, r1, r0, lsl, #16
+ bx      lr
+<label>:
+ mov     r1, #0
+ and     r0, r0, #32768
+ orr     r0, r1, r0, lsl, #16
  bx      lr

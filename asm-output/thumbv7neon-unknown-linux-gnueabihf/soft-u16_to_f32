@@ -3,6 +3,7 @@ floatconv::soft::u16_to_f32:
  itt     eq
  moveq   r0, #0
  bxeq    lr
+<label>:
  uxth    r0, r0
  clz     r1, r0
  subs    r1, #16

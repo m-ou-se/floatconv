@@ -1,51 +1,46 @@
 floatconv::fast::f32_to_i32:
+ push    esi
  sub     esp, 8
  call    <label>$pb
 <label>$pb:
- pop     edx
- add     edx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
- fld     dword, ptr, [esp, +, 12]
- fld     dword, ptr, [edx, +, <label>@GOTOFF]
- fxch    st(1)
- fucom   st(1)
- fstp    st(1)
- fnstsw  ax
- mov     ecx, eax
- fld     dword, ptr, [edx, +, <label>@GOTOFF]
- fxch    st(1)
- fucom   st(1)
- fnstsw  ax
- sahf
- fld     st(0)
- ja      <label>
- fstp    st(0)
- fldz
- fxch    st(2)
-<label>:
- fstp    st(2)
+ pop     ecx
+ add     ecx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ fld     dword, ptr, [esp, +, 16]
  fnstcw  word, ptr, [esp]
  movzx   eax, word, ptr, [esp]
  or      eax, 3072
  mov     word, ptr, [esp, +, 2], ax
  fldcw   word, ptr, [esp, +, 2]
- fxch    st(1)
- fistp   dword, ptr, [esp, +, 4]
+ fist    dword, ptr, [esp, +, 4]
  fldcw   word, ptr, [esp]
- mov     ah, ch
+ fld     dword, ptr, [ecx, +, <label>@GOTOFF]
+ fxch    st(1)
+ fucom   st(1)
+ fstp    st(1)
+ fnstsw  ax
  sahf
- mov     ecx, 2147483647
+ mov     edx, -2147483648
+ jb      <label>
+ mov     edx, dword, ptr, [esp, +, 4]
+<label>:
+ fld     dword, ptr, [ecx, +, <label>@GOTOFF]
+ fxch    st(1)
+ fucom   st(1)
+ fstp    st(1)
+ fnstsw  ax
+ sahf
+ mov     esi, 2147483647
  ja      <label>
- mov     ecx, dword, ptr, [esp, +, 4]
+ mov     esi, edx
 <label>:
  fucomp  st(0)
  fnstsw  ax
- sahf
- jnp     <label>
  xor     ecx, ecx
- mov     eax, ecx
- add     esp, 8
- ret
+ sahf
+ jp      <label>
+ mov     ecx, esi
 <label>:
  mov     eax, ecx
  add     esp, 8
+ pop     esi
  ret

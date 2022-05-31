@@ -14,8 +14,8 @@ floatconv::soft::f64_to_u128:
  jb      <label>
  mov     ecx, edi
  shr     ecx, 20
- cmp     ecx, 1150
- jbe     <label>
+ cmp     ecx, 1151
+ jb      <label>
  mov     ecx, -1
  mov     edx, -1
  mov     ebp, -1

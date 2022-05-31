@@ -1,11 +1,8 @@
 floatconv::fast::f64_to_i32:
- ucomisd xmm0, qword, ptr, [rip, +, <label>]
- movapd  xmm1, xmm0
- maxsd   xmm1, qword, ptr, [rip, +, <label>]
- cvttsd2si eax, xmm1
- mov     ecx, 2147483647
- cmovbe  ecx, eax
  xor     eax, eax
  ucomisd xmm0, xmm0
+ maxsd   xmm0, qword, ptr, [rip, +, <label>]
+ minsd   xmm0, qword, ptr, [rip, +, <label>]
+ cvttsd2si ecx, xmm0
  cmovnp  eax, ecx
  ret

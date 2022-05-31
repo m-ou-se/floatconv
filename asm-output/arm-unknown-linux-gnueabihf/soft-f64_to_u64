@@ -7,11 +7,12 @@ floatconv::soft::f64_to_u64:
  mov     r0, #0
  mov     r3, #0
  blo     <label>
- ldr     r3, <label>
+ mov     r3, #66060288
  mvn     r0, #0
+ orr     r3, r3, #1073741824
  cmp     r1, r3
  mvn     r3, #0
- bhi     <label>
+ bhs     <label>
  mov     r3, #267386880
  mov     r0, #0
  orr     r3, r3, #805306368
@@ -35,4 +36,3 @@ floatconv::soft::f64_to_u64:
 <label>:
  mov     r1, r3
  bx      lr
-<label>:

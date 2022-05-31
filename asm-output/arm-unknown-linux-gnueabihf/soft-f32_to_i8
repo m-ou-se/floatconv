@@ -1,31 +1,29 @@
 floatconv::soft::f32_to_i8:
  ldr     r12, <label>
  bic     r3, r0, #-2147483648
- mov     r1, r0
- mov     r0, #0
+ mov     r1, #0
  add     r2, r12, #1073741825
  cmp     r3, r2
  bhi     <label>
  lsr     r2, r3, #24
  cmp     r2, #66
- bls     <label>
- mov     r0, #127
- cmp     r1, #0
- mvnmi   r0, #127
- bx      lr
+ movhi   r1, #127
+ eorhi   r0, r1, r0, asr, #31
+ bxhi    lr
 <label>:
  cmp     r3, r12
- bxls    lr
- mov     r0, #5
- cmp     r1, #0
- sub     r0, r0, r1, lsr, #23
- mov     r12, #0
- and     r2, r0, #7
- mov     r0, #63
- and     r0, r0, r1, lsr, #17
- orr     r3, r0, #64
- lsr     r0, r3, r2
- submi   r0, r12, r3, lsr, r2
+ bls     <label>
+ mov     r1, #5
+ cmn     r0, #1
+ sub     r1, r1, r0, lsr, #23
+ and     r2, r1, #7
+ mov     r1, #63
+ and     r1, r1, r0, lsr, #17
+ orr     r3, r1, #64
+ mov     r1, #0
+ sub     r1, r1, r3, lsr, r2
+ lsrgt   r1, r3, r2
 <label>:
+ mov     r0, r1
  bx      lr
 <label>:

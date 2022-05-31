@@ -1,8 +1,6 @@
 floatconv::fast::f64_to_i64:
+ cvttsd2si rax, xmm0
  ucomisd xmm0, qword, ptr, [rip, +, <label>]
- movapd  xmm1, xmm0
- maxsd   xmm1, qword, ptr, [rip, +, <label>]
- cvttsd2si rax, xmm1
  movabs  rcx, 9223372036854775807
  cmovbe  rcx, rax
  xor     eax, eax

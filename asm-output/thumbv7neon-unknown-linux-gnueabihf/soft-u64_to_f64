@@ -4,6 +4,8 @@ floatconv::soft::u64_to_f64:
  moveq   r0, #0
  moveq   r1, #0
  bxeq    lr
+<label>:
+ push    {r7, lr}
  clz     r2, r0
  cmp     r1, #0
  add.w   r2, r2, #32
@@ -20,17 +22,16 @@ floatconv::soft::u64_to_f64:
  it      pl
  movpl   r0, #0
  lsrs    r3, r0, #11
- orr.w   r12, r3, r1, lsl, #21
- lsrs    r3, r0, #10
- bic.w   r3, r3, r0, lsr, #11
+ orr.w   lr, r3, r1, lsl, #21
  lsls    r0, r0, #21
- and     r3, r3, #1
  lsrs    r1, r1, #11
+ mvn.w   r12, lr
+ and.w   r3, r12, r0, lsr, #31
  rsbs    r3, r3, #0
  sub.w   r1, r1, r2, lsl, #20
  sbc     r0, r0, #0
  movs    r2, #0
  movt    r2, #17360
- adds.w  r0, r12, r0, lsr, #31
+ adds.w  r0, lr, r0, lsr, #31
  adcs    r1, r2
- bx      lr
+ pop     {r7, pc}

@@ -1,7 +1,6 @@
 floatconv::soft::f64_to_i128:
- movabs  r8, 9223372036854775807
- mov     rcx, rdi
- and     rcx, r8
+ movabs  rcx, 9223372036854775807
+ and     rcx, rdi
  xor     eax, eax
  movabs  rsi, 9218868437227405312
  mov     edx, 0
@@ -11,11 +10,12 @@ floatconv::soft::f64_to_i128:
  shr     rax, 53
  cmp     eax, 574
  jbe     <label>
- shr     rdi, 63
- xor     edx, edx
- add     rdi, -1
- adc     rdx, r8
- mov     rax, rdi
+ xor     eax, eax
+ test    rdi, rdi
+ setns   al
+ neg     rax
+ movabs  rdx, -9223372036854775808
+ sbb     rdx, 0
  ret
 <label>:
  shr     rcx, 52

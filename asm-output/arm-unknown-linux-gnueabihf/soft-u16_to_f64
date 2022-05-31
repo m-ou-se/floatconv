@@ -5,6 +5,7 @@ floatconv::soft::u16_to_f64:
  moveq   r0, #0
  moveq   r1, #0
  bxeq    lr
+<label>:
  uxth    r1, r0
  clz     r2, r1
  rsb     r3, r2, #11

@@ -3,20 +3,20 @@ floatconv::soft::f32_to_u16:
  cmp     w0, w8
  b.hi    <label>
  lsr     w8, w0, #23
- cmp     w8, #142
- b.ls    <label>
+ cmp     w8, #143
+ b.lo    <label>
  mov     w0, #65535
  ret
 <label>:
  cmp     w8, #127
  b.lo    <label>
- lsr     w8, w0, #8
- mov     w9, #14
- orr     w8, w8, #0x8000
- sub     w9, w9, w0, lsr, #23
- and     w8, w8, #0xffff
- and     w9, w9, #0xf
- lsr     w0, w8, w9
+ mov     w8, #14
+ lsr     w9, w0, #8
+ sub     w8, w8, w0, lsr, #23
+ orr     w9, w9, #0x8000
+ and     w8, w8, #0xf
+ and     w9, w9, #0xffff
+ lsr     w0, w9, w8
  ret
 <label>:
  mov     w0, wzr

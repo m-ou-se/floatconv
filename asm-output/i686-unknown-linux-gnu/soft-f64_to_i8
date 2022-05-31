@@ -12,8 +12,10 @@ floatconv::soft::f64_to_i8:
  shr     edx, 21
  cmp     edx, 514
  jbe     <label>
- shr     eax, 31
- add     al, 127
+ test    eax, eax
+ mov     al, -128
+ setns   cl
+ sub     al, cl
  pop     ebx
  ret
 <label>:
@@ -36,7 +38,6 @@ floatconv::soft::f64_to_i8:
  cmovns  eax, ecx
  pop     ebx
  ret
-<label>:
 <label>:
  xor     eax, eax
  pop     ebx

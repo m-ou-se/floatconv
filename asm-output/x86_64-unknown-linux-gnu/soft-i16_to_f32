@@ -1,23 +1,24 @@
 floatconv::soft::i16_to_f32:
- mov     edx, edi
- shl     edx, 16
- and     edx, -2147483648
  mov     eax, edi
- neg     ax
- cmovl   ax, di
- test    ax, ax
- je      <label>
- bsr     si, ax
+ mov     ecx, eax
+ neg     cx
+ cmovs   cx, ax
+ jae     <label>
+ bsr     si, cx
  xor     esi, 15
- movzx   eax, ax
+ movzx   edx, cx
  lea     ecx, [rsi, +, 8]
- shl     eax, cl
+ shl     edx, cl
  shl     esi, 23
- sub     eax, esi
- add     eax, 1182793728
+ sub     edx, esi
+ add     edx, 1182793728
+ shl     eax, 16
+ and     eax, -2147483648
  or      eax, edx
  ret
 <label>:
- xor     eax, eax
+ xor     edx, edx
+ shl     eax, 16
+ and     eax, -2147483648
  or      eax, edx
  ret

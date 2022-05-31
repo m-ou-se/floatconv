@@ -2,38 +2,35 @@ floatconv::fast::f64_to_u32:
  sub     esp, 20
  call    <label>$pb
 <label>$pb:
- pop     eax
- add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ pop     ecx
+ add     ecx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
  fld     qword, ptr, [esp, +, 24]
- fld     qword, ptr, [eax, +, <label>@GOTOFF]
- fxch    st(1)
- fucom   st(1)
- fstp    st(1)
- fnstsw  ax
- mov     ecx, eax
- fldz
- fxch    st(1)
- fucom   st(1)
- fnstsw  ax
- sahf
- ja      <label>
- fstp    st(0)
- fldz
- fxch    st(1)
-<label>:
- fstp    st(1)
  fnstcw  word, ptr, [esp, +, 4]
  movzx   eax, word, ptr, [esp, +, 4]
  or      eax, 3072
  mov     word, ptr, [esp, +, 6], ax
  fldcw   word, ptr, [esp, +, 6]
+ fld     st(0)
  fistp   qword, ptr, [esp, +, 8]
  fldcw   word, ptr, [esp, +, 4]
- mov     ah, ch
+ fldz
+ fxch    st(1)
+ fucom   st(1)
+ fstp    st(1)
+ fnstsw  ax
+ xor     edx, edx
+ sahf
+ jb      <label>
+ mov     edx, dword, ptr, [esp, +, 8]
+<label>:
+ fld     qword, ptr, [ecx, +, <label>@GOTOFF]
+ fxch    st(1)
+ fucompp
+ fnstsw  ax
  sahf
  mov     eax, -1
  ja      <label>
- mov     eax, dword, ptr, [esp, +, 8]
+ mov     eax, edx
 <label>:
  add     esp, 20
  ret

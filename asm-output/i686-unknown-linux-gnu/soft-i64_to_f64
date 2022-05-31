@@ -4,55 +4,53 @@ floatconv::soft::i64_to_f64:
  push    edi
  push    esi
  mov     edx, dword, ptr, [esp, +, 24]
- mov     edi, dword, ptr, [esp, +, 20]
- xor     eax, eax
- mov     ecx, edx
+ mov     ecx, dword, ptr, [esp, +, 20]
+ mov     eax, edx
+ mov     edi, ecx
  mov     esi, edx
- sar     ecx, 31
- and     esi, -2147483648
- add     edi, ecx
- adc     edx, ecx
- xor     edi, ecx
- xor     edx, ecx
- mov     ebx, edi
- or      ebx, edx
+ sar     eax, 31
+ add     edi, eax
+ adc     esi, eax
+ or      ecx, edx
  je      <label>
+ xor     edi, eax
+ xor     esi, eax
  bsr     ecx, edi
- bsr     ebx, edx
+ bsr     eax, esi
  xor     ecx, 31
- xor     ebx, 31
+ xor     eax, 31
  add     ecx, 32
- test    edx, edx
- cmovne  ecx, ebx
- shld    edx, edi, cl
+ test    esi, esi
+ cmovne  ecx, eax
+ xor     eax, eax
+ shld    esi, edi, cl
  shl     edi, cl
  test    cl, 32
- cmovne  edx, edi
- cmovne  edi, eax
- mov     ebx, edx
- mov     ebp, edi
- mov     eax, edi
- shr     edi, 10
- shr     edx, 11
- shl     ebx, 21
- shr     ebp, 11
+ cmovne  esi, edi
+ cmove   eax, edi
+ mov     edi, esi
+ shld    esi, eax, 21
  shl     eax, 21
- or      ebx, ebp
+ mov     ebx, eax
+ mov     ebp, esi
+ shr     edi, 11
+ shr     ebx, 31
  not     ebp
- and     ebp, edi
- and     ebp, 1
+ and     ebp, ebx
  neg     ebp
  sbb     eax, 0
  shl     ecx, 20
  shr     eax, 31
- sub     edx, ecx
- add     eax, ebx
- adc     edx, 1137704960
+ sub     edi, ecx
+ add     eax, esi
+ adc     edi, 1137704960
  jmp     <label>
 <label>:
- xor     edx, edx
+ xor     eax, eax
+ xor     edi, edi
 <label>:
- or      edx, esi
+ and     edx, -2147483648
+ or      edx, edi
  pop     esi
  pop     edi
  pop     ebx

@@ -1,28 +1,33 @@
 floatconv::soft::i32_to_f64:
  cmp     r0, #0
- mov     r2, r0
- and     r12, r0, #-2147483648
+ mov     r1, r0
  it      mi
- rsbmi   r2, r0, #0
- cbz     r2, <label>
- clz     r0, r2
- rsb.w   r3, r0, #11
- subs.w  r1, r0, #11
- lsr.w   r3, r2, r3
+ rsbmi   r1, r0, #0
+ cbz     r0, <label>
+ push    {r7, lr}
+ clz     r2, r1
+ rsb.w   r3, r2, #11
+ subs.w  lr, r2, #11
+ lsr.w   r3, r1, r3
  it      pl
- lslpl.w r3, r2, r1
- cmp     r1, #0
- sub.w   r3, r3, r0, lsl, #20
- add.w   r0, r0, #21
+ lslpl.w r3, r1, lr
+ cmp.w   lr, #0
+ sub.w   r3, r3, r2, lsl, #20
+ add.w   r2, r2, #21
  add.w   r3, r3, #1073741824
- add.w   r3, r3, #30408704
- lsl.w   r0, r2, r0
- orr.w   r1, r3, r12
+ add.w   r12, r3, #30408704
+ lsl.w   r2, r1, r2
  it      pl
- movpl   r0, #0
+ movpl   r2, #0
+ pop.w   {r7, lr}
+ and     r0, r0, #-2147483648
+ orr.w   r1, r12, r0
+ mov     r0, r2
  bx      lr
 <label>:
- movs    r3, #0
- orr.w   r1, r3, r12
- movs    r0, #0
+ movs    r2, #0
+ mov.w   r12, #0
+ and     r0, r0, #-2147483648
+ orr.w   r1, r12, r0
+ mov     r0, r2
  bx      lr

@@ -34,6 +34,5 @@ floatconv::soft::f64_to_i64:
  cmovns  rax, rdx
  ret
 <label>:
-<label>:
  xor     eax, eax
  ret

@@ -6,20 +6,19 @@ floatconv::soft::f32_to_i32:
  lsr     w9, w8, #24
  cmp     w9, #78
  b.ls    <label>
- cmp     w0, #0
- mov     w8, #-2147483648
- cinv    w0, w8, ge
+ asr     w8, w0, #31
+ eor     w0, w8, #0x7fffffff
  ret
 <label>:
  lsr     w8, w8, #23
  cmp     w8, #126
  b.ls    <label>
- mov     w8, #1073741824
- mov     w9, #29
- bfi     w8, w0, #7, #23
- sub     w9, w9, w0, lsr, #23
- lsr     w8, w8, w9
+ mov     w8, #29
+ mov     w9, #1073741824
+ sub     w8, w8, w0, lsr, #23
+ bfi     w9, w0, #7, #23
  cmp     w0, #0
+ lsr     w8, w9, w8
  cneg    w0, w8, lt
  ret
 <label>:

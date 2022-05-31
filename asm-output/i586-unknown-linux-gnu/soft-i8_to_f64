@@ -1,39 +1,38 @@
 floatconv::soft::i8_to_f64:
  push    ebx
  push    esi
- mov     cl, byte, ptr, [esp, +, 12]
- mov     eax, ecx
- shr     al, 7
- movzx   esi, al
- shl     esi, 31
- xor     eax, eax
- mov     edx, ecx
- sar     dl, 7
- add     cl, dl
- xor     cl, dl
+ mov     dl, byte, ptr, [esp, +, 12]
+ test    dl, dl
  je      <label>
+ mov     eax, edx
+ sar     al, 7
+ mov     ecx, edx
+ add     cl, al
+ xor     cl, al
  movzx   eax, cl
  bsr     ebx, eax
  xor     ebx, 31
  mov     ecx, ebx
  add     cl, 21
- xor     edx, edx
- shld    edx, eax, cl
+ xor     esi, esi
+ shld    esi, eax, cl
  shl     eax, cl
  test    cl, 32
  je      <label>
- mov     edx, eax
+ mov     esi, eax
  xor     eax, eax
 <label>:
  shl     ebx, 20
- sub     edx, ebx
- add     edx, 1104150528
- or      edx, esi
- pop     esi
- pop     ebx
- ret
+ sub     esi, ebx
+ add     esi, 1104150528
+ jmp     <label>
 <label>:
- xor     edx, edx
+ xor     eax, eax
+ xor     esi, esi
+<label>:
+ shr     dl, 7
+ movzx   edx, dl
+ shl     edx, 31
  or      edx, esi
  pop     esi
  pop     ebx

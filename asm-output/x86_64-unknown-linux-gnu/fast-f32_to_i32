@@ -1,8 +1,6 @@
 floatconv::fast::f32_to_i32:
+ cvttss2si eax, xmm0
  ucomiss xmm0, dword, ptr, [rip, +, <label>]
- movaps  xmm1, xmm0
- maxss   xmm1, dword, ptr, [rip, +, <label>]
- cvttss2si eax, xmm1
  mov     ecx, 2147483647
  cmovbe  ecx, eax
  xor     eax, eax

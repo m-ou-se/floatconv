@@ -7,9 +7,9 @@ floatconv::soft::f32_to_u64:
  cmp     ebx, 2139095040
  ja      <label>
  mov     eax, -1
- cmp     ebx, 1602224127
+ cmp     ebx, 1602224128
  mov     edx, -1
- ja      <label>
+ jae     <label>
  xor     eax, eax
  cmp     ebx, 1065353216
  mov     edx, 0

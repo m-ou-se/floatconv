@@ -7,27 +7,25 @@ floatconv::soft::u64_to_f32:
 <label>:
  mov     ecx, 64
 <label>:
- mov     rax, rdi
- shl     rax, cl
- mov     rdx, rax
- movzx   r8d, ax
- mov     r9, rax
- shr     r9, 40
- shr     rdx, 8
- or      edx, r8d
- mov     eax, edx
- shr     eax, 31
- mov     esi, r9d
- not     esi
- and     esi, eax
- sub     edx, esi
- shr     edx, 31
+ mov     rdx, rdi
+ shl     rdx, cl
+ mov     rax, rdx
+ movzx   esi, dx
+ shr     rdx, 40
+ shr     rax, 8
+ or      eax, esi
  shl     ecx, 23
  mov     esi, 1585446912
  sub     esi, ecx
- xor     eax, eax
+ xor     ecx, ecx
  test    rdi, rdi
- cmovne  eax, esi
- add     eax, r9d
- add     eax, edx
+ cmovne  ecx, esi
+ mov     esi, eax
+ shr     esi, 31
+ add     ecx, edx
+ not     edx
+ and     edx, esi
+ sub     eax, edx
+ shr     eax, 31
+ add     eax, ecx
  ret

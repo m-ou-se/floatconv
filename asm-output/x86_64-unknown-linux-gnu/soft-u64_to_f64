@@ -6,18 +6,17 @@ floatconv::soft::u64_to_f64:
  shl     rdi, cl
  mov     rdx, rdi
  shr     rdx, 11
+ shl     rdi, 53
  mov     rax, rdi
- shl     rax, 53
- shr     edi, 10
+ shr     rax, 63
  mov     esi, edx
  not     esi
- and     esi, edi
- and     esi, 1
- sub     rax, rsi
- shr     rax, 63
+ and     eax, esi
+ sub     rdi, rax
+ shr     rdi, 63
  shl     rcx, 52
  sub     rdx, rcx
- add     rdx, rax
+ add     rdx, rdi
  movabs  rax, 4886405595696988160
  add     rax, rdx
  ret

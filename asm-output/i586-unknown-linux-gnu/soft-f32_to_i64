@@ -1,8 +1,7 @@
 floatconv::soft::f32_to_i64:
- push    ebx
  push    edi
  push    esi
- mov     esi, dword, ptr, [esp, +, 16]
+ mov     esi, dword, ptr, [esp, +, 12]
  mov     ecx, esi
  and     ecx, 2147483647
  xor     eax, eax
@@ -12,48 +11,47 @@ floatconv::soft::f32_to_i64:
  cmp     ecx, 1593835519
  jbe     <label>
  mov     eax, -1
- add     eax, 1
+ mov     ecx, -1
+ add     ecx, 1
  mov     edx, 2147483647
- adc     edx, 0
+ mov     edi, 2147483647
+ adc     edi, 0
  test    esi, esi
  js      <label>
- mov     eax, -1
- mov     edx, 2147483647
 <label>:
  pop     esi
  pop     edi
- pop     ebx
  ret
 <label>:
  xor     eax, eax
  cmp     ecx, 1065353215
  mov     edx, 0
  jbe     <label>
- mov     edi, esi
- shl     edi, 7
- and     edi, 1073741696
- or      edi, 1073741824
+ mov     edx, esi
+ shl     edx, 7
+ and     edx, 1073741696
+ or      edx, 1073741824
  mov     eax, esi
  shr     eax, 23
  mov     cl, 61
  sub     cl, al
- xor     edx, edx
- xor     ebx, ebx
- shrd    ebx, edi, cl
- shr     edi, cl
+ xor     edi, edi
+ xor     eax, eax
+ shrd    eax, edx, cl
+ shr     edx, cl
  test    cl, 32
  je      <label>
- mov     ebx, edi
- xor     edi, edi
+ mov     eax, edx
+ xor     edx, edx
 <label>:
- mov     eax, ebx
- neg     eax
- sbb     edx, edi
+ mov     ecx, eax
+ neg     ecx
+ sbb     edi, edx
  test    esi, esi
- js      <label>
- mov     eax, ebx
+ jns     <label>
+<label>:
+ mov     eax, ecx
  mov     edx, edi
  pop     esi
  pop     edi
- pop     ebx
  ret

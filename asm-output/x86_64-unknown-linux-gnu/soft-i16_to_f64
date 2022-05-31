@@ -1,24 +1,25 @@
 floatconv::soft::i16_to_f64:
- mov     edx, edi
- shr     edx, 15
- shl     rdx, 63
  mov     eax, edi
- neg     ax
- cmovl   ax, di
- test    ax, ax
- je      <label>
- movzx   esi, ax
- bsr     eax, esi
- xor     eax, 31
- lea     ecx, [rax, +, 21]
- shl     rsi, cl
- shl     rax, 52
- sub     rsi, rax
- movabs  rax, 4742290407621132288
- add     rax, rsi
- or      rax, rdx
+ mov     ecx, eax
+ neg     cx
+ cmovs   cx, ax
+ jae     <label>
+ movzx   edx, cx
+ bsr     esi, edx
+ xor     esi, 31
+ lea     ecx, [rsi, +, 21]
+ shl     rdx, cl
+ shl     rsi, 52
+ sub     rdx, rsi
+ movabs  rcx, 4742290407621132288
+ add     rcx, rdx
+ shr     eax, 15
+ shl     rax, 63
+ or      rax, rcx
  ret
 <label>:
- xor     eax, eax
- or      rax, rdx
+ xor     ecx, ecx
+ shr     eax, 15
+ shl     rax, 63
+ or      rax, rcx
  ret

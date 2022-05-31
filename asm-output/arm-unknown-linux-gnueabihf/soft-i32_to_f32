@@ -2,21 +2,26 @@ floatconv::soft::i32_to_f32:
  cmp     r0, #0
  mov     r1, r0
  rsbmi   r1, r0, #0
- and     r0, r0, #-2147483648
- cmp     r1, #0
- moveq   r1, #0
- orreq   r0, r1, r0
- bxeq    lr
+ cmp     r0, #0
+ beq     <label>
+ mov     r12, #243269632
  clz     r2, r1
+ orr     r12, r12, #1073741824
+ orr     r3, r12, #-1325400064
  lsl     r1, r1, r2
- lsr     r3, r1, #7
- bic     r3, r3, r1, lsr, #8
- and     r3, r3, #1
- rsb     r3, r3, r1, lsl, #24
- lsr     r1, r1, #8
- sub     r1, r1, r2, lsl, #23
- add     r1, r1, r3, lsr, #31
- add     r1, r1, #243269632
- add     r1, r1, #1073741824
+ mul     r3, r2, r3
+ lsl     r2, r1, #24
+ lsr     r2, r2, #31
+ bic     r2, r2, r1, lsr, #8
+ rsb     r2, r2, r1, lsl, #24
+ add     r1, r3, r1, lsr, #8
+ add     r1, r1, r2, lsr, #31
+ add     r1, r1, r12
+ and     r0, r0, #-2147483648
+ orr     r0, r1, r0
+ bx      lr
+<label>:
+ mov     r1, #0
+ and     r0, r0, #-2147483648
  orr     r0, r1, r0
  bx      lr

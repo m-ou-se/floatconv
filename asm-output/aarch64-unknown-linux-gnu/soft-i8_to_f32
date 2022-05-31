@@ -1,22 +1,25 @@
 floatconv::soft::i8_to_f32:
  sxtb    w8, w0
+ and     w9, w0, #0xff
  cmp     w8, #0
- lsl     w10, w0, #24
- cneg    w9, w8, mi
- tst     w9, #0xff
- and     w8, w10, #0x80000000
- b.eq    <label>
- and     w9, w9, #0xff
- clz     w10, w9
- sub     w10, w10, #16
- and     w10, w10, #0xffff
- add     w11, w10, #8
- lsl     w9, w9, w11
- sub     w9, w9, w10, lsl, #23
- mov     w10, #1182793728
- add     w9, w9, w10
- orr     w0, w9, w8
+ cneg    w8, w8, mi
+ cbz     w9, <label>
+ and     w8, w8, #0xff
+ clz     w9, w8
+ sub     w9, w9, #16
+ and     w9, w9, #0xffff
+ add     w10, w9, #8
+ lsl     w8, w8, w10
+ sub     w8, w8, w9, lsl, #23
+ mov     w9, #1182793728
+ add     w8, w8, w9
+ lsl     w9, w0, #24
+ and     w9, w9, #0x80000000
+ orr     w0, w8, w9
  ret
 <label>:
- mov     w0, w8
+ mov     w8, wzr
+ lsl     w9, w0, #24
+ and     w9, w9, #0x80000000
+ orr     w0, w8, w9
  ret

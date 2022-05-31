@@ -1,29 +1,31 @@
 floatconv::soft::u64_to_f32:
- push    {r11, lr}
+ push    {r4, r5, r11, lr}
  clz     r2, r0
+ mov     r12, #511705088
+ orr     r12, r12, #1073741824
+ add     r2, r2, #32
  cmp     r1, #0
- add     r12, r2, #32
- clzne   r12, r1
- and     r3, r12, #63
- rsb     r2, r3, #32
- lsr     r2, r0, r2
- orr     lr, r2, r1, lsl, r3
- subs    r2, r3, #32
- lslpl   lr, r0, r2
- lsl     r2, r0, r3
- movpl   r2, #0
+ orr     r3, r12, #-1593835520
+ clzne   r2, r1
+ and     lr, r2, #63
+ mul     r5, r2, r3
+ rsb     r3, lr, #32
+ subs    r4, lr, #32
+ lsr     r3, r0, r3
+ orr     r3, r3, r1, lsl, lr
+ lslpl   r3, r0, r4
+ lsl     r4, r0, lr
+ movpl   r4, #0
+ add     r5, r5, r3, lsr, #8
+ lsr     r2, r4, #8
+ uxth    r4, r4
+ orr     r2, r2, r3, lsl, #24
+ add     r5, r5, r12
+ orr     r2, r2, r4
  orrs    r0, r0, r1
- lsr     r3, r2, #8
- uxth    r2, r2
- orr     r3, r3, lr, lsl, #24
- orr     r2, r3, r2
- lsr     r3, r2, #31
- bic     r3, r3, lr, lsr, #8
- sub     r2, r2, r3
- lsr     r3, lr, #8
- sub     r3, r3, r12, lsl, #23
- add     r3, r3, #511705088
- add     r3, r3, #1073741824
- lsreq   r3, lr, #8
- add     r0, r3, r2, lsr, #31
- pop     {r11, pc}
+ lsreq   r5, r3, #8
+ lsr     r4, r2, #31
+ bic     r4, r4, r3, lsr, #8
+ sub     r2, r2, r4
+ add     r0, r5, r2, lsr, #31
+ pop     {r4, r5, r11, pc}

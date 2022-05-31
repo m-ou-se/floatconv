@@ -9,18 +9,17 @@ floatconv::soft::u32_to_f32:
  shl     eax, cl
  mov     edx, eax
  shr     edx, 8
+ shl     eax, 24
  mov     esi, eax
- shl     esi, 24
- shr     eax, 7
+ shr     esi, 31
  mov     edi, edx
  not     edi
- and     edi, eax
- and     edi, 1
- sub     esi, edi
- shr     esi, 31
+ and     edi, esi
+ sub     eax, edi
+ shr     eax, 31
  shl     ecx, 23
  sub     edx, ecx
- lea     eax, [esi, +, edx, +, 1317011456]
+ lea     eax, [eax, +, edx, +, 1317011456]
  pop     esi
  pop     edi
  ret

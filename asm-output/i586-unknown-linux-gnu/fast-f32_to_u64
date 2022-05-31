@@ -1,57 +1,61 @@
 floatconv::fast::f32_to_u64:
- push    ebx
- sub     esp, 16
+ push    edi
+ push    esi
+ sub     esp, 20
  call    <label>$pb
 <label>$pb:
- pop     edx
- add     edx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
- fld     dword, ptr, [esp, +, 24]
- fld     dword, ptr, [edx, +, <label>@GOTOFF]
- fxch    st(1)
- fucom   st(1)
- fstp    st(1)
- fnstsw  ax
- mov     ecx, eax
- fldz
- fxch    st(1)
+ pop     ecx
+ add     ecx, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
+ fld     dword, ptr, [esp, +, 32]
+ fld     dword, ptr, [ecx, +, <label>@GOTOFF]
  fucom   st(1)
  fnstsw  ax
+ xor     edx, edx
  sahf
- ja      <label>
- fstp    st(0)
+ setbe   al
+ fldz
+ jbe     <label>
+ fstp    st(1)
  fld     st(0)
-<label>:
- fld     dword, ptr, [edx, +, <label>@GOTOFF]
  fxch    st(1)
- fucom   st(1)
- fnstsw  ax
- sahf
- jb      <label>
- fstp    st(2)
- fldz
- fxch    st(1)
- fxch    st(2)
 <label>:
- fstp    st(1)
- fsubrp  st(1), st
- setae   bl
+ fxch    st(1)
+ fsubr   st, st(2)
  fnstcw  word, ptr, [esp, +, 4]
- movzx   eax, word, ptr, [esp, +, 4]
- or      eax, 3072
- mov     word, ptr, [esp, +, 6], ax
+ movzx   esi, word, ptr, [esp, +, 4]
+ or      esi, 3072
+ mov     word, ptr, [esp, +, 6], si
  fldcw   word, ptr, [esp, +, 6]
  fistp   qword, ptr, [esp, +, 8]
  fldcw   word, ptr, [esp, +, 4]
- mov     ah, ch
- sahf
- mov     edx, -1
- mov     eax, -1
- ja      <label>
- movzx   edx, bl
+ mov     dl, al
  shl     edx, 31
  xor     edx, dword, ptr, [esp, +, 12]
- mov     eax, dword, ptr, [esp, +, 8]
+ fxch    st(1)
+ fucom   st(1)
+ fstp    st(1)
+ fnstsw  ax
+ xor     esi, esi
+ sahf
+ mov     edi, 0
+ jb      <label>
+ mov     edi, edx
 <label>:
- add     esp, 16
- pop     ebx
+ jb      <label>
+ mov     esi, dword, ptr, [esp, +, 8]
+<label>:
+ fld     dword, ptr, [ecx, +, <label>@GOTOFF]
+ fxch    st(1)
+ fucompp
+ fnstsw  ax
+ sahf
+ mov     eax, -1
+ mov     edx, -1
+ ja      <label>
+ mov     eax, esi
+ mov     edx, edi
+<label>:
+ add     esp, 20
+ pop     esi
+ pop     edi
  ret

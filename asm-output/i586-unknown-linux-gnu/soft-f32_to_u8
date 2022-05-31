@@ -3,8 +3,8 @@ floatconv::soft::f32_to_u8:
  cmp     edx, 2139095040
  ja      <label>
  mov     al, -1
- cmp     edx, 1132462079
- ja      <label>
+ cmp     edx, 1132462080
+ jae     <label>
  cmp     edx, 1065353216
  jb      <label>
  mov     eax, edx
@@ -17,7 +17,6 @@ floatconv::soft::f32_to_u8:
  shr     al, cl
 <label>:
  ret
-<label>:
 <label>:
  xor     eax, eax
  ret

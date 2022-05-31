@@ -1,92 +1,102 @@
 floatconv::soft::i128_to_f32:
  push    {r4, r5, r6, r7, r8, r9, r10, r11, lr}
- sub     sp, sp, #4
- rsbs    r12, r0, #0
- str     r3, [sp]
- rscs    lr, r1, #0
- rscs    r4, r2, #0
- rsc     r5, r3, #0
- cmp     r3, #0
- movpl   r4, r2
- clz     r2, r4
- movpl   r5, r3
- add     r11, r2, #32
- cmp     r5, #0
- clzne   r11, r5
- cmp     r3, #0
- movpl   r12, r0
- clz     r0, r12
- movpl   lr, r1
+ sub     sp, sp, #24
+ adds    r4, r0, r3, asr, #31
+ mov     lr, r3
+ adcs    r5, r1, r3, asr, #31
+ str     r2, [sp, #16]
+ adcs    r3, r2, r3, asr, #31
+ eor     r4, r4, lr, asr, #31
+ eor     r8, r3, lr, asr, #31
+ str     r0, [sp, #20]
+ clz     r2, r8
+ clz     r0, r4
+ add     r9, r2, #32
+ adc     r2, lr, lr, asr, #31
+ eor     r11, r2, lr, asr, #31
+ eor     r6, r5, lr, asr, #31
+ cmp     r11, #0
  add     r0, r0, #32
- cmp     lr, #0
- clzne   r0, lr
- orrs    r1, r4, r5
- addeq   r11, r0, #64
- and     r0, r11, #127
- rsb     r10, r0, #64
- rsbs    r7, r0, #32
- rsb     r2, r10, #32
- sub     r9, r0, #64
- lsr     r1, r12, r10
- orr     r3, r1, lr, lsl, r2
- lsl     r2, r4, r0
- lsrpl   r3, lr, r7
- subs    r6, r0, #32
- movpl   r2, #0
- lsl     r1, r12, r9
- subs    r8, r0, #96
- movpl   r1, #0
- cmp     r0, #64
- orrlo   r1, r2, r3
- cmp     r0, #0
- moveq   r1, r4
- lsl     r3, r12, r0
+ clzne   r9, r11
  cmp     r6, #0
- mov     r2, r1
- movpl   r3, #0
- cmp     r0, #64
- orrlo   r2, r2, r3
- lsr     r3, r12, r7
- orr     r3, r3, lr, lsl, r0
- cmp     r6, #0
- lslpl   r3, r12, r6
- cmp     r0, #64
- orrlo   r2, r2, r3
- lsr     r3, r4, r7
- orr     r3, r3, r5, lsl, r0
- cmp     r6, #0
- lslpl   r3, r4, r6
+ str     r1, [sp, #12]
+ clzne   r0, r6
+ orrs    r1, r8, r11
+ addeq   r9, r0, #64
+ and     r7, r9, #127
+ rsb     r1, r7, #64
+ str     r1, [sp]
+ rsbs    r10, r7, #32
+ sub     r3, r7, #64
+ lsr     r0, r4, r1
+ rsb     r1, r1, #32
+ str     r3, [sp, #4]
+ lsl     r5, r4, r3
+ orr     r2, r0, r6, lsl, r1
+ lsl     r0, r8, r7
+ lsrpl   r2, r6, r10
+ subs    r1, r7, #32
+ movpl   r0, #0
+ subs    r3, r7, #96
+ movpl   r5, #0
+ cmp     r7, #64
+ orrlo   r5, r0, r2
  cmp     r7, #0
- rsb     r7, r0, #96
- lsr     r6, lr, r10
- movpl   r6, #0
- cmp     r8, #0
- lsr     r7, r12, r7
- orr     r7, r7, lr, lsl, r9
- lslpl   r7, r12, r8
- cmp     r0, #64
- orrlo   r7, r3, r6
- cmp     r0, #0
- moveq   r7, r5
- lsr     r0, r1, #8
- lsr     r1, r7, #7
- cmp     r2, #0
- orr     r0, r0, r7, lsl, #24
- bic     r1, r1, r7, lsr, #8
- orrne   r0, r0, #1
- and     r1, r1, #1
- sub     r0, r0, r1
- lsr     r1, r7, #8
- sub     r1, r1, r11, lsl, #23
- orr     r2, r12, r4
- add     r1, r1, #1048576000
- orr     r3, lr, r5
- add     r1, r1, #1073741824
- orrs    r2, r2, r3
- lsreq   r1, r7, #8
- add     r0, r1, r0, lsr, #31
+ moveq   r5, r8
+ lsl     r2, r4, r7
+ cmp     r1, #0
+ mov     r0, r5
+ movpl   r2, #0
+ cmp     r7, #64
+ orrlo   r0, r0, r2
+ lsr     r2, r4, r10
+ orr     r2, r2, r6, lsl, r7
+ cmp     r1, #0
+ lslpl   r2, r4, r1
+ cmp     r7, #64
+ orrlo   r0, r0, r2
+ lsr     r2, r8, r10
+ orr     r12, r2, r11, lsl, r7
+ cmp     r1, #0
+ lslpl   r12, r8, r1
  ldr     r1, [sp]
- and     r1, r1, #-2147483648
+ rsb     r2, r7, #96
+ str     r3, [sp, #8]
+ ldr     r3, [sp, #4]
+ cmp     r10, #0
+ lsr     r2, r4, r2
+ lsr     r1, r6, r1
+ movpl   r1, #0
+ orr     r2, r2, r6, lsl, r3
+ ldr     r6, [sp, #8]
+ cmp     r6, #0
+ lslpl   r2, r4, r6
+ cmp     r7, #64
+ orrlo   r2, r12, r1
+ cmp     r7, #0
+ moveq   r2, r11
+ lsr     r1, r5, #8
+ orr     r1, r1, r2, lsl, #24
+ cmp     r0, #0
+ ldr     r7, [sp, #20]
+ lsr     r0, r1, #31
+ orrne   r1, r1, #1
+ bic     r0, r0, r2, lsr, #8
+ ldr     r6, [sp, #16]
+ sub     r0, r1, r0
+ mov     r1, #1048576000
+ orr     r1, r1, #1073741824
+ orr     r7, r7, r6
+ orr     r3, r1, #-2130706432
+ mul     r3, r9, r3
+ add     r3, r3, r2, lsr, #8
+ add     r1, r3, r1
+ ldr     r3, [sp, #12]
+ orr     r3, r3, lr
+ orrs    r3, r7, r3
+ lsreq   r1, r2, #8
+ add     r0, r1, r0, lsr, #31
+ and     r1, lr, #-2147483648
  orr     r0, r0, r1
- add     sp, sp, #4
+ add     sp, sp, #24
  pop     {r4, r5, r6, r7, r8, r9, r10, r11, pc}

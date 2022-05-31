@@ -8,12 +8,9 @@ floatconv::soft::f32_to_i8:
  bhi     <label>
  lsr     r3, r2, #24
  cmp     r3, #66
- bls     <label>
- mov     r1, #127
- cmp     r0, #0
- mvnmi   r1, #127
- mov     r0, r1
- bx      lr
+ movhi   r1, #127
+ eorhi   r0, r1, r0, asr, #31
+ bxhi    lr
 <label>:
  cmp     r2, r12
  bls     <label>
@@ -22,11 +19,11 @@ floatconv::soft::f32_to_i8:
  bfi     r2, r1, #6, #26
  mov     r1, #5
  sub     r1, r1, r0, lsr, #23
- cmp     r0, #0
+ cmn     r0, #1
  and     r3, r1, #7
- mov     r12, #0
- lsr     r1, r2, r3
- submi   r1, r12, r2, lsr, r3
+ mov     r1, #0
+ sub     r1, r1, r2, lsr, r3
+ lsrgt   r1, r2, r3
 <label>:
  mov     r0, r1
  bx      lr

@@ -8,11 +8,9 @@ floatconv::soft::f32_to_i128:
  lsr     r3, r2, #24
  cmp     r3, #126
  bls     <label>
- cmp     r0, #0
- mvn     r12, #0
- movmi   r12, #0
- mvn     r3, #-2147483648
- movmi   r3, #-2147483648
+ mvn     r1, #-2147483648
+ mvn     r12, r0, asr, #31
+ eor     r3, r1, r0, asr, #31
  mov     r1, r12
  mov     r2, r12
  mov     r0, r12
@@ -20,21 +18,21 @@ floatconv::soft::f32_to_i128:
 <label>:
  cmp     r2, r1
  bls     <label>
- ldr     r2, <label>
+ mvn     r1, #127
+ sub     r1, r1, #-1073741824
+ and     r1, r1, r0, lsl, #7
+ orr     r2, r1, #1073741824
  mov     r1, #125
  sub     r1, r1, r0, lsr, #23
  and     r1, r1, #127
- and     r2, r2, r0, lsl, #7
- orr     r2, r2, #1073741824
  rsb     r3, r1, #64
  sub     r5, r1, #64
  rsbs    r12, r1, #32
- lsl     r6, r2, r3
  lsr     r4, r2, r1
- movpl   r6, #0
+ lsl     r6, r2, r3
  lsr     lr, r2, r5
+ movpl   r6, #0
  subs    r3, r1, #96
- mov     r5, #0
  movpl   lr, #0
  cmp     r1, #64
  movlo   lr, r6
@@ -42,9 +40,10 @@ floatconv::soft::f32_to_i128:
  moveq   lr, r1
  subs    r7, r1, #32
  movpl   r4, #0
+ mov     r5, #0
  cmp     r1, #64
- movhs   r4, r5
  lsl     r6, r2, r12
+ movhs   r4, r5
  cmp     r7, #0
  lsrpl   r6, r2, r7
  rsb     r7, r1, #96
@@ -63,11 +62,11 @@ floatconv::soft::f32_to_i128:
  rscs    r1, lr, #0
  rscs    r2, r6, #0
  rsc     r3, r4, #0
- cmp     r0, #0
- movpl   r12, r5
- movpl   r1, lr
- movpl   r2, r6
- movpl   r3, r4
+ cmn     r0, #1
+ movgt   r12, r5
+ movgt   r1, lr
+ movgt   r2, r6
+ movgt   r3, r4
  mov     r0, r12
  pop     {r4, r5, r6, r7, r11, pc}
 <label>:
@@ -76,5 +75,4 @@ floatconv::soft::f32_to_i128:
  mov     r2, #0
  mov     r3, #0
  pop     {r4, r5, r6, r7, r11, pc}
-<label>:
 <label>:

@@ -7,18 +7,15 @@ floatconv::soft::f64_to_i8:
  neg     ecx
  mov     ecx, 2146435072
  sbb     ecx, eax
- jae     <label>
- xor     eax, eax
- pop     ebx
- ret
-<label>:
+ jb      <label>
  mov     ecx, eax
  shr     ecx, 21
  cmp     ecx, 514
  jbe     <label>
- shr     edx, 31
- add     dl, 127
- mov     eax, edx
+ test    edx, edx
+ setns   cl
+ mov     al, -128
+ sub     al, cl
  pop     ebx
  ret
 <label>:
@@ -37,10 +34,10 @@ floatconv::soft::f64_to_i8:
  test    edx, edx
  jns     <label>
  neg     al
-<label>:
  pop     ebx
  ret
 <label>:
  xor     eax, eax
+<label>:
  pop     ebx
  ret

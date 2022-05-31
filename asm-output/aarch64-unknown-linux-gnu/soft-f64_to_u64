@@ -3,17 +3,17 @@ floatconv::soft::f64_to_u64:
  cmp     x0, x8
  b.hi    <label>
  lsr     x8, x0, #52
- cmp     x8, #1086
- b.ls    <label>
+ cmp     x8, #1087
+ b.lo    <label>
  mov     x0, #-1
  ret
 <label>:
  cmp     x8, #1023
  b.lo    <label>
+ mov     w9, #62
+ sub     w8, w9, w8
  lsl     x9, x0, #11
- mov     w10, #62
  orr     x9, x9, #0x8000000000000000
- sub     w8, w10, w8
  lsr     x0, x9, x8
  ret
 <label>:

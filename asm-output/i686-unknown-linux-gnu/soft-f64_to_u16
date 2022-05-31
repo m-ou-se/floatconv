@@ -8,8 +8,8 @@ floatconv::soft::f64_to_u16:
  mov     edx, ecx
  mov     ax, -1
  shr     edx, 20
- cmp     edx, 1038
- ja      <label>
+ cmp     edx, 1039
+ jae     <label>
  cmp     edx, 1023
  jb      <label>
  shr     ecx, 5
@@ -21,7 +21,6 @@ floatconv::soft::f64_to_u16:
  shr     eax, cl
 <label>:
  ret
-<label>:
 <label>:
  xor     eax, eax
  ret

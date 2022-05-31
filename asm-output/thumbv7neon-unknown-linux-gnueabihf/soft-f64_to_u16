@@ -6,18 +6,21 @@ floatconv::soft::f64_to_u16:
  itt     lo
  movlo   r0, #0
  bxlo    lr
- movw    r0, #65535
- movt    r0, #16623
+<label>:
+ movs    r0, #0
+ movt    r0, #16624
  cmp     r1, r0
- itt     hi
- movwhi  r0, #65535
- bxhi    lr
+ itt     hs
+ movwhs  r0, #65535
+ bxhs    lr
+<label>:
  movs    r0, #0
  movt    r0, #16368
  cmp     r1, r0
  itt     lo
  movlo   r0, #0
  bxlo    lr
+<label>:
  movs    r0, #14
  mov.w   r2, #32768
  sub.w   r0, r0, r1, lsr, #20

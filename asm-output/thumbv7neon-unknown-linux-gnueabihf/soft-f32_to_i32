@@ -1,32 +1,28 @@
 floatconv::soft::f32_to_i32:
  bic     r1, r0, #-2147483648
  cmp.w   r1, #2139095040
- itt     hi
- movhi   r0, #0
- bxhi    lr
+ bhi     <label>
  lsrs    r2, r1, #24
  cmp     r2, #78
- bls     <label>
- mvn     r1, #-2147483648
- cmp     r0, #0
- it      mi
- movmi.w r1, #-2147483648
- mov     r0, r1
- bx      lr
+ ittt    hi
+ mvnhi   r1, #-2147483648
+ eorhi.w r0, r1, r0, asr, #31
+ bxhi    lr
 <label>:
  lsrs    r1, r1, #23
  cmp     r1, #126
- itt     ls
- movls   r0, #0
- bxls    lr
+ bls     <label>
  movs    r2, #29
  mov.w   r1, #1073741824
  sub.w   r2, r2, r0, lsr, #23
  bfi     r1, r0, #7, #23
  and     r2, r2, #31
- cmp     r0, #0
+ cmp.w   r0, #-1
  lsr.w   r1, r1, r2
- it      mi
- rsbmi   r1, r1, #0
+ it      le
+ rsble   r1, r1, #0
  mov     r0, r1
+ bx      lr
+<label>:
+ movs    r0, #0
  bx      lr

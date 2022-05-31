@@ -9,11 +9,10 @@ floatconv::soft::f32_to_i128:
  cmp     ecx, 2130706431
  jbe     <label>
  test    edi, edi
- sets    al
- xor     ecx, ecx
- add     rax, -1
- movabs  rdx, 9223372036854775807
- adc     rdx, rcx
+ setns   al
+ neg     rax
+ movabs  rdx, -9223372036854775808
+ sbb     rdx, 0
  ret
 <label>:
  mov     edx, 0

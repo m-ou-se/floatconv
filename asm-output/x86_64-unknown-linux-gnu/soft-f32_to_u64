@@ -2,8 +2,8 @@ floatconv::soft::f32_to_u64:
  cmp     edi, 2139095040
  ja      <label>
  mov     rax, -1
- cmp     edi, 1602224127
- ja      <label>
+ cmp     edi, 1602224128
+ jae     <label>
  cmp     edi, 1065353216
  jb      <label>
  mov     rax, rdi
@@ -15,7 +15,6 @@ floatconv::soft::f32_to_u64:
  shr     rax, cl
 <label>:
  ret
-<label>:
 <label>:
  xor     eax, eax
  ret

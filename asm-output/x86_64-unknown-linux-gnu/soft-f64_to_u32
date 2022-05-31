@@ -6,8 +6,8 @@ floatconv::soft::f64_to_u32:
  mov     rdx, rdi
  shr     rdx, 52
  mov     eax, -1
- cmp     edx, 1054
- ja      <label>
+ cmp     edx, 1055
+ jae     <label>
  mov     eax, 0
  cmp     edx, 1023
  jb      <label>

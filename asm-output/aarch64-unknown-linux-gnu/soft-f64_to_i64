@@ -6,21 +6,20 @@ floatconv::soft::f64_to_i64:
  lsr     x9, x8, #53
  cmp     x9, #542
  b.ls    <label>
- cmp     x0, #0
- mov     x8, #-9223372036854775808
- cinv    x0, x8, ge
+ asr     x8, x0, #63
+ eor     x0, x8, #0x7fffffffffffffff
  ret
 <label>:
  lsr     x8, x8, #52
  cmp     x8, #1022
  b.ls    <label>
- mov     x8, #4611686018427387904
- lsr     x9, x0, #52
- mov     w10, #61
- bfi     x8, x0, #10, #52
- sub     w9, w10, w9
- lsr     x8, x8, x9
+ lsr     x8, x0, #52
+ mov     w9, #61
+ sub     w8, w9, w8
+ mov     x9, #4611686018427387904
+ bfi     x9, x0, #10, #52
  cmp     x0, #0
+ lsr     x8, x9, x8
  cneg    x0, x8, lt
  ret
 <label>:

@@ -1,29 +1,30 @@
 floatconv::soft::i8_to_f64:
- sxtb    r2, r0
- cmp     r2, #0
- rsbmi   r2, r2, #0
- mov     r1, #-2147483648
- and     r12, r1, r0, lsl, #24
- tst     r2, #255
- beq     <label>
+ sxtb    r1, r0
+ cmp     r1, #0
+ rsbmi   r1, r1, #0
  push    {r11, lr}
- uxtb    r2, r2
- clz     r3, r2
- rsb     r1, r3, #11
- subs    lr, r3, #11
- add     r0, r3, #21
- lsr     r1, r2, r1
- lslpl   r1, r2, lr
- lsl     r0, r2, r0
- sub     r1, r1, r3, lsl, #20
- movpl   r0, #0
+ tst     r0, #255
+ beq     <label>
+ uxtb    r1, r1
+ clz     r3, r1
+ add     r2, r3, #21
+ subs    r12, r3, #11
+ lsl     lr, r1, r2
+ rsb     r2, r3, #11
+ movpl   lr, #0
+ lsr     r2, r1, r2
+ lslpl   r2, r1, r12
+ sub     r1, r2, r3, lsl, #20
  add     r1, r1, #30408704
- add     r2, r1, #1073741824
- pop     {r11, lr}
- orr     r1, r2, r12
- bx      lr
+ add     r1, r1, #1073741824
+ and     r0, r0, #128
+ orr     r1, r1, r0, lsl, #24
+ mov     r0, lr
+ pop     {r11, pc}
 <label>:
- mov     r2, #0
- orr     r1, r2, r12
- mov     r0, #0
- bx      lr
+ mov     lr, #0
+ mov     r1, #0
+ and     r0, r0, #128
+ orr     r1, r1, r0, lsl, #24
+ mov     r0, lr
+ pop     {r11, pc}

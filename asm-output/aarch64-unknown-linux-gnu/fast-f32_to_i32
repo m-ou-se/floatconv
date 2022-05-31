@@ -1,13 +1,3 @@
 floatconv::fast::f32_to_i32:
- mov     w8, #-822083584
- mov     w9, #1325400063
- fmov    s1, w8
- fmaxnm  s1, s0, s1
- fmov    s2, w9
- mov     w10, #2147483647
- fcmp    s0, s2
- fcvtzs  w8, s1
- csel    w8, w10, w8, gt
- fcmp    s0, s0
- csel    w0, w8, wzr, vc
+ fcvtzs  w0, s0
  ret

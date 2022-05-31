@@ -5,26 +5,26 @@ floatconv::soft::f32_to_i32:
  movt    r3, #32640
  mov     r0, #0
  cmp     r2, r3
- bhi     <label>
+ bls     <label>
+ bx      lr
+<label>:
  lsr     r3, r2, #24
  cmp     r3, #78
- bls     <label>
- mvn     r0, #-2147483648
- cmp     r1, #0
- movmi   r0, #-2147483648
- bx      lr
+ mvnhi   r0, #-2147483648
+ eorhi   r0, r0, r1, asr, #31
+ bxhi    lr
 <label>:
  lsr     r2, r2, #23
  cmp     r2, #126
  bxls    lr
+<label>:
  mov     r0, #29
  mov     r2, #1073741824
  sub     r0, r0, r1, lsr, #23
  bfi     r2, r1, #7, #23
  and     r3, r0, #31
- cmp     r1, #0
- mov     r12, #0
- lsr     r0, r2, r3
- submi   r0, r12, r2, lsr, r3
-<label>:
+ mov     r0, #0
+ cmn     r1, #1
+ sub     r0, r0, r2, lsr, r3
+ lsrgt   r0, r2, r3
  bx      lr

@@ -64,20 +64,21 @@ floatconv::soft::u128_to_f32:
  cmp     lr, #0
  moveq   r6, r8
  lsr     r0, r4, #8
- lsr     r7, r6, #7
  orr     r0, r0, r6, lsl, #24
- bic     r7, r7, r6, lsr, #8
  cmp     r5, #0
- orrne   r0, r0, #1
- and     r7, r7, #1
- sub     r0, r0, r7
- lsr     r7, r6, #8
- sub     r7, r7, r12, lsl, #23
  orr     r2, r2, r8
- add     r7, r7, #1048576000
  orr     r1, r1, r3
- add     r7, r7, #1073741824
+ lsr     r7, r0, #31
+ orrne   r0, r0, #1
+ bic     r7, r7, r6, lsr, #8
  orrs    r1, r1, r2
+ sub     r0, r0, r7
+ movw    r7, #0
+ movt    r7, #32384
+ orr     r5, r7, #-2130706432
+ mul     r5, r12, r5
+ add     r5, r5, r6, lsr, #8
+ add     r7, r5, r7
  lsreq   r7, r6, #8
  add     r0, r7, r0, lsr, #31
  add     sp, sp, #4

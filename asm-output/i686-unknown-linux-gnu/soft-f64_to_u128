@@ -14,8 +14,8 @@ floatconv::soft::f64_to_u128:
  jb      <label>
  mov     edx, edi
  shr     edx, 20
- cmp     edx, 1150
- jbe     <label>
+ cmp     edx, 1151
+ jb      <label>
  mov     esi, -1
  mov     edi, -1
  mov     ebx, -1
@@ -46,8 +46,8 @@ floatconv::soft::f64_to_u128:
  add     cl, -64
  mov     edx, edi
  mov     byte, ptr, [esp, +, 2], ch
- shr     edx, cl
  shrd    dword, ptr, [esp, +, 8], edi, cl
+ shr     edx, cl
  test    cl, 32
  mov     ecx, 0
  mov     dword, ptr, [esp, +, 4], edx

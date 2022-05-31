@@ -6,30 +6,29 @@ floatconv::soft::f64_to_i16:
  movt    r12, #32752
  mov     r0, #0
  sbcs    r2, r12, r3
- blo     <label>
+ bhs     <label>
+ bx      lr
+<label>:
  movw    r2, #65535
  movt    r2, #16607
  cmp     r3, r2
- bls     <label>
- movw    r0, #32767
- cmp     r1, #0
- movwmi  r0, #32768
- movtmi  r0, #65535
- bx      lr
+ movwhi  r0, #32767
+ eorhi   r0, r0, r1, asr, #31
+ bxhi    lr
 <label>:
  movw    r2, #65535
  movt    r2, #16367
  cmp     r3, r2
  bxls    lr
+<label>:
  lsr     r2, r1, #6
  mov     r0, #1
  bfi     r2, r0, #14, #18
  mov     r0, #13
  sub     r0, r0, r1, lsr, #20
- cmp     r1, #0
+ cmn     r1, #1
  and     r3, r0, #15
- mov     r12, #0
- lsr     r0, r2, r3
- submi   r0, r12, r2, lsr, r3
-<label>:
+ mov     r0, #0
+ sub     r0, r0, r2, lsr, r3
+ lsrgt   r0, r2, r3
  bx      lr

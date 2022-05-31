@@ -5,11 +5,11 @@ floatconv::soft::f64_to_u32:
  mov     r2, #0
  sbcs    r3, r12, r1
  blo     <label>
- movw    r3, #65535
+ movw    r3, #0
  mvn     r2, #0
- movt    r3, #16879
+ movt    r3, #16880
  cmp     r1, r3
- bhi     <label>
+ bhs     <label>
  movw    r2, #0
  movt    r2, #16368
  cmp     r1, r2

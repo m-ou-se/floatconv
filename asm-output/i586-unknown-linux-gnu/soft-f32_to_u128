@@ -8,7 +8,6 @@ floatconv::soft::f32_to_u128:
  mov     edx, dword, ptr, [esp, +, 36]
  cmp     edx, 2139095040
  ja      <label>
- cmp     edx, 2139095040
  jne     <label>
  mov     esi, -1
  mov     ecx, -1

@@ -2,14 +2,17 @@ floatconv::soft::u8_to_f32:
  tst     r0, #255
  moveq   r0, #0
  bxeq    lr
+<label>:
  uxtb    r0, r0
- clz     r1, r0
- sub     r1, r1, #16
+ clz     r3, r0
+ movw    r12, #0
+ sub     r3, r3, #16
+ movt    r12, #18048
+ orr     r2, r12, #-1191182336
+ uxth    r1, r3
+ mul     r1, r1, r2
  mov     r2, #8
- uxtah   r2, r2, r1
- uxth    r1, r1
- lsl     r1, r1, #23
- rsb     r0, r1, r0, lsl, r2
- add     r0, r0, #109051904
- add     r0, r0, #1073741824
+ uxtah   r2, r2, r3
+ add     r0, r1, r0, lsl, r2
+ add     r0, r0, r12
  bx      lr

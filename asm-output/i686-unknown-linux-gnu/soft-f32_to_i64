@@ -19,7 +19,12 @@ floatconv::soft::f32_to_i64:
  adc     edx, 0
  test    esi, esi
  cmovns  eax, ecx
- jmp     <label>
+ cmovns  edx, edi
+<label>:
+ pop     esi
+ pop     edi
+ pop     ebx
+ ret
 <label>:
  xor     eax, eax
  cmp     ecx, 1065353215
@@ -45,9 +50,7 @@ floatconv::soft::f32_to_i64:
  sbb     edx, edi
  test    esi, esi
  cmovns  eax, ebx
-<label>:
  cmovns  edx, edi
-<label>:
  pop     esi
  pop     edi
  pop     ebx

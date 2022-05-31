@@ -9,8 +9,8 @@ floatconv::soft::f64_to_u8:
  mov     ebx, edx
  mov     al, -1
  shr     ebx, 20
- cmp     ebx, 1030
- ja      <label>
+ cmp     ebx, 1031
+ jae     <label>
  cmp     ebx, 1023
  jb      <label>
  shr     edx, 13
@@ -22,7 +22,6 @@ floatconv::soft::f64_to_u8:
 <label>:
  pop     ebx
  ret
-<label>:
 <label>:
  xor     eax, eax
  pop     ebx

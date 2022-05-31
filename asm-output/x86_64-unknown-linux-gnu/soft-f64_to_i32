@@ -9,9 +9,11 @@ floatconv::soft::f64_to_i32:
  shr     rdx, 53
  cmp     edx, 526
  jbe     <label>
- shr     rdi, 63
- add     edi, 2147483647
- mov     eax, edi
+ xor     ecx, ecx
+ test    rdi, rdi
+ setns   cl
+ mov     eax, -2147483648
+ sub     eax, ecx
  ret
 <label>:
  shr     rcx, 52

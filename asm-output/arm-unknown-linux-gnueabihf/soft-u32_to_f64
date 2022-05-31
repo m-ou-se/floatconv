@@ -3,6 +3,7 @@ floatconv::soft::u32_to_f64:
  moveq   r0, #0
  moveq   r1, #0
  bxeq    lr
+<label>:
  clz     r2, r0
  mov     r1, r0
  rsb     r3, r2, #11

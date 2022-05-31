@@ -1,14 +1,4 @@
 floatconv::fast::f32_to_u32:
- vcmp.f32 s0, #0
- vldr    s4, <label>
- vmrs    APSR_nzcv, fpscr
- vldr    s2, <label>
- vcmp.f32 s0, s4
- vmovgt.f32 s2, s0
- vmrs    APSR_nzcv, fpscr
- vcvt.u32.f32 s2, s2
- vmov    r0, s2
- mvngt   r0, #0
+ vcvt.u32.f32 s0, s0
+ vmov    r0, s0
  bx      lr
-<label>:
-<label>:

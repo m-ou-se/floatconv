@@ -3,57 +3,51 @@ floatconv::soft::i64_to_f32:
  push    ebx
  push    edi
  push    esi
- push    eax
- mov     esi, dword, ptr, [esp, +, 28]
- mov     edi, dword, ptr, [esp, +, 24]
- mov     ecx, 63
+ mov     ebx, dword, ptr, [esp, +, 24]
+ mov     esi, dword, ptr, [esp, +, 20]
+ mov     edi, 63
+ mov     ecx, ebx
+ mov     edx, ebx
  mov     eax, esi
- and     eax, -2147483648
- mov     dword, ptr, [esp], eax
- mov     eax, esi
- sar     eax, 31
- add     edi, eax
- adc     esi, eax
- xor     edi, eax
- xor     esi, eax
- bsr     eax, esi
- xor     eax, 31
- bsr     ebx, edi
- cmovne  ecx, ebx
- mov     ebx, edi
+ sar     ecx, 31
+ and     edx, -2147483648
+ add     eax, ecx
+ adc     ebx, ecx
+ xor     eax, ecx
+ xor     ebx, ecx
+ bsr     ecx, eax
+ cmovne  edi, ecx
+ bsr     ecx, ebx
+ xor     edi, 31
  xor     ecx, 31
- add     ecx, 32
- test    esi, esi
- cmovne  ecx, eax
- mov     eax, esi
- xor     edx, edx
- shld    eax, edi, cl
- shl     ebx, cl
+ add     edi, 32
+ test    ebx, ebx
+ cmove   ecx, edi
+ xor     edi, edi
+ shld    ebx, eax, cl
+ shl     eax, cl
  test    cl, 32
- cmovne  eax, ebx
- cmovne  ebx, edx
+ cmovne  ebx, eax
+ cmovne  eax, edi
  shl     ecx, 23
- mov     ebp, eax
- shld    eax, ebx, 24
- movzx   ebx, bx
- or      ebx, eax
+ mov     ebp, ebx
+ shld    ebx, eax, 24
+ movzx   eax, ax
+ or      eax, ebx
+ mov     ebx, 1585446912
  shr     ebp, 8
- mov     eax, ebx
- mov     edx, ebp
+ sub     ebx, ecx
+ or      esi, dword, ptr, [esp, +, 24]
+ mov     ecx, eax
+ cmove   ebx, edi
+ shr     ecx, 31
+ add     ebx, ebp
+ not     ebp
+ and     ebp, ecx
+ sub     eax, ebp
  shr     eax, 31
- not     edx
- and     edx, eax
- mov     eax, 1585446912
- sub     ebx, edx
- sub     eax, ecx
- mov     ecx, 0
- shr     ebx, 31
- or      edi, esi
- cmove   eax, ecx
- add     eax, ebp
  add     eax, ebx
- or      eax, dword, ptr, [esp]
- add     esp, 4
+ or      eax, edx
  pop     esi
  pop     edi
  pop     ebx

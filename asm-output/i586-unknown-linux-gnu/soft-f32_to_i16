@@ -4,16 +4,14 @@ floatconv::soft::f32_to_i16:
  mov     eax, edx
  and     eax, 2147483647
  cmp     eax, 2139095040
- jbe     <label>
- xor     eax, eax
- pop     ebx
- ret
-<label>:
+ ja      <label>
  cmp     eax, 1191182335
  jbe     <label>
- shr     edx, 31
- add     edx, 32767
- mov     eax, edx
+ xor     ecx, ecx
+ test    edx, edx
+ setns   cl
+ mov     eax, -32768
+ sub     eax, ecx
  pop     ebx
  ret
 <label>:
@@ -32,10 +30,10 @@ floatconv::soft::f32_to_i16:
  test    edx, edx
  jns     <label>
  neg     eax
-<label>:
  pop     ebx
  ret
 <label>:
  xor     eax, eax
+<label>:
  pop     ebx
  ret

@@ -15,6 +15,7 @@ floatconv::soft::f32_to_u64:
  cmp     r2, r3
  mov     r1, #0
  bxls    lr
+<label>:
  mov     r0, #-2147483648
  orr     r1, r0, r2, lsl, #8
  mov     r0, #62

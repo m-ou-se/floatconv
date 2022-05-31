@@ -4,144 +4,143 @@ floatconv::soft::i128_to_f64:
  push    edi
  push    esi
  sub     esp, 36
- mov     ecx, dword, ptr, [esp, +, 56]
- mov     eax, dword, ptr, [esp, +, 60]
- mov     ebp, 0
- mov     edi, 0
  mov     esi, dword, ptr, [esp, +, 68]
- mov     ebx, 0
- mov     edx, ecx
- neg     edx
- sbb     ebp, eax
- sbb     edi, dword, ptr, [esp, +, 64]
- sbb     ebx, esi
- test    esi, esi
- cmovns  edi, dword, ptr, [esp, +, 64]
- cmovns  edx, ecx
- cmovns  ebx, esi
- cmovns  ebp, eax
- mov     esi, 63
- mov     ecx, edx
- mov     dword, ptr, [esp, +, 4], edx
- bsr     eax, ebx
- mov     dword, ptr, [esp, +, 12], ebx
- mov     dword, ptr, [esp, +, 8], ebp
- xor     eax, 31
- bsr     edx, edi
+ mov     ecx, dword, ptr, [esp, +, 56]
+ mov     edi, dword, ptr, [esp, +, 60]
+ mov     ebp, dword, ptr, [esp, +, 64]
+ mov     eax, esi
  mov     dword, ptr, [esp, +, 20], edi
- xor     edx, 31
- add     edx, 32
- test    ebx, ebx
- cmovne  edx, eax
- bsr     eax, ecx
- cmovne  esi, eax
- bsr     ecx, ebp
- mov     eax, edi
- xor     esi, 31
+ mov     ebx, esi
+ sar     eax, 31
+ add     ecx, eax
+ adc     edi, eax
+ adc     ebp, eax
+ adc     ebx, eax
+ xor     ebp, eax
+ xor     ecx, eax
+ xor     edi, eax
+ xor     ebx, eax
+ bsr     eax, ebp
+ mov     esi, ecx
+ mov     dword, ptr, [esp, +, 4], ecx
+ mov     dword, ptr, [esp, +, 12], ebp
+ bsr     ecx, ebx
+ xor     eax, 31
+ mov     dword, ptr, [esp, +, 16], ebx
  xor     ecx, 31
+ add     eax, 32
+ test    ebx, ebx
+ cmovne  eax, ecx
+ bsr     ecx, esi
+ mov     esi, 63
+ cmovne  esi, ecx
+ bsr     edx, edi
+ mov     ecx, ebp
+ xor     esi, 31
+ xor     edx, 31
  add     esi, 32
- test    ebp, ebp
- cmove   ecx, esi
- add     ecx, 64
- or      eax, ebx
- cmovne  ecx, edx
- mov     edx, dword, ptr, [esp, +, 4]
- shl     edi, cl
- mov     dword, ptr, [esp, +, 16], ecx
+ test    edi, edi
+ cmove   edx, esi
+ add     edx, 64
+ or      ecx, ebx
  mov     ebx, edi
- mov     dword, ptr, [esp], edi
- mov     edi, ebp
- mov     eax, ebx
- mov     bh, cl
- mov     ebp, edx
- shld    edi, edx, cl
- mov     esi, edx
- mov     edx, 0
- shl     ebp, cl
- test    cl, 32
- cmovne  edi, ebp
- cmovne  eax, edx
- cmovne  ebp, edx
- and     bh, 127
- mov     ch, bh
- mov     bl, bh
- sub     ch, 64
- cmovae  ebp, edx
- neg     ch
- mov     edx, 0
- mov     dword, ptr, [esp, +, 32], ebp
- mov     ebp, esi
- mov     esi, dword, ptr, [esp, +, 8]
- mov     cl, ch
- shrd    ebp, esi, cl
- shr     esi, cl
- test    ch, 32
- cmovne  ebp, esi
- add     bl, -64
- or      ebp, eax
+ cmovne  edx, eax
  mov     eax, dword, ptr, [esp, +, 4]
- mov     cl, bl
- shl     eax, cl
- test    bl, 32
- mov     dword, ptr, [esp, +, 28], eax
- cmovne  eax, edx
- cmp     bh, 64
- cmovb   eax, ebp
- cmovae  edi, edx
- test    ch, 32
- mov     ebp, dword, ptr, [esp, +, 12]
- mov     ecx, dword, ptr, [esp, +, 16]
- cmovne  esi, edx
- mov     edx, dword, ptr, [esp, +, 20]
- mov     dword, ptr, [esp, +, 24], esi
- mov     esi, dword, ptr, [esp, +, 4]
- shld    ebp, edx, cl
- test    cl, 32
- mov     edx, dword, ptr, [esp, +, 8]
- mov     ecx, ebx
- cmovne  ebp, dword, ptr, [esp]
- shld    edx, esi, cl
- test    bl, 32
- mov     ecx, dword, ptr, [esp, +, 68]
- mov     esi, dword, ptr, [esp, +, 20]
- cmovne  edx, dword, ptr, [esp, +, 28]
- or      ebp, dword, ptr, [esp, +, 24]
- cmp     bh, 64
- mov     dword, ptr, [esp], ecx
- mov     ecx, dword, ptr, [esp, +, 32]
- cmovae  ebp, edx
- and     dword, ptr, [esp], -2147483648
- test    bh, bh
- cmove   ebp, dword, ptr, [esp, +, 12]
- cmove   eax, esi
+ mov     ecx, edx
+ mov     ch, dl
+ shl     ebp, cl
+ mov     cl, dl
+ mov     dword, ptr, [esp, +, 28], ebp
+ mov     esi, eax
+ shld    ebx, eax, cl
+ mov     eax, ebp
+ mov     ebp, dword, ptr, [esp, +, 4]
+ shl     esi, cl
+ test    dl, 32
+ cmovne  ebx, esi
+ mov     dword, ptr, [esp, +, 8], ebx
+ mov     ebx, 0
+ cmovne  eax, ebx
+ cmovne  esi, ebx
+ and     ch, 127
+ mov     byte, ptr, [esp, +, 2], ch
+ sub     ch, 64
+ cmovae  esi, ebx
+ neg     ch
  mov     ebx, ebp
- shld    ebp, eax, 21
- shld    eax, edi, 21
- shld    edi, ecx, 21
- mov     edx, ebp
- or      edi, ecx
- mov     ecx, eax
- shr     ebx, 11
- shr     ecx, 31
- not     edx
- and     edx, ecx
+ mov     dword, ptr, [esp, +, 32], esi
+ mov     cl, ch
+ mov     esi, edi
+ shrd    ebx, edi, cl
+ shr     esi, cl
+ mov     cl, byte, ptr, [esp, +, 2]
+ test    ch, 32
+ cmovne  ebx, esi
+ or      ebx, eax
+ mov     eax, ebp
+ mov     ebp, 0
+ add     cl, -64
+ shl     eax, cl
+ test    cl, 32
+ mov     byte, ptr, [esp, +, 3], cl
+ mov     cl, dl
+ mov     dword, ptr, [esp, +, 24], eax
+ cmovne  eax, ebp
+ cmp     byte, ptr, [esp, +, 2], 64
+ mov     ebp, dword, ptr, [esp, +, 8]
+ cmovb   eax, ebx
+ mov     ebx, 0
+ cmovae  ebp, ebx
+ test    ch, 32
+ mov     dword, ptr, [esp, +, 8], ebp
+ cmovne  esi, ebx
+ mov     ebx, dword, ptr, [esp, +, 16]
+ mov     ebp, dword, ptr, [esp, +, 12]
+ shld    ebx, ebp, cl
+ test    dl, 32
+ mov     cl, byte, ptr, [esp, +, 3]
+ mov     ebp, dword, ptr, [esp, +, 4]
+ cmovne  ebx, dword, ptr, [esp, +, 28]
+ shld    edi, ebp, cl
+ test    cl, 32
+ mov     ecx, dword, ptr, [esp, +, 68]
+ mov     ebp, dword, ptr, [esp, +, 8]
+ cmovne  edi, dword, ptr, [esp, +, 24]
+ or      ebx, esi
+ cmp     byte, ptr, [esp, +, 2], 64
+ cmovae  ebx, edi
+ or      dword, ptr, [esp, +, 20], ecx
+ and     ecx, -2147483648
+ cmp     byte, ptr, [esp, +, 2], 0
+ mov     edi, dword, ptr, [esp, +, 56]
+ mov     dword, ptr, [esp, +, 4], ecx
+ mov     ecx, dword, ptr, [esp, +, 32]
+ cmove   ebx, dword, ptr, [esp, +, 16]
+ cmove   eax, dword, ptr, [esp, +, 12]
+ or      edi, dword, ptr, [esp, +, 64]
+ shl     edx, 20
+ mov     esi, ebx
+ shld    ebx, eax, 21
+ shld    eax, ebp, 21
+ shld    ebp, ecx, 21
+ or      ebp, ecx
  mov     ecx, 1204813824
- cmp     edi, edx
- mov     edx, dword, ptr, [esp, +, 12]
- mov     edi, esi
- mov     esi, dword, ptr, [esp, +, 16]
- sbb     eax, 0
- or      edi, dword, ptr, [esp, +, 4]
- shr     eax, 31
- or      edx, dword, ptr, [esp, +, 8]
- shl     esi, 20
- sub     ecx, esi
- or      edx, edi
+ shr     esi, 11
+ sub     ecx, edx
+ or      edi, dword, ptr, [esp, +, 20]
  mov     edx, 0
+ mov     edi, ebx
+ not     edi
  cmove   ecx, edx
- add     eax, ebp
- adc     ecx, ebx
- or      ecx, dword, ptr, [esp]
+ mov     edx, eax
+ shr     edx, 31
+ and     edi, edx
+ cmp     ebp, edi
+ sbb     eax, 0
+ shr     eax, 31
+ add     eax, ebx
+ adc     ecx, esi
+ or      ecx, dword, ptr, [esp, +, 4]
  mov     edx, ecx
  add     esp, 36
  pop     esi

@@ -1,45 +1,36 @@
 floatconv::fast::i128_to_f64:
- negs    x10, x0
- ngcs    x9, x1
+ negs    x9, x0
+ ngcs    x8, x1
  cmp     x1, #0
- csel    x9, x9, x1, lt
- and     x8, x1, #0x8000000000000000
- lsr     x11, x9, #40
- csel    x10, x10, x0, lt
- cbnz    x11, <label>
- mov     x11, #4841369599423283200
- mov     x12, #-4382002437431492608
- extr    x9, x9, x10, #52
- mov     x13, #5075556780046548992
- bfxil   x11, x10, #0, #52
- mov     x14, #-4147815256808226816
- fmov    d0, x12
- orr     x9, x9, x13
- fmov    d1, x11
- fmov    d2, x14
- fadd    d1, d1, d0
- fmov    d0, x9
- fadd    d0, d0, d2
+ csel    x8, x8, x1, lt
+ csel    x9, x9, x0, lt
+ lsr     x10, x8, #40
+ cbnz    x10, <label>
+ adrp    x11, <label>
+ adrp    x12, <label>
+ and     x10, x9, #0xfffffffffffff
+ extr    x9, x8, x9, #52
+ ldr     q0, [x11, :lo12:<label>]
+ ldr     q1, [x12, :lo12:<label>]
  b       <label>
 <label>:
- extr    x11, x9, x10, #24
- mov     x12, #-4273916046374600704
- and     x10, x10, #0xffffff
- and     x11, x11, #0xfffffffffffff
- fmov    d0, x12
- mov     x12, #4949455990480175104
- orr     x10, x10, x11
- mov     x11, #5183643171103440896
- orr     x10, x10, x12
- mov     x12, #-4039728865751334912
- bfxil   x11, x9, #12, #52
- fmov    d2, x10
- fmov    d1, x12
- fadd    d0, d2, d0
- fmov    d2, x11
- fadd    d1, d2, d1
+ adrp    x11, <label>
+ adrp    x12, <label>
+ extr    x10, x8, x9, #24
+ and     x9, x9, #0xffffff
+ ldr     q0, [x11, :lo12:<label>]
+ ldr     q1, [x12, :lo12:<label>]
+ and     x10, x10, #0xfffffffffffff
+ orr     x9, x9, x10
+ lsr     x10, x8, #12
 <label>:
- fadd    d0, d1, d0
+ fmov    d2, x9
+ and     x8, x1, #0x8000000000000000
+ mov     v2.d[1], x10
+ orr     v1.16b, v2.16b, v1.16b
+ fadd    v0.2d, v1.2d, v0.2d
+ dup     v1.2d, v0.d[1]
+ fadd    v0.2d, v0.2d, v1.2d
  fmov    x9, d0
  orr     x8, x8, x9
  fmov    d0, x8

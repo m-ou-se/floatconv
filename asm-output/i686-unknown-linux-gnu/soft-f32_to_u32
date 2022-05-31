@@ -4,8 +4,8 @@ floatconv::soft::f32_to_u32:
  cmp     edx, 2139095040
  ja      <label>
  mov     eax, -1
- cmp     edx, 1333788671
- ja      <label>
+ cmp     edx, 1333788672
+ jae     <label>
  cmp     edx, 1065353216
  mov     eax, 0
  jb      <label>

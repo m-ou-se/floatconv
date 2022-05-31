@@ -2,10 +2,10 @@ floatconv::soft::u16_to_f64:
  tst     w0, #0xffff
  b.eq    <label>
  and     w8, w0, #0xffff
+ and     x10, x0, #0xffff
  clz     w8, w8
- and     x9, x0, #0xffff
- add     w10, w8, #21
- lsl     x9, x9, x10
+ add     w9, w8, #21
+ lsl     x9, x10, x9
  sub     x8, x9, x8, lsl, #52
  mov     x9, #4742290407621132288
  add     x0, x8, x9

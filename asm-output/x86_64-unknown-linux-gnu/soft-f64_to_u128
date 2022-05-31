@@ -8,8 +8,8 @@ floatconv::soft::f64_to_u128:
  shr     rsi, 52
  mov     rax, -1
  mov     rdx, -1
- cmp     esi, 1150
- ja      <label>
+ cmp     esi, 1151
+ jae     <label>
  xor     eax, eax
  mov     edx, 0
  cmp     esi, 1023

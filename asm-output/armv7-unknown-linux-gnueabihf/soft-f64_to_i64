@@ -13,11 +13,9 @@ floatconv::soft::f64_to_i64:
  movt    r0, #17375
  cmp     r2, r0
  bls     <label>
- mvn     r3, #-2147483648
- cmp     r1, #0
- mvn     r0, #0
- movmi   r3, #-2147483648
- movwmi  r0, #0
+ mvn     r0, #-2147483648
+ eor     r3, r0, r1, asr, #31
+ mvn     r0, r1, asr, #31
  mov     r1, r3
  pop     {r4, pc}
 <label>:
@@ -46,9 +44,9 @@ floatconv::soft::f64_to_i64:
  movwpl  r2, #0
  rsbs    r0, r4, #0
  rsc     r3, r2, #0
- cmp     r1, #0
- movpl   r0, r4
- movpl   r3, r2
+ cmn     r1, #1
+ movgt   r3, r2
+ movgt   r0, r4
 <label>:
  mov     r1, r3
  pop     {r4, pc}

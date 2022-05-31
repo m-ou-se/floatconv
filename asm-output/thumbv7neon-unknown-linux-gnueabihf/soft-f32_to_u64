@@ -10,6 +10,7 @@ floatconv::soft::f32_to_u64:
  ornhi   r1, r1, #-2147483648
  movhi.w r0, #-1
  bxhi    lr
+<label>:
  cmp     r0, r2
  bls     <label>
  orr.w   r1, r1, r0, lsl, #8

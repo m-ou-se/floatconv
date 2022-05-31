@@ -7,11 +7,15 @@ floatconv::soft::f32_to_u16:
  bhi     <label>
  add     r3, r2, #134217728
  cmp     r1, r3
- movhi   r0, #255
- orrhi   r0, r0, #65280
- bxhi    lr
+ bls     <label>
+ mov     r0, #255
+ orr     r0, r0, #65280
+<label>:
+ bx      lr
+<label>:
  cmp     r1, r2
  bxls    lr
+<label>:
  mov     r0, #14
  mov     r2, #32768
  sub     r0, r0, r1, lsr, #23
@@ -19,6 +23,5 @@ floatconv::soft::f32_to_u16:
  and     r0, r0, #15
  uxth    r1, r1
  lsr     r0, r1, r0
-<label>:
  bx      lr
 <label>:

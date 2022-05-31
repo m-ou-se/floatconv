@@ -4,10 +4,10 @@ floatconv::soft::f64_to_u128:
  movt    r2, #32752
  sbcs    r2, r2, r1
  blo     <label>
- movw    r2, #65535
- movt    r2, #18415
+ movw    r2, #0
+ movt    r2, #18416
  cmp     r1, r2
- bls     <label>
+ blo     <label>
  mvn     r0, #0
  mvn     r1, #0
  mvn     r2, #0

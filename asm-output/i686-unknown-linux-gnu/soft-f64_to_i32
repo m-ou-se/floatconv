@@ -15,9 +15,11 @@ floatconv::soft::f64_to_i32:
  shr     edi, 21
  cmp     edi, 526
  jbe     <label>
- shr     edx, 31
- add     edx, 2147483647
- mov     eax, edx
+ xor     ecx, ecx
+ test    edx, edx
+ mov     eax, -2147483648
+ setns   cl
+ sub     eax, ecx
 <label>:
  pop     esi
  pop     edi

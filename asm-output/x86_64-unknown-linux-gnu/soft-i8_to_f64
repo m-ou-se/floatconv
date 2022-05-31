@@ -1,25 +1,25 @@
 floatconv::soft::i8_to_f64:
- mov     eax, edi
- shr     al, 7
- movzx   edx, al
- shl     rdx, 63
+ test    dil, dil
+ je      <label>
  mov     eax, edi
  sar     al, 7
- add     dil, al
- xor     dil, al
- je      <label>
- movzx   esi, dil
- bsr     eax, esi
- xor     eax, 31
- lea     ecx, [rax, +, 21]
- shl     rsi, cl
- shl     rax, 52
- sub     rsi, rax
- movabs  rax, 4742290407621132288
- add     rax, rsi
- or      rax, rdx
- ret
+ lea     ecx, [rdi, +, rax]
+ xor     cl, al
+ movzx   eax, cl
+ bsr     edx, eax
+ xor     edx, 31
+ lea     ecx, [rdx, +, 21]
+ shl     rax, cl
+ shl     rdx, 52
+ sub     rax, rdx
+ movabs  rcx, 4742290407621132288
+ add     rcx, rax
+ jmp     <label>
 <label>:
- xor     eax, eax
- or      rax, rdx
+ xor     ecx, ecx
+<label>:
+ shr     dil, 7
+ movzx   eax, dil
+ shl     rax, 63
+ or      rax, rcx
  ret

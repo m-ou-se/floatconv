@@ -4,33 +4,30 @@ floatconv::soft::f64_to_i8:
  rsbs    r0, r0, #0
  movt    r3, #32752
  sbcs.w  r0, r3, r2
- itt     lo
- movlo   r0, #0
- bxlo    lr
+ blo     <label>
  movw    r0, #65535
  movt    r0, #16479
  cmp     r2, r0
- bls     <label>
- movs    r0, #127
- cmp     r1, #0
- it      mi
- mvnmi   r0, #127
- bx      lr
+ ittt    hi
+ movhi   r0, #127
+ eorhi.w r0, r0, r1, asr, #31
+ bxhi    lr
 <label>:
  movw    r0, #65535
  movt    r0, #16367
  cmp     r2, r0
- itt     ls
- movls   r0, #0
- bxls    lr
+ bls     <label>
  lsrs    r0, r1, #14
  movs    r2, #1
  bfi     r0, r2, #6, #26
  movs    r2, #5
  sub.w   r2, r2, r1, lsr, #20
- cmp     r1, #0
+ cmp.w   r1, #-1
  uxtb    r2, r2
  lsr.w   r0, r0, r2
- it      mi
- rsbmi   r0, r0, #0
+ it      le
+ rsble   r0, r0, #0
+ bx      lr
+<label>:
+ movs    r0, #0
  bx      lr

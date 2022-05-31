@@ -3,29 +3,26 @@ floatconv::soft::f64_to_u128:
  cmp     x0, x8
  b.hi    <label>
  lsr     x8, x0, #52
- cmp     x8, #1150
- b.ls    <label>
+ cmp     x8, #1151
+ b.lo    <label>
  mov     x0, #-1
  mov     x1, #-1
  ret
 <label>:
  cmp     x8, #1023
  b.lo    <label>
- mov     w10, #126
- sub     w8, w10, w8
+ mov     w9, #126
+ sub     w8, w9, w8
  lsl     x9, x0, #11
- and     w10, w8, #0x7f
+ mvn     w10, w8
+ and     w8, w8, #0x7f
  orr     x9, x9, #0x8000000000000000
- neg     x11, x10
- lsr     x8, x9, x8
- cmp     x10, #0
- sub     x12, x10, #64
- lsr     x10, x9, x10
- lsl     x9, x9, x11
- csel    x9, xzr, x9, eq
- cmp     x12, #0
- csel    x1, xzr, x8, ge
- csel    x0, x10, x9, ge
+ tst     x8, #0x40
+ lsl     x11, x9, #1
+ lsl     x10, x11, x10
+ lsr     x9, x9, x8
+ csel    x0, x9, x10, ne
+ csel    x1, xzr, x9, ne
  ret
 <label>:
  mov     x0, xzr

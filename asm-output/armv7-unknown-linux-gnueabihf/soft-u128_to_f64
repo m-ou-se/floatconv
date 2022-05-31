@@ -1,81 +1,91 @@
 floatconv::soft::u128_to_f64:
  push    {r4, r5, r6, r7, r8, r9, r10, r11, lr}
- clz     r6, r2
+ sub     sp, sp, #4
+ clz     r7, r2
  cmp     r3, #0
- add     r5, r6, #32
- clz     r6, r0
+ add     r5, r7, #32
+ clz     r7, r0
  clzne   r5, r3
- add     r6, r6, #32
+ add     r7, r7, #32
  cmp     r1, #0
- clzne   r6, r1
- orrs    r4, r2, r3
- addeq   r5, r6, #64
- and     r12, r5, #127
- rsb     r8, r12, #32
- rsb     r9, r12, #64
- subs    lr, r12, #32
- sub     r10, r12, #64
- lsr     r6, r2, r8
- orr     r7, r6, r3, lsl, r12
- rsb     r6, r12, #96
- lslpl   r7, r2, lr
- lsr     r4, r1, r9
- cmp     r8, #0
- lsr     r6, r0, r6
- movwpl  r4, #0
- subs    r11, r12, #96
- orr     r6, r6, r1, lsl, r10
- lslpl   r6, r0, r11
- cmp     r12, #64
- orrlo   r6, r7, r4
- cmp     r12, #0
- moveq   r6, r3
- orr     r3, r1, r3
- lsr     r4, r6, #11
- lsl     r7, r0, r10
- sub     r4, r4, r5, lsl, #20
- add     r4, r4, #131072000
- add     r5, r4, #1073741824
- orr     r4, r0, r2
- orrs    r3, r4, r3
- rsb     r4, r9, #32
- lsr     r3, r0, r9
- lsreq   r5, r6, #11
- orr     r3, r3, r1, lsl, r4
- cmp     r8, #0
- lsrpl   r3, r1, r8
- lsl     r4, r2, r12
- cmp     lr, #0
- movwpl  r4, #0
+ clzne   r7, r1
+ orrs    r6, r2, r3
+ addeq   r5, r7, #64
+ str     r5, [sp]
+ and     lr, r5, #127
+ rsb     r11, lr, #32
+ subs    r10, lr, #32
+ rsb     r6, lr, #96
+ sub     r8, lr, #64
+ lsr     r4, r2, r11
+ orr     r7, r4, r3, lsl, lr
+ rsb     r4, lr, #64
+ lslpl   r7, r2, r10
  cmp     r11, #0
+ lsr     r6, r0, r6
+ lsr     r5, r1, r4
+ orr     r12, r6, r1, lsl, r8
+ movwpl  r5, #0
+ subs    r9, lr, #96
+ lslpl   r12, r0, r9
+ cmp     lr, #64
+ orrlo   r12, r7, r5
+ lsr     r5, r0, r4
+ rsb     r4, r4, #32
+ cmp     lr, #0
+ moveq   r12, r3
+ cmp     r11, #0
+ orr     r4, r5, r1, lsl, r4
+ lsl     r5, r2, lr
+ lsrpl   r4, r1, r11
+ cmp     r10, #0
+ movwpl  r5, #0
+ cmp     r9, #0
+ lsl     r7, r0, r8
+ mov     r9, #0
  movwpl  r7, #0
- cmp     r12, #64
- orrlo   r7, r4, r3
- cmp     r12, #0
+ cmp     lr, #64
+ orrlo   r7, r5, r4
+ cmp     lr, #0
  moveq   r7, r2
- lsr     r3, r0, r8
- orr     r1, r3, r1, lsl, r12
- cmp     lr, #0
- lslpl   r1, r0, lr
- mov     r3, #0
- cmp     r12, #64
- lsr     r2, r7, #11
- movhs   r1, r3
- lsl     r0, r0, r12
- cmp     lr, #0
- orr     r2, r2, r6, lsl, #21
- lsr     r4, r1, #11
- movwpl  r0, #0
- cmp     r12, #64
+ cmp     r10, #0
+ lsr     r4, r7, #11
+ orr     r8, r4, r12, lsl, #21
+ lsl     r4, r0, lr
+ lsr     r5, r0, r11
+ movwpl  r4, #0
+ cmp     lr, #64
+ movhs   r4, r9
+ orr     r5, r5, r1, lsl, lr
+ cmp     r10, #0
+ lsr     r6, r4, #11
+ lslpl   r5, r0, r10
+ cmp     lr, #64
+ movhs   r5, r9
+ orr     r1, r1, r3
+ orr     r6, r6, r5, lsl, #21
+ orr     r0, r0, r2
+ orr     lr, r6, r4
+ lsr     r4, r5, #11
  orr     r4, r4, r7, lsl, #21
- movhs   r0, r3
- mvn     r6, r2
- lsr     r3, r0, #11
- orr     r1, r3, r1, lsl, #21
- and     r6, r6, r4, lsr, #31
- orr     r0, r1, r0
- subs    r0, r0, r6
+ lsr     r7, r12, #11
+ orrs    r0, r0, r1
+ beq     <label>
+ ldr     r1, [sp]
+ movw    r0, #0
+ movt    r0, #18384
+ sub     r1, r0, r1, lsl, #20
+ b       <label>
+<label>:
+ mov     r1, #0
+<label>:
+ mvn     r0, r8
+ and     r0, r0, r4, lsr, #31
+ subs    r0, lr, r0
  sbc     r0, r4, #0
- adds    r0, r2, r0, lsr, #31
- adc     r1, r5, #0
+ adds    r0, r8, r0, lsr, #31
+ adc     r2, r7, #0
+ adds    r0, r0, r9
+ adc     r1, r2, r1
+ add     sp, sp, #4
  pop     {r4, r5, r6, r7, r8, r9, r10, r11, pc}

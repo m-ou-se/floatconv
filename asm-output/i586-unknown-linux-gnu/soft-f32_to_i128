@@ -3,130 +3,121 @@ floatconv::soft::f32_to_i128:
  push    ebx
  push    edi
  push    esi
- sub     esp, 16
- mov     eax, dword, ptr, [esp, +, 36]
- mov     edi, dword, ptr, [esp, +, 40]
- mov     ecx, edi
+ sub     esp, 12
+ mov     eax, dword, ptr, [esp, +, 32]
+ mov     edx, dword, ptr, [esp, +, 36]
+ mov     ecx, edx
  and     ecx, 2147483647
  cmp     ecx, 2139095040
  ja      <label>
  cmp     ecx, 2130706431
  jbe     <label>
- shr     edi, 31
+ xor     ecx, ecx
+ test    edx, edx
+ setns   cl
  xor     esi, esi
- add     edi, -1
+ neg     ecx
  mov     edx, 0
- adc     edx, -1
- mov     ebp, 0
- adc     ebp, -1
- adc     esi, 2147483647
- mov     ecx, edi
+ sbb     edx, edx
+ sbb     esi, esi
+ mov     edi, -2147483648
+ sbb     edi, 0
  jmp     <label>
 <label>:
  cmp     ecx, 1065353215
  jbe     <label>
- mov     ebx, edi
+ mov     ebx, edx
  shl     ebx, 7
  and     ebx, 1073741696
  or      ebx, 1073741824
- mov     edx, edi
  shr     edx, 23
  mov     cl, 125
  sub     cl, dl
  xor     esi, esi
+ shrd    esi, ebx, cl
+ mov     edi, ebx
+ shr     edi, cl
+ test    cl, 32
+ je      <label>
+ mov     esi, edi
+ xor     edi, edi
+<label>:
+ and     cl, 127
+ mov     ch, cl
+ sub     ch, 64
+ jb      <label>
+ xor     edi, edi
+<label>:
+ mov     byte, ptr, [esp, +, 4], cl
+ add     cl, -64
  xor     edx, edx
  shrd    edx, ebx, cl
  mov     ebp, ebx
  shr     ebp, cl
- mov     ch, cl
  test    cl, 32
- je      <label>
- mov     edx, ebp
- xor     ebp, ebp
-<label>:
- mov     dword, ptr, [esp, +, 8], ebp
- mov     dword, ptr, [esp, +, 4], edx
- mov     dl, ch
- and     dl, 127
- mov     ch, dl
- sub     ch, 64
- jb      <label>
- mov     dword, ptr, [esp, +, 8], 0
-<label>:
- mov     cl, dl
- add     cl, -64
- xor     ebp, ebp
- shrd    ebp, ebx, cl
+ jne     <label>
  mov     dword, ptr, [esp], ebp
- mov     ebp, ebx
- shr     ebp, cl
- test    cl, 32
- je      <label>
- mov     dword, ptr, [esp], ebp
- xor     ebp, ebp
-<label>:
- neg     ch
- mov     cl, ch
- shld    ebx, esi, cl
- test    ch, 32
- mov     ecx, 0
- je      <label>
- cmp     dl, 64
- mov     ebx, 0
- jae     <label>
-<label>:
- test    dl, dl
- mov     ebp, 0
- mov     edx, 0
- je      <label>
-<label>:
- mov     ebp, ecx
- mov     edx, ebx
-<label>:
- mov     dword, ptr, [esp, +, 12], edx
- mov     ecx, edx
- neg     ecx
- mov     edx, 0
- mov     dword, ptr, [esp], ebp
- sbb     edx, ebp
- mov     ebp, 0
- sbb     ebp, dword, ptr, [esp, +, 4]
- mov     ebx, dword, ptr, [esp, +, 8]
- sbb     esi, ebx
- test    edi, edi
- js      <label>
- mov     ecx, dword, ptr, [esp, +, 12]
- mov     edx, dword, ptr, [esp]
- mov     ebp, dword, ptr, [esp, +, 4]
- mov     esi, ebx
  jmp     <label>
 <label>:
  xor     ecx, ecx
  xor     edx, edx
- xor     ebp, ebp
  xor     esi, esi
+ xor     edi, edi
 <label>:
  mov     dword, ptr, [eax], ecx
  mov     dword, ptr, [eax, +, 4], edx
- mov     dword, ptr, [eax, +, 8], ebp
- mov     dword, ptr, [eax, +, 12], esi
- add     esp, 16
+ mov     dword, ptr, [eax, +, 8], esi
+ mov     dword, ptr, [eax, +, 12], edi
+ add     esp, 12
  pop     esi
  pop     edi
  pop     ebx
  pop     ebp
  ret     4
 <label>:
- mov     ecx, ebx
- cmp     dl, 64
- mov     ebx, 0
- jb      <label>
+ mov     edx, ebp
+ mov     dword, ptr, [esp], 0
 <label>:
- mov     dword, ptr, [esp, +, 4], 0
- mov     ebx, dword, ptr, [esp]
- mov     ecx, ebp
- test    dl, dl
+ mov     dword, ptr, [esp, +, 8], edx
+ neg     ch
+ mov     cl, ch
+ xor     ebp, ebp
+ shld    ebx, ebp, cl
+ test    ch, 32
  mov     ebp, 0
- mov     edx, 0
  jne     <label>
+ mov     ebp, ebx
+<label>:
+ cmp     byte, ptr, [esp, +, 4], 64
+ mov     ebx, 0
+ mov     ecx, dword, ptr, [esp, +, 8]
+ mov     edx, dword, ptr, [esp]
+ jb      <label>
+ xor     esi, esi
+ mov     ebx, ecx
+ mov     ebp, edx
+<label>:
+ cmp     byte, ptr, [esp, +, 4], 0
+ mov     edx, 0
+ mov     ecx, 0
+ je      <label>
+ mov     edx, ebp
+ mov     ecx, ebx
+<label>:
+ mov     ebx, ecx
+ neg     ebx
+ mov     dword, ptr, [esp, +, 4], ebx
+ mov     ebx, 0
+ sbb     ebx, edx
+ mov     dword, ptr, [esp], ebx
+ mov     ebx, 0
+ sbb     ebx, esi
+ mov     ebp, 0
+ sbb     ebp, edi
+ cmp     dword, ptr, [esp, +, 36], 0
+ jns     <label>
+ mov     ecx, dword, ptr, [esp, +, 4]
+ mov     edx, dword, ptr, [esp]
+ mov     esi, ebx
+ mov     edi, ebp
  jmp     <label>

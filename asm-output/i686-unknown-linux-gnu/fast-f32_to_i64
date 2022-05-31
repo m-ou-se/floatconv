@@ -1,29 +1,36 @@
 floatconv::fast::f32_to_i64:
+ push    edi
+ push    esi
  sub     esp, 20
- movss   xmm0, dword, ptr, [esp, +, 24]
+ movss   xmm0, dword, ptr, [esp, +, 32]
  call    <label>$pb
 <label>$pb:
  pop     eax
+ mov     edi, -2147483648
  mov     edx, 2147483647
  add     eax, offset, _GLOBAL_OFFSET_TABLE_+(<label>-<label>$pb)
- movaps  xmm1, xmm0
- maxss   xmm1, dword, ptr, [eax, +, <label>@GOTOFF]
- movss   dword, ptr, [esp, +, 8], xmm1
+ movss   dword, ptr, [esp, +, 8], xmm0
  fld     dword, ptr, [esp, +, 8]
  fnstcw  word, ptr, [esp, +, 4]
  movzx   ecx, word, ptr, [esp, +, 4]
  or      ecx, 3072
- ucomiss xmm0, dword, ptr, [eax, +, <label>@GOTOFF]
- mov     eax, -1
  mov     word, ptr, [esp, +, 6], cx
+ xor     ecx, ecx
+ ucomiss xmm0, dword, ptr, [eax, +, <label>@GOTOFF]
  fldcw   word, ptr, [esp, +, 6]
  fistp   qword, ptr, [esp, +, 8]
  fldcw   word, ptr, [esp, +, 4]
- cmovbe  edx, dword, ptr, [esp, +, 12]
- cmovbe  eax, dword, ptr, [esp, +, 8]
- xor     ecx, ecx
+ mov     esi, dword, ptr, [esp, +, 8]
+ cmovae  edi, dword, ptr, [esp, +, 12]
+ cmovb   esi, ecx
+ ucomiss xmm0, dword, ptr, [eax, +, <label>@GOTOFF]
+ mov     eax, -1
+ cmovbe  edx, edi
+ cmovbe  eax, esi
  ucomiss xmm0, xmm0
  cmovp   eax, ecx
  cmovp   edx, ecx
  add     esp, 20
+ pop     esi
+ pop     edi
  ret

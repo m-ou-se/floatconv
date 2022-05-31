@@ -1,9 +1,9 @@
 floatconv::soft::u32_to_f64:
  cbz     w0, <label>
  clz     w8, w0
- mov     w9, w0
- add     w10, w8, #21
- lsl     x9, x9, x10
+ mov     w10, w0
+ add     w9, w8, #21
+ lsl     x9, x10, x9
  sub     x8, x9, x8, lsl, #52
  mov     x9, #4742290407621132288
  add     x0, x8, x9

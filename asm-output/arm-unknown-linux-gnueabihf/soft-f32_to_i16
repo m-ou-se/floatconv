@@ -7,30 +7,25 @@ floatconv::soft::f32_to_i16:
  bhi     <label>
  lsr     r2, r3, #24
  cmp     r2, #70
- bls     <label>
- mov     r2, #255
- ldr     r1, <label>
- orr     r2, r2, #32512
- cmp     r0, #0
- movpl   r1, r2
- mov     r0, r1
- bx      lr
+ movhi   r1, #255
+ orrhi   r1, r1, #32512
+ eorhi   r0, r1, r0, asr, #31
+ bxhi    lr
 <label>:
  cmp     r3, r12
  bls     <label>
  mov     r1, #13
- cmp     r0, #0
+ cmn     r0, #1
  sub     r1, r1, r0, lsr, #23
- mov     r12, #0
  and     r2, r1, #15
  mov     r1, #255
  orr     r1, r1, #16128
  and     r1, r1, r0, lsr, #9
  orr     r3, r1, #16384
- lsr     r1, r3, r2
- submi   r1, r12, r3, lsr, r2
+ mov     r1, #0
+ sub     r1, r1, r3, lsr, r2
+ lsrgt   r1, r3, r2
 <label>:
  mov     r0, r1
  bx      lr
-<label>:
 <label>:
