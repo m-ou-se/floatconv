@@ -25,9 +25,9 @@ pub fn u16_to_f32(x: u16) -> u32 {
 pub fn u32_to_f32(x: u32) -> u32 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
-    let mut m = x << n >> 8; // Significant bits, with bit 24 still in tact.
+    let a = x << n >> 8; // Significant bits, with bit 24 still in tact.
     let b = x << n << 24; // Insignificant bits, only relevant for rounding.
-    m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
+    let m = a + ((b - (b >> 31 & !a)) >> 31); // Add one when we need to round up. Break ties to even.
     let e = 157 - n as u32; // Exponent plus 127, minus one.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -36,9 +36,9 @@ pub fn u32_to_f32(x: u32) -> u32 {
 pub fn u64_to_f32(x: u64) -> u32 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
-    let mut m = (y >> 40) as u32; // Significant bits, with bit 24 still in tact.
+    let a = (y >> 40) as u32; // Significant bits, with bit 24 still in tact.
     let b = (y >> 8 | y & 0xFFFF) as u32; // Insignificant bits, only relevant for rounding.
-    m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
+    let m = a + (b - (b >> 31 & !a) >> 31); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 189 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -47,9 +47,9 @@ pub fn u64_to_f32(x: u64) -> u32 {
 pub fn u128_to_f32(x: u128) -> u32 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
-    let mut m = (y >> 104) as u32; // Significant bits, with bit 24 still in tact.
+    let a = (y >> 104) as u32; // Significant bits, with bit 24 still in tact.
     let b = (y >> 72) as u32 | (y << 32 >> 32 != 0) as u32; // Insignificant bits, only relevant for rounding.
-    m += b - (b >> 31 & !m) >> 31; // Add one when we need to round up. Break ties to even.
+    let m = a + (b - (b >> 31 & !a) >> 31); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 253 - n }; // Exponent plus 127, minus one, except for zero.
     (e << 23) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -77,9 +77,9 @@ pub fn u32_to_f64(x: u32) -> u64 {
 pub fn u64_to_f64(x: u64) -> u64 {
     if x == 0 { return 0; }
     let n = x.leading_zeros();
-    let mut m = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
+    let a = (x << n >> 11) as u64; // Significant bits, with bit 53 still in tact.
     let b = (x << n << 53) as u64; // Insignificant bits, only relevant for rounding.
-    m += b - (b >> 63 & !m) >> 63; // Add one when we need to round up. Break ties to even.
+    let m = a + (b - (b >> 63 & !a) >> 63); // Add one when we need to round up. Break ties to even.
     let e = 1085 - n as u64; // Exponent plus 1023, minus one.
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
@@ -88,36 +88,72 @@ pub fn u64_to_f64(x: u64) -> u64 {
 pub fn u128_to_f64(x: u128) -> u64 {
     let n = x.leading_zeros();
     let y = x.wrapping_shl(n);
-    let mut m = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
+    let a = (y >> 75) as u64; // Significant bits, with bit 53 still in tact.
     let b = (y >> 11 | y & 0xFFFF_FFFF) as u64; // Insignificant bits, only relevant for rounding.
-    m += b - (b >> 63 & !m) >> 63; // Add one when we need to round up. Break ties to even.
+    let m = a + (b - (b >> 63 & !a) >> 63); // Add one when we need to round up. Break ties to even.
     let e = if x == 0 { 0 } else { 1149 - n as u64 }; // Exponent plus 1023, minus one, except for zero.
     (e << 52) + m // + not |, so the mantissa can overflow into the exponent.
 }
 
-macro_rules! impl_signed {
-    ($name:tt $from:tt $unsigned:tt $return:tt) => {
-        #[cfg_attr(not(noinline), inline)]
-        pub fn $name(x: $from) -> $return {
-            let from_bits = core::mem::size_of::<$from>() * 8;
-            let return_bits = core::mem::size_of::<$return>() * 8;
-            let s = ((x >> from_bits - 1) as $return) << return_bits - 1;
-            $unsigned(x.wrapping_abs() as _) | s
-        }
-    };
+#[cfg_attr(not(noinline), inline)]
+pub fn i8_to_f32(i: i8) -> u32 {
+    let sign_bit = ((i >> 7) as u32) << 31;
+    u8_to_f32(i.unsigned_abs()) | sign_bit
 }
 
-impl_signed!(i8_to_f32 i8 u8_to_f32 u32);
-impl_signed!(i16_to_f32 i16 u16_to_f32 u32);
-impl_signed!(i32_to_f32 i32 u32_to_f32 u32);
-impl_signed!(i64_to_f32 i64 u64_to_f32 u32);
-impl_signed!(i128_to_f32 i128 u128_to_f32 u32);
+#[cfg_attr(not(noinline), inline)]
+pub fn i16_to_f32(i: i16) -> u32 {
+    let sign_bit = ((i >> 15) as u32) << 31;
+    u16_to_f32(i.unsigned_abs()) | sign_bit
+}
 
-impl_signed!(i8_to_f64 i8 u8_to_f64 u64);
-impl_signed!(i16_to_f64 i16 u16_to_f64 u64);
-impl_signed!(i32_to_f64 i32 u32_to_f64 u64);
-impl_signed!(i64_to_f64 i64 u64_to_f64 u64);
-impl_signed!(i128_to_f64 i128 u128_to_f64 u64);
+#[cfg_attr(not(noinline), inline)]
+pub fn i32_to_f32(i: i32) -> u32 {
+    let sign_bit = ((i >> 31) as u32) << 31;
+    u32_to_f32(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i64_to_f32(i: i64) -> u32 {
+    let sign_bit = ((i >> 63) as u32) << 31;
+    u64_to_f32(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i128_to_f32(i: i128) -> u32 {
+    let sign_bit = ((i >> 127) as u32) << 31;
+    u128_to_f32(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i8_to_f64(i: i8) -> u64 {
+    let sign_bit = ((i >> 7) as u64) << 63;
+    u8_to_f64(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i16_to_f64(i: i16) -> u64 {
+    let sign_bit = ((i >> 15) as u64) << 63;
+    u16_to_f64(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i32_to_f64(i: i32) -> u64 {
+    let sign_bit = ((i >> 31) as u64) << 63;
+    u32_to_f64(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i64_to_f64(i: i64) -> u64 {
+    let sign_bit = ((i >> 63) as u64) << 63;
+    u64_to_f64(i.unsigned_abs()) | sign_bit
+}
+
+#[cfg_attr(not(noinline), inline)]
+pub fn i128_to_f64(i: i128) -> u64 {
+    let sign_bit = ((i >> 127) as u64) << 63;
+    u128_to_f64(i.unsigned_abs()) | sign_bit
+}
 
 macro_rules! impl_to_int {
     ($f:tt $s:tt $e:tt $n:tt $t:tt $u:tt $signed:tt) => {
