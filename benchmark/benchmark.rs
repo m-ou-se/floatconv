@@ -41,7 +41,7 @@ fn bench_u32(c: &mut Criterion) {
         //(1234, "1234"),
         (1234u32 << 20 | 4321, "some-number"),
     ];
-    benches!(c u32_to_f32_round __floatunsisf u32 f32 inputs);
+    benches!(c u32_to_f32 __floatunsisf u32 f32 inputs);
     benches!(c u32_to_f64 __floatunsisf u32 f64 inputs);
 }
 
@@ -52,7 +52,7 @@ fn bench_i32(c: &mut Criterion) {
         //(1234, "1234"),
         (-1234i32 << 20 | 4321, "some-number"),
     ];
-    benches!(c i32_to_f32_round __floatsisf i32 f32 inputs);
+    benches!(c i32_to_f32 __floatsisf i32 f32 inputs);
     benches!(c i32_to_f64 __floatsidf i32 f64 inputs);
 }
 
@@ -63,8 +63,8 @@ fn bench_u64(c: &mut Criterion) {
         //(1234, "1234"),
         (1234u64 << 45 | 4321, "some-number"),
     ];
-    benches!(c u64_to_f32_round __floatundisf u64 f32 inputs);
-    benches!(c u64_to_f64_round __floatundidf u64 f64 inputs);
+    benches!(c u64_to_f32 __floatundisf u64 f32 inputs);
+    benches!(c u64_to_f64 __floatundidf u64 f64 inputs);
 }
 
 fn bench_i64(c: &mut Criterion) {
@@ -74,8 +74,8 @@ fn bench_i64(c: &mut Criterion) {
         //(1234, "1234"),
         (-1234i64 << 45 | 4321, "some-number"),
     ];
-    benches!(c i64_to_f32_round __floatdisf i64 f32 inputs);
-    benches!(c i64_to_f64_round __floatdidf i64 f64 inputs);
+    benches!(c i64_to_f32 __floatdisf i64 f32 inputs);
+    benches!(c i64_to_f64 __floatdidf i64 f64 inputs);
 }
 
 fn bench_u128(c: &mut Criterion) {
@@ -85,8 +85,8 @@ fn bench_u128(c: &mut Criterion) {
         //(1234, "1234"),
         (1234u128 << 80 | 4321, "some-number"),
     ];
-    benches!(c u128_to_f32_round __floatuntisf u128 f32 inputs);
-    benches!(c u128_to_f64_round __floatuntidf u128 f64 inputs);
+    benches!(c u128_to_f32 __floatuntisf u128 f32 inputs);
+    benches!(c u128_to_f64 __floatuntidf u128 f64 inputs);
 }
 
 fn bench_i128(c: &mut Criterion) {
@@ -96,8 +96,8 @@ fn bench_i128(c: &mut Criterion) {
         //(1234, "1234"),
         (-1234i128 << 80 | 4321, "some-number"),
     ];
-    benches!(c i128_to_f32_round __floattisf i128 f32 inputs);
-    benches!(c i128_to_f64_round __floattidf i128 f64 inputs);
+    benches!(c i128_to_f32 __floattisf i128 f32 inputs);
+    benches!(c i128_to_f64 __floattidf i128 f64 inputs);
 }
 
 criterion_group!(benches,
